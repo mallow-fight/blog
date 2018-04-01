@@ -1,0 +1,63 @@
+export default [
+        {path: '', component: () => import('../projects/meer/install/Installer.vue')},
+        // install guide
+        {path: 'install', component: () => import('../projects/meer/install/Installer.vue')},
+        // general
+        {path: 'Button', component: () => import('../projects/meer/general/Buttoner.vue')},
+        {path: 'Icon', component: () => import('../projects/meer/general/IconWrap.vue')},
+        // layout
+        {path: 'Grid', component: () => import('../projects/meer/layout/Rowcoler.vue')},
+        {path: 'Layout', component: () => import('../projects/meer/layout/LayoutWrap.vue')},
+        // navigation
+        {path: 'Affix', component: () => import('../projects/meer/navigation/AffixWrap.vue')},
+        {path: 'Breadcrumb', component: () => import('../projects/meer/navigation/BreadcrumberWrap.vue')},
+        {path: 'Dropdown', component: () => import('../projects/meer/navigation/DropdownWrap.vue')},
+        {path: 'Menu', component: () => import('../projects/meer/navigation/MenuWrap.vue')},
+        {path: 'Pagination', component: () => import('../projects/meer/navigation/PaginationWrap.vue')},
+        {path: 'Steps', component: () => import('../projects/meer/navigation/StepsWrap.vue')},
+        // dataEntry
+        {path: 'Autocomplete', component: () => import('../projects/meer/dataEntry/AutocompleterWrap.vue')},
+        {path: 'Cascader', component: () => import('../projects/meer/dataEntry/CascaderWrap.vue')},
+        {path: 'Checkbox', component: () => import('../projects/meer/dataEntry/CheckboxWrap.vue')},        
+        {path: 'DatePicker', component: () => import('../projects/meer/dataEntry/DatePickerWrap.vue')},
+        // {path: 'Form', component: () => import('../projects/meer/dataEntry/Form.vue')},
+        // {path: 'Input', component: () => import('../projects/meer/dataEntry/Input.vue')},
+        // {path: 'InputNumber', component: () => import('../projects/meer/dataEntry/InputNumber.vue')},
+        // {path: 'Mention', component: () => import('../projects/meer/dataEntry/Mention.vue')},
+        // {path: 'Rate', component: () => import('../projects/meer/dataEntry/Rate.vue')},
+        // {path: 'Radio', component: () => import('../projects/meer/dataEntry/Radio.vue')},
+        // {path: 'Select', component: () => import('../projects/meer/dataEntry/Select.vue')},
+        // {path: 'Slider', component: () => import('../projects/meer/dataEntry/Slider.vue')},
+        // {path: 'Switch', component: () => import('../projects/meer/dataEntry/Switch.vue')},
+        // {path: 'TreeSelect', component: () => import('../projects/meer/dataEntry/TreeSelect.vue')},
+        // {path: 'Transfer', component: () => import('../projects/meer/dataEntry/Transfer.vue')},
+        // {path: 'Upload', component: () => import('../projects/meer/dataEntry/Upload.vue')},
+        // // dataDisplay
+        // {path: 'Avatar', component: () => import('../projects/meer/dataDisplay/Avatar.vue')},
+        // {path: 'Badge', component: () => import('../projects/meer/dataDisplay/Badge.vue')},
+        // {path: 'Calendar', component: () => import('../projects/meer/dataDisplay/Calendar.vue')},
+        // {path: 'Card', component: () => import('../projects/meer/dataDisplay/Card.vue')},
+        // {path: 'Carousel', component: () => import('../projects/meer/dataDisplay/Carousel.vue')},
+        // {path: 'Collapse', component: () => import('../projects/meer/dataDisplay/Collapse.vue')},
+        // {path: 'List', component: () => import('../projects/meer/dataDisplay/List.vue')},
+        // {path: 'Popover', component: () => import('../projects/meer/dataDisplay/Popover.vue')},
+        // {path: 'Tooltip', component: () => import('../projects/meer/dataDisplay/Tooltip.vue')},
+        // {path: 'Table', component: () => import('../projects/meer/dataDisplay/Table.vue')},
+        // {path: 'Tabs', component: () => import('../projects/meer/dataDisplay/Tabs.vue')},
+        // {path: 'Tag', component: () => import('../projects/meer/dataDisplay/Tag.vue')},
+        // {path: 'Timeline', component: () => import('../projects/meer/dataDisplay/Timeline.vue')},
+        // {path: 'Tree', component: () => import('../projects/meer/dataDisplay/Tree.vue')},
+        // // Feedback
+        // {path: 'Alert', component: () => import('../projects/meer/feedback/Alert.vue')},
+        // {path: 'Modal', component: () => import('../projects/meer/feedback/Modal.vue')},
+        // {path: 'Message', component: () => import('../projects/meer/feedback/Message.vue')},
+        // {path: 'Notification', component: () => import('../projects/meer/feedback/Notification.vue')},
+        // {path: 'Progress', component: () => import('../projects/meer/feedback/Progress.vue')},
+        // {path: 'Popconfirm', component: () => import('../projects/meer/feedback/Popconfirm.vue')},
+        // {path: 'Spin', component: () => import('../projects/meer/feedback/Spin.vue')},
+        // // Other
+        // {path: 'Anchor', component: () => import('../projects/meer/Other/Anchor.vue')},
+        // {path: 'BackTop', component: () => import('../projects/meer/Other/BackTop.vue')},
+        // {path: 'Divider', component: () => import('../projects/meer/Other/Divider.vue')},
+        // {path: 'LocaleProvider', component: () => import('../projects/meer/Other/LocaleProvider.vue')}
+]

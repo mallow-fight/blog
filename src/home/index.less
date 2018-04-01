@@ -1,0 +1,40 @@
+@import './common/common.less';
+#home{
+    width: 100%;
+    height: 100%;
+    overflow: scroll;
+    -webkit-overflow-scrolling: touch;
+    font-size: @normal;
+}
+@media @max1023{
+    .article, .guide{
+        .d-ib;
+        .v-m;
+    }
+    .article{
+        width: @percent75;
+        height: @percent100;
+        background: @sea;
+    }
+    .guide{
+        width: @percent25;
+        height: @percent100;
+        background: @stone;
+    }
+}
+@media @min1024{
+    .article, .guide{
+        .d-ib;
+        .v-m;
+    }
+    .article{
+        width: @percent75;
+        height: @percent100;
+        background: @sea;
+    }
+    .guide{
+        width: @percent25;
+        height: @percent100;
+        background: @stone;
+    }
+}

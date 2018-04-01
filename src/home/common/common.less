@@ -1,0 +1,80 @@
+// screen varis
+@max1023: ~"(max-width: 1023px)";
+@min1024: ~"(min-width: 1024px)";
+@percent100: 100%;
+@percent75: 75%;
+@percent25: 25%;
+
+// color varis
+@stone: #283018;
+@forest: #1d2120;
+@road: #aa863a;
+@wood: #ba9077;
+@sea: #729f98;
+@river: #bcd5d1;
+@sky: #f0eceb;
+
+// size
+@tiny: .6rem;
+@smaller: .8rem;
+@small: 1rem;
+@normal: 1.4rem;
+@large: 2rem;
+
+// weight
+@heavy: 800;
+@thick: 600;
+@light: 400;
+
+// text align
+.t-l{
+    text-align: left;
+}
+
+.t-r{
+    text-align: right;
+}
+
+.t-c{
+    text-align: center
+}
+
+// 超出部分省略号
+.t-oe{
+    text-overflow: ellipsis;    
+}
+
+.d-ib{
+    display: inline-block;
+}
+.v-m{
+    vertical-align: middle;
+}
+
+// 强制不换行
+.w-n{
+    white-space:nowrap;
+}
+
+//自动换行
+.w-b{ 
+    word-wrap: break-word; 
+    word-break: normal; 
+}
+
+// 强制英文单词断行
+.w-eb{
+    word-break:break-all;
+}
+
+// 超出部分隐藏
+.o-h{
+    overflow: hidden;    
+}
+
+// 超出部分省略号
+.o-l{
+    .t-oe;
+    .w-n;
+    .o-h;
+}
