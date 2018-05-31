@@ -1,1 +1,70 @@
-<div>test</div>
+<div class="sidebar">
+  <div class="sidebar-inner-index">
+    <ul class="main-menu">
+      <%- partial('partials/main_menu', { context: 'sidebar' }) %>
+    </ul>
+  </div>
+</div>
+
+<div id="hero">
+  <div class="inner">
+    <div class="right">
+      <h2 class="vue">mallow's blog</h2>
+      <h1>
+        专注于
+        <br>前端开发
+      </h1>
+      <p>
+        <a class="button white" href="<%- url_for(" /v2/guide/ ") %>">浏览</a>
+        <a class="button gray has-icon" href="<%- url_for(theme.github) %>" target="_blank">
+          <%- partial('icons/github-dark') %>
+            GITHUB</a>
+      </p>
+    </div>
+  </div>
+</div>
+
+<div id="highlights">
+  <div class="inner">
+    <div class="point">
+      <h2>前端</h2>
+      <p>
+        框架
+        <br>html
+        <br>js
+        <br>css
+      </p>
+    </div>
+
+    <div class="point">
+      <h2>后端</h2>
+      <p>
+        node
+        <br>数据库
+        <br>docker
+        <br>java
+      </p>
+    </div>
+
+    <div class="point">
+      <h2>其它</h2>
+      <p>
+        git
+        <br> ps
+        <br> 微信开发
+      </p>
+    </div>
+  </div>
+</div>
+
+<div id="footer">
+  <p>
+    <a class="social-icon" href="<%- url_for(theme.github) %>" target="_blank">
+      <%- partial('icons/github') %>
+    </a>
+  </p>
+  <p>遵循
+    <a href="https://opensource.org/licenses/MIT" target="_blank">MIT 开源协议</a>
+    <br> Copyright &copy; 2014-
+    <%- new Date().getFullYear() %> mallow</p>
+</div>
