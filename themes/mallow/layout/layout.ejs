@@ -3,11 +3,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script>
-    if(window.location.search.indexOf('time') === -1) {
-      window.location.href = window.location.href + '?time=' + (new Date).getTime()
-    }
-  </script>
   <title><%- page.title ? page.title + ' - ' : '' %>mallow</title>
   <meta charset="utf-8">
   <meta name="description" content="<%- theme.site_description %>">
