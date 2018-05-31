@@ -1,0 +1,52 @@
+<% var isIndex = page.path === 'index.html' %>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%- page.title ? page.title + ' - ' : '' %>mallow</title>
+  <meta charset="utf-8">
+  <meta name="description" content="<%- theme.site_description %>">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="<%- page.title ? page.title + ' — ' : '' %>mallow">
+  <meta property="og:description" content="<%- theme.site_description %>">
+
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <!-- main page styles -->
+  <%- css(isIndex ? 'css/index' : 'css/page') %>
+
+  <!-- import vue from there so that you can use vue in markdown -->
+  <script src="<%- url_for('/js/vue.js') %>"></script>
+  <script>window.PAGE_TYPE = "<%- page.type %>"</script>
+</head>
+<body class="<%- isIndex ? '' : 'docs' -%>">
+  <div id="mobile-bar" <%- isIndex ? 'class="top"' : '' %>>
+    <a class="menu-button"></a>
+    <a class="logo" href="/"></a>
+  </div>
+  <%- partial('partials/header') %>
+  <% if (!isIndex) { %>
+    <div id="main" class="fix-sidebar">
+      <% if (page.blog_index) { %>
+        <%- partial('partials/blog') %>
+      <% } else { %>
+        <%- body %>
+      <% } %>
+    </div>
+    <script src="<%- url_for('/js/smooth-scroll.min.js') %>"></script>
+  <% } else { %>
+    <%- body %>
+  <% } %>
+  <!-- main custom script for sidebars, version selects etc. -->
+  <script src="<%- url_for('/js/css.escape.js') %>"></script>
+  <script src="<%- url_for('/js/common.js') %>"></script>
+  <!-- fastclick -->
+  <script src="//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js"></script>
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    FastClick.attach(document.body)
+  }, false)
+  </script>
+</body>
+</html>
