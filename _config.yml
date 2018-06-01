@@ -10,6 +10,10 @@ keywords: blog mallow web engineer
 author: mallow
 language: zh-CN
 timezone:
+algolia:
+  applicationID: FKZQZEMOI4
+  apiKey: 82fdcfac2e888595cb2807aa60aaad58
+  indexName: prod_blog
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
@@ -108,3 +112,4 @@ deploy:
   type: git
   repository: git@github.com:mallow-fight/mallow-fight.github.io.git
   branch: master
+

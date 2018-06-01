@@ -17,6 +17,15 @@
   <!-- main page styles -->
   <%- css(isIndex ? 'css/index' : 'css/page') %>
 
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-120215204-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-120215204-1');
+  </script>
   <!-- import vue from there so that you can use vue in markdown -->
   <script src="<%- url_for('/js/vue.js') %>"></script>
   <script>window.PAGE_TYPE = "<%- page.type %>"</script>
@@ -38,6 +47,25 @@
   <!-- main custom script for sidebars, version selects etc. -->
   <script src="<%- url_for('/js/css.escape.js') %>"></script>
   <script src="<%- url_for('/js/common.js') %>"></script>
+  <!-- search -->
+  <link href="//cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css" rel='stylesheet' type='text/css'>
+  <%- css('css/search') %>
+  <script src="//cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script>
+  <script>
+  [
+    '#search-query-nav',
+    '#search-query-sidebar',
+    '#search-query-menu'
+  ].forEach(function (selector) {
+    if (!document.querySelector(selector)) return
+    docsearch({
+      appId: 'FKZQZEMOI4',
+      apiKey: '82fdcfac2e888595cb2807aa60aaad58',
+      indexName: 'prod_blog',
+      inputSelector: selector
+    })
+  })
+  </script>
   <!-- fastclick -->
   <script src="//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js"></script>
   <script>
