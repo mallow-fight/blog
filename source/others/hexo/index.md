@@ -1,5 +1,5 @@
 ---
-title: hexo
+title: 安装
 type: hexo
 order: 1
 ---

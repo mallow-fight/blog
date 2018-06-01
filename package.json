@@ -21,7 +21,13 @@
     "hexo-renderer-marked": "^0.3.0",
     "hexo-server": "^0.2.0"
   },
+  "husky": {
+    "hooks": {
+      "pre-push": "npm run deploy"
+    }
+  },
   "devDependencies": {
-    "hexo-deployer-git": "^0.3.1"
+    "hexo-deployer-git": "^0.3.1",
+    "husky": "^1.0.0-rc.8"
   }
 }
