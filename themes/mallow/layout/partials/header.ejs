@@ -1,6 +1,7 @@
 <div id="header">
   <a id="logo" href="/">
-    <span>mallow's blog</span>
+    <img src="<%- url_for("/images/logo.png") %>">
+    <span>Mallow's Blog</span>
   </a>
   <ul id="nav">
     <%- partial('partials/main_menu', { context: 'nav' }) %>

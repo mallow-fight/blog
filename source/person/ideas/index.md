@@ -1,12 +1,8 @@
 ---
-title: 点子💡
+title: 点子
 type: ideas
 order: 1
 ---
-## 有时间学习
-- PWA
-- web assembly
-- typescript
 
 ## 关于写ui框架
 
