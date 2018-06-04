@@ -1,8 +1,52 @@
 ---
-title: husky
+title: git
 type: git
 order: 1
 ---
+
+## 提交信息标准
+
+格式
+
+```html
+<type>(<scope>): <subject>
+// 空一行
+<body>
+// 空一行
+<footer>
+```
+
+每次提交包括三个部分，`Headers`、`Body`和`Footer`。
+Header 是必需的，Body 和 Footer 可以省略。
+
+Header部分只有一行，包括三个字段：type（必需）、scope（可选）和subject（必需）。
+
+
+### type
+
+- feat：新功能（feature）
+- fix：修补bug
+- docs：文档（documentation）
+- style： 格式（不影响代码运行的变动）
+- refactor：重构（即不是新增功能，也不是修改bug的代码变动）
+- test：增加测试
+- chore：构建过程或辅助工具的变动
+
+### scope
+
+用于说明 commit 影响的范围，比如数据层、控制层、视图层等等，视项目不同而不同。
+
+### subject
+
+`commit`目的的简短描述，不超过`50`个字符。
+
+- 以动词开头，使用第一人称现在时，比如change，而不是changed或changes
+- 第一个字母小写
+- 结尾不加句号（.）
+
+## 插件
+
+### husky
 
 **这个插件可以用来在提交或者推送代码前执行`npm`命令，所以可以用它来在推送代码时完成项目的发布。**
 - 仓库：[husky](https://github.com/typicode/husky)
@@ -23,11 +67,9 @@ order: 1
 
 ## github markdown 语法
 
-> normal syntax
-
 ### 标题
 
-```txt
+```
 # - h1 tag
 ## - h2 tag
 ###### - h6 tag
@@ -35,7 +77,7 @@ order: 1
 
 ### 加重
 
-```txt
+```
 *斜体*
 _斜体_
 
@@ -47,7 +89,7 @@ _斜体**斜粗体**斜体_
 
 ### 列表
 
-```txt
+```
 * 无序列表
 * 无序列表
   * 无序列表
@@ -61,45 +103,40 @@ _斜体**斜粗体**斜体_
 
 ### 图片
 
-```txt
+```
 ![test](https://ss1.bdstatic.com/5eN1bjq8AAUYm2zgoY3K/r/www/cache/static/protocol/https/home/img/qrcode/zbios_x2_9d645d9.png)
 ```
 
 ### 链接
 
-```txt
+```
 http://github.com - test
 [github](http://github.com)
 ```
 
 ### 引用文字
 
-```txt
+```
 > blockquotes
 > text
 ```
 
 ### 行内代码
 
-```txt
+```
 test`*addr*`test
 test`<p>`test
 ```
 
-> special syntax
-
 ### 语法高亮
 
-```txt
-忽略'/'
-/```javascript
-/Object.create({test: 'prototype'})
-/```
+```js
+Object.create({test: 'prototype'})
 ```
 
 ### 任务列表
 
-```txt
+```
 - [x] task1
 - [x] task2
 - [x] task3
@@ -128,7 +165,7 @@ mojombo/github-flavored-markdown@16c999e8c71134401a78d4d46435517b2271d6ac
 
 ### Issue references within a repository
 
-```txt
+```
 Any number that refers to an Issue or Pull Request will be automatically converted into a link.for example:****
 
 #1
@@ -236,7 +273,7 @@ To see a list of every image we support, check out the [Emoji Cheat Sheet](https
 1. git branch --set-upstream master origin/master
 1. git branch --set-upstream develop origin/develop
 
-```txt
+```
 give:在自己的分支上
 when:在自己的分支上提交代码，然后切换到dev分支
 then:git fetch,git rebase(拉取dev远程自身代码)  git merge <自己的分支>:合并远程分支

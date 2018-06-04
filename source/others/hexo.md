@@ -110,6 +110,10 @@ people:
 - 网站副页，用户通过导航进入的页面
 - 原理就是通过设置在首页导航上的链接来跳转到page
 
+### post.ejs
+
+- 根据这个文件布局`resource/_posts`中的`markdown`
+
 ### partials文件夹
 
 - 类似于公共组件，其它页面可以通过`partial('partials/xxx')`来引用对应的公共组件
