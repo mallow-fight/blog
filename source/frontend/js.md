@@ -115,3 +115,5 @@ adaptIframeHeight() {
 1. some - 检测某些数组元素是否符合条件
 
 1. filter - 筛选某些数组元素
+
+## 设计模式
