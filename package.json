@@ -8,7 +8,8 @@
   "scripts": {
     "start": "hexo server",
     "build": "hexo clean && hexo generate",
-    "deploy": "npm run build && hexo deploy"
+    "deploy": "npm run build && hexo deploy",
+    "crawler": "export HEXO_ALGOLIA_INDEXING_KEY=82fdcfac2e888595cb2807aa60aaad58 && hexo algolia"
   },
   "dependencies": {
     "hexo": "^3.2.0",
@@ -24,7 +25,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-push": "npm run deploy"
+      "pre-push": "npm run deploy && npm run crawler"
     }
   },
   "devDependencies": {

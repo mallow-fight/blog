@@ -11,12 +11,6 @@
   <meta property="og:type" content="article">
   <meta property="og:title" content="<%- page.title ? page.title + ' — ' : '' %>mallow">
   <meta property="og:description" content="<%- theme.site_description %>">
-
-  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-  <link rel="icon" href="<%- url_for("/images/logo.png") %>" type="image/png">
-  <!-- main page styles -->
-  <%- css(isIndex ? 'css/index' : 'css/page') %>
-
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-120215204-1"></script>
   <script>
@@ -26,6 +20,10 @@
 
     gtag('config', 'UA-120215204-1');
   </script>
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="icon" href="<%- url_for("/images/logo.png") %>" type="image/png">
+  <!-- main page styles -->
+  <%- css(isIndex ? 'css/index' : 'css/page') %>
   <!-- import vue from there so that you can use vue in markdown -->
   <script src="<%- url_for('/js/vue.js') %>"></script>
   <script>window.PAGE_TYPE = "<%- page.type %>"</script>
@@ -50,7 +48,8 @@
   <!-- search -->
   <link href="//cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css" rel='stylesheet' type='text/css'>
   <%- css('css/search') %>
-  <script src="//cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script>
+  <!-- <script src="//cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script> -->
+  <%- js('js/docsearch') %>
   <script>
   [
     '#search-query-nav',

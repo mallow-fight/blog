@@ -166,6 +166,9 @@ algolia:
 
 ### create and push local db.json
 
+- 这个生成的db和docsearch的前端不兼容
+- 如果要使用这个db，需要自己画前端，并且在上传代码时更新本地db
+
 ```bash
 $ export HEXO_ALGOLIA_INDEXING_KEY=82fdcfac2e888595cb2807aa60aaad58
 $ hexo algolia
@@ -178,6 +181,9 @@ $ hexo algolia
 [官网](https://community.algolia.com/docsearch/)
 这玩意可以每隔24小时自动抓取网站内容，可以是algolia生成docsearch使用的数据格式，并且可以定制搜索样式，需要先填写邮箱验证，需要等一段时间。
 - 限制：网站必须建立完全，初期不健全的网站竟然被拒绝了，待我完成第一版博客后，在去提交资料。
+- 这个审核有点严格，赶明修改一下docsearch.js，自己生成格式对应的json文件
+- 照理说，docsearch分为三个部分，应该只需要使用它爬下网站内容并上传到algoria就可以了，关键是怎么使用它在本地爬网站内容并上传。
+- [参考](https://github.com/algolia/docsearch-scraper)，使用它应该可以生成对应的db
 
 ### 用户数据分析
 
