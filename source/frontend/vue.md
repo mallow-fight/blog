@@ -4,4 +4,5 @@ type: vue
 order: 1
 ---
 
-# vue
+## Vue core
+
