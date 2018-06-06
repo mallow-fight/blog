@@ -193,6 +193,59 @@ $ hexo algolia
 注册之后就可以使用啦
 拿到网站的id，在`<head>`里面放置一段脚本就ok了
 
+### 修改docsearch.js
+
+由于审核不通过，只能自己想办法解决搜索问题
+- 已有条件
+  - `docsearch`可以调的通接口，拿到搜索数据
+  - 通过`hexo-algolia`爬下本地文章db上传到`algolia`
+- 解决办法
+  - 在`docsearch`格式化请求回来的数据之前，使用自定义函数将接口返回的数据格式化为`Vue`或者其它已经接入`docsearch`网站的数据格式
+自定义函数如下
+```js
+function mallowFormatHits(hits) {
+  let time = (new Date()).getTime()
+  return hits.map(hit => {
+    const _highlightResult = hit._highlightResult
+    const {title} = hit
+    const hierarchy = {
+      lvl0: hit.title,
+      lvl1: null,
+      lvl2: null,
+      lvl3: null,
+      lvl4: null,
+      lvl5: null,
+      lvl6: null
+    }
+    const lvl0 = {
+      "value": _highlightResult.title.value,
+      "matchLevel": _highlightResult.title.matchLevel,
+      "matchedWords": _highlightResult.title.matchedWords
+    }
+    return {
+      "hierarchy": hierarchy,
+      "url": hit.permalink,
+      "content": null,
+      "anchor": hit.title,
+      "objectID": time++,
+      "_highlightResult": {
+        "hierarchy": {
+          lvl0
+        },
+        "hierarchy_camel": [{
+          lvl0
+        }]
+      }
+    }
+  })
+}
+```
+
 ### 内容分享服务
+
+接的百度分享
+>[参考](http://share.baidu.com/code/advance#toid)
+悬浮的分享按钮影响美观，隐藏了，可通过首页`footer`分享
+可选中元素，定制样式
 
 ### 评论系统
