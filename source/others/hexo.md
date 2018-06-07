@@ -246,6 +246,23 @@ function mallowFormatHits(hits) {
 接的百度分享
 >[参考](http://share.baidu.com/code/advance#toid)
 悬浮的分享按钮影响美观，隐藏了，可通过首页`footer`分享
-可选中元素，定制样式
+可选中分享按钮，定制样式
+```js
+var getShareButtonTime = setInterval(() => {
+  var shareButton = window.document.querySelector(".bdshare-slide-button")
+  if (shareButton) {
+    clearInterval(getShareButtonTime)
+    // 影响美观，暂时移除
+    shareButton.style.opacity = 0
+    shareButton.style.color = 'white'
+    shareButton.style.background = '#42b983'
+    shareButton.style.fontSize = '20rem'
+    shareButton.innerText = 'Share'
+  }
+}, 100)
+```
 
 ### 评论系统
+
+接的`DISQUS`改了下布局，详情看`page.ejs`
+
