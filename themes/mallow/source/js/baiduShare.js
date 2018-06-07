@@ -1,3 +1,45 @@
+{/* <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      FastClick.attach(document.body)
+    }, false)
+    // 百度分享
+    window._bd_share_config = {
+      common : {
+        bdText : 'mallow的博客',	
+        bdDesc : '专注于前端，向全站渗透，在这里，你可以获取到专业，有用的计算机知识！',
+        bdUrl : 'https://mallow-fight.github.io/', 	
+        bdPic : '/images/logo.png'
+      },
+      share : [{
+        "bdSize" : 16
+      }],
+      slide : [{	   
+        bdImg : 0,
+        bdPos : "right",
+        bdTop : 100
+      }],
+      image : [{
+        viewType : 'list',
+        viewPos : 'top',
+        viewColor : 'black',
+        viewSize : '16',
+        viewList : ['qzone','tsina','huaban','tqq','renren']
+      }],
+      selectShare : [{
+        "bdselectMiniList" : ['qzone','tqq','kaixin001','bdxc','tqf']
+      }]
+    }
+    var getShareButtonTime = setInterval(() => {
+      var shareButton = window.document.querySelector(".bdshare-slide-button")
+      if (shareButton) {
+        clearInterval(getShareButtonTime)
+        // 影响美观，暂时移除
+        shareButton.style.opacity = 0
+      }
+    }, 100)
+  </script>
+  <%- js('js/baiduShare.js') %> */}
+
 window._bd_share_main ? window._bd_share_is_recently_loaded = !0 : (window._bd_share_is_recently_loaded = !1, window._bd_share_main = {
   version: "2.0",
   jscfg: {
