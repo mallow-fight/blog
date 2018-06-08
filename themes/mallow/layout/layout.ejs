@@ -25,7 +25,7 @@
   <!-- main page styles -->
   <%- css(isIndex ? 'css/index' : 'css/page') %>
   <!-- import vue from there so that you can use vue in markdown -->
-  <script src="<%- url_for('/js/vue.js') %>"></script>
+  <script src="<%- url_for('/js/vue.min.js') %>"></script>
   <script>window.PAGE_TYPE = "<%- page.type %>"</script>
 </head>
 <body class="<%- isIndex ? '' : 'docs' -%>">
