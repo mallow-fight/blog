@@ -4,6 +4,28 @@ type: vue
 order: 1
 ---
 
+> [参考资料](https://ustbhuangyi.github.io/vue-analysis/)
+
+## 笔记
+
+<p class="tip">通过阅读其他人的文档来了解他们是怎么拆分和阅读源码的，前提是你对源码和仓库结构有一定了解。</p>
+
+下面记录阅读上面电子书的一些重点、笔记：
+
+### `runtime only` VS `runtime with compiler`
+
+使用`vue-loader`将`template`编译成`js`，只需要使用到`runtime only`版本的`Vue`，因此更轻量。
+相反，如果使用到`template`属性，则需要使用`runtime with compiler`将`template`编译成`js`。
+所以使用脚手架一般采用`rumtime only`，而在浏览器中一般使用`runtime with compiler`。
+
+### 拆分过程
+
+- 简要介绍仓库结构和前置知识。
+- 从最简单的渲染`hello vue`开始，这点和我基本一致。
+- `Vue`实例挂载的实现，直接从`$mount`开始说起，这点和我不同，我是一步步分析下来，且行且看。
+
+## 我理解的Vue源码
+
 <p class="tip">通篇使用的`Vue`版本：2.5.0<br>前置知识：`webpack`、`flow`</p>
 
 ## Vue core
@@ -288,4 +310,40 @@ function resolveConstructorOptions (Ctor) {
   return options
 }
 ```
-resolveConstructorOptions
+> super关键字用于访问和调用一个对象的父对象上的函数。
+>在构造函数中使用时，super关键字将单独出现，并且必须在使用this关键字之前使用。super关键字也可以用来调用父对象上的函数。
+```js
+// 调用 父对象/父类 的构造函数
+super([arguments]); 
+// 调用 父对象/父类 上的方法
+super.functionOnParent([arguments]); 
+```
+这个函数主要用来拿出构造函数的`options`，这里的构造函数就是`Vue`。
+下面我们来看看这个函数返回了什么：
+`Ctor.super`是`undefined`，因为`Vue`没有父对象。
+所以最终返回的是`Ctor.options`，即`Vue`的`options`，对应到源代码就是`Vue$3`。
+
+---
+
+下面再来看看这个`Ctor.options`又是什么东东：
+`initGlobalAPI`中有这样一段：
+```js
+Vue.options = Object.create(null);
+ASSET_TYPES.forEach(function (type) {
+  Vue.options[type + 's'] = Object.create(null);
+});
+
+// this is used to identify the "base" constructor to extend all plain-object
+// components with in Weex's multi-instance scenarios.
+Vue.options._base = Vue;
+
+extend(Vue.options.components, builtInComponents);
+```
+可以看到通过执行`initGlobalAPI`...
+
+**由于`Vue`源码太过复杂，一步步分析容易掉进回调地狱，所以应该以一种更好的形式展现其中的原理**
+
+- 关于源码一步步实现以及分析可以参考开头的那篇文章，不在此赘述
+- 仔细阅读官网上的实现原理
+- 首先掌握核心思想，至于实现细节，目前不太适合查看
+- 画出原理图，理解实现原理，使用脑图或者流程图

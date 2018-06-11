@@ -109,6 +109,7 @@ people:
 
 - 网站副页，用户通过导航进入的页面
 - 原理就是通过设置在首页导航上的链接来跳转到page
+- 左右角标只有同一类型的`md`文件出现才会出现
 
 ### post.ejs
 
@@ -268,4 +269,5 @@ var getShareButtonTime = setInterval(() => {
 ### 评论系统
 
 接的`DISQUS`改了下布局，详情看`page.ejs`
+
 

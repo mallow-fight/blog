@@ -55,8 +55,6 @@ adaptIframeHeight() {
 
 ## 函数相关
 
-## 函数相关
-
 ### prototype
 
 ```txt
@@ -88,6 +86,18 @@ adaptIframeHeight() {
 
 这玩意会改变原始对象
 
+### 循环中使用`return`
+
+会中断循环，相当于`break`的有：
+- `for in`
+- 普通的`for`循环
+- `some`
+- `every`
+
+不会中断循环的有：
+- `forEach`
+- `map`
+
 ## 闭包
 
 模块
@@ -117,3 +127,5 @@ adaptIframeHeight() {
 1. filter - 筛选某些数组元素
 
 ## 设计模式
+
+待续
