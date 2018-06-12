@@ -135,3 +135,7 @@ export default {
 原因：子组件中有一个props和自定义的click事件名相同，导致报错：找不到emit的事件名
 
 心得：遇到问题要用排除法，确定用法没有出错的情况下，得查看语法有没有错误
+
+### getApp().globalData.appOptions.query
+
+这个query不会完全继承链接里面的参数，应该使用`this.$root.$mp.query`

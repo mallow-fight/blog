@@ -4,11 +4,29 @@ type: vue
 order: 1
 ---
 
-> [参考资料](https://ustbhuangyi.github.io/vue-analysis/)
+## [官网](https://cn.vuejs.org/v2/guide/installation.html)
 
-## 笔记
+### 笔记
 
-<p class="tip">通过阅读其他人的文档来了解他们是怎么拆分和阅读源码的，前提是你对源码和仓库结构有一定了解。</p>
+### 声明式渲染
+
+```html
+<div id="app">{{}}</div>
+```
+
+```js
+new Vue({
+
+})
+```
+
+>通过阅读官网来了解一些基础知识，为以后深入了解做铺垫。
+
+## [参考资料](https://ustbhuangyi.github.io/vue-analysis/)
+
+### 笔记
+
+>通过阅读其他人的文档来了解他们是怎么拆分和阅读源码的，前提是你对源码和仓库结构有一定了解。
 
 下面记录阅读上面电子书的一些重点、笔记：
 
