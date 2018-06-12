@@ -2,7 +2,7 @@
 title: team-manage
 type: manage
 order: 1
-----
+---
 # 团队管理
 
 ## 敏捷开发
