@@ -4,6 +4,14 @@ type: wechat
 order: 1
 ---
 
+## 小程序分享
+
+`pages`分享不能带有异步操作，这意味着：
+
+- 分享弹窗事件优先
+- 点击一个分享按钮之前，必须将数据准备好，不能异步获取，但可以同步调用
+- 如果分享函数中携带了异步操作，会导致分享失效
+
 ## [button清除样式](https://blog.csdn.net/Wu_shuxuan/article/details/78209125)
 
 传统的用“border:none;来去除边框”，依旧有一条细细的border
