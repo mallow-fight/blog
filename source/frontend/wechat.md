@@ -1,12 +1,10 @@
 ---
-title: wechat
+title: 微信相关
 type: wechat
 order: 1
 ---
-
 ## 小程序webview
-
-每个`pages`都可以有一个`webview`组件，所以一些静态化和用户无关的界面可以使用`html`链接代替。
+**每个`pages`都可以有一个`webview`组件，所以一些静态化和用户无关的界面可以使用`html`链接代替。**
 
 ## 小程序生命周期
 
@@ -221,16 +219,6 @@ export const instance = Object.create(INSTANCE)
 ### [关于编译工具报错 - 出现脚本错误或者未正确调用 Page()](https://github.com/Tencent/wepy/issues/917)
 
 就是.wpy和.js不能重名
-
-## 小程序生命周期
-
-app.js - onLaunch
-
-1. 里面的异步操作不会在加载首页时完全执行
-
-1. 所以首页需要的异步信息需要在首页的onLoad中执行，再去更新app中的globalData
-
-1. 其它需要使用到globalData中的数据的界面需要首先通过首页拿到用户信息再跳转过去
 
 ## 小程序画弧形
 
