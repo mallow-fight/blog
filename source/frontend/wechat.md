@@ -216,9 +216,9 @@ export const instance = Object.create(INSTANCE)
 
 ## wepy
 
-### [关于编译工具报错 - 出现脚本错误或者未正确调用 Page()](https://github.com/Tencent/wepy/issues/917)
-
-就是.wpy和.js不能重名
+### issues
+- [关于编译工具报错 - 出现脚本错误或者未正确调用 Page()](https://github.com/Tencent/wepy/issues/917)
+  - 解决方法：就是.wpy和.js不能重名
 
 ## 小程序画弧形
 
