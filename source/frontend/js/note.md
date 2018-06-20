@@ -1,7 +1,7 @@
 ---
-title: javascript
+title: 笔记
 order: 1
-type: javascript
+type: js
 ---
 
 ## 参考资料
