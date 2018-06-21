@@ -195,7 +195,7 @@ To see a list of every image we support, check out the [Emoji Cheat Sheet](https
 
 [how to use .gitignore](https://help.github.com/articles/ignoring-files/)
 
-## 通用命令
+## 通用命令 $$
 
 1. git help `<command>` # 显示command的help
 1. git show # 显示某次提交的内容 git show $id
