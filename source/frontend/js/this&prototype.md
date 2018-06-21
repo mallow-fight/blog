@@ -196,4 +196,105 @@ foo.call( obj ); // 2
 
 - 仅使用词法作用域并忘掉虚伪的 this 风格代码。
 - 完全接受 this 风格机制，包括在必要的时候使用 bind(..)，并尝试避开 self = this 和箭头函数的“词法 this”技巧。
-通常一个程序可以接受两种风格（词法和this），但是一个函数内部应该只有一种风格）
+    - 通常一个程序可以接受两种风格（词法和this），但是一个函数内部应该只有一种风格）
+
+## 内建对象
+- String
+- Number
+- Boolean
+- Object
+- Function
+- Array
+- Date
+- RegExp
+- Error
+
+在js中，它们实际上仅仅是内建函数，每一个都可以作为构造器
+仅仅在你需要使用额外的选项时使用构建形式，否则使用字面形式
+
+### 属性名
+```js
+var wantA = true;
+var myObject = {
+    a: 2
+};
+
+var idx;
+
+if (wantA) {
+    idx = "a";
+}
+
+// 稍后
+
+console.log( myObject[idx] ); // 2
+
+var myObject = { };
+
+myObject[true] = "foo";
+myObject[3] = "bar";
+myObject[myObject] = "baz";
+
+myObject["true"];                // "foo"
+myObject["3"];                    // "bar"
+myObject["[object Object]"];    // "baz"
+
+// es6新增 - 计算型属性名
+var prefix = "foo";
+
+var myObject = {
+    [prefix + "bar"]: "hello",
+    [prefix + "baz"]: "world"
+};
+
+myObject["foobar"]; // hello
+myObject["foobaz"]; // world
+```
+
+### 复制对象
+
+- 浅拷贝
+  - JSON 安全的对象（也就是，可以被序列化为一个 JSON 字符串，之后还可以被重新解析为拥有相同的结构和值的对象）可以简单地这样 复制：`var newObj = JSON.parse( JSON.stringify( someObj ) );`
+  - `var newObject = Object.assign({}, oldObject)`
+
+## 属性描述符（es5新增）
+
+- 可写性（Writable）：writable 控制着你改变属性值的能力。
+- 可配置性（Configurable）：只要属性当前是可配置的，我们就可以使用相同的 defineProperty(..) 工具，修改它的描述符定义。
+- 可枚举性（Enumerable）：控制着一个属性是否能在特定的对象-属性枚举操作中出现
+- 不可变性（Immutability）：有时我们希望将属性或对象（有意或无意地）设置为不可改变的。所有 这些方法创建的都是浅不可变性。也就是，它们仅影响对象和它的直属属性的性质。如果对象拥有对其他对象（数组、对象、函数等）的引用，那个对象的 内容 不会受影响，任然保持可变。
+
+### 对象常量
+
+```js
+var myObject = {};
+
+Object.defineProperty( myObject, "FAVORITE_NUMBER", {
+    value: 42,
+    writable: false,
+    configurable: false
+} );
+```
+
+### 防止扩展
+```js
+var myObject = {
+    a: 2
+};
+
+Object.preventExtensions( myObject );
+
+myObject.b = 3;
+myObject.b; // undefined
+```
+
+### 封印
+Object.seal(..) 创建一个“封印”的对象，这意味着它实质上在当前的对象上调用 Object.preventExtensions(..)，同时也将它所有的既存属性标记为 configurable:false。
+
+所以，你既不能添加更多的属性，也不能重新配置或删除既存属性（虽然你依然 可以 修改它们的值）。
+
+### 冻结
+Object.freeze(..) 创建一个冻结的对象，这意味着它实质上在当前的对象上调用 Object.seal(..)，同时也将它所有的“数据访问”属性设置为 writable:false，所以它们的值不可改变。
+
+### Getters&Setters
+当你将一个属性定义为拥有 getter 或 setter 或两者兼备，那么它的定义就成为了“访问器描述符”（与“数据描述符”相对）。对于访问器描述符，它的 value 和 writable 性质因没有意义而被忽略，取而代之的是 JS 将会考虑属性的 set 和 get 性质（还有 configurable 和 enumerable）。
