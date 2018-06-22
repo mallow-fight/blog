@@ -6,10 +6,20 @@ order: 1
 
 ## html
 ### 输入密码保密
+- 使用https
+- 客户端使用提交md5，服务端数据库通过md5 + 服务端数据库通过 md5(salt+md5(password)) 的规则存储密码，该 salt 仅存储在服务端，且在每次存储密码时都随机生成。这样即使被拖库，制作字典的成本也非常高。密码被 md5() 提交到服务端之后，可通过 md5(salt + form['password']) 与数据库密码比对。此方法可以在避免明文存储密码的前提下，实现密码加密提交与验证。这里还有防止 replay 攻击（请求被重新发出一次即可能通过验证）的问题，由服务端颁发并验证一个带有时间戳的可信 token （或一次性的）即可。
+- 最好使用第三方登录以及手机验证码验证
+
 ### K线图怎么画
+[使用EChart3](https://zhuanlan.zhihu.com/p/31803528)
+
 ### 如何用更好的方式跳转app内嵌网页以及携带参数
-### 给长列表全部代理事件的最优解
-### 如何实现点击子组件首先触发父组件再去触发子组件
+[参考资料](https://segmentfault.com/a/1190000010356403)
+- 直接透传链接携带的参数，这种方式比较笨拙
+- 使用localStorage，这种方式不太安全
+- 通过jsBridge从app获取某些数据，或者通知app某些数据
+
+### 如何实现点击子组件首先触发父组件再去触发子组件以及如何用更好的方式跳转app内嵌网页以及携带参数
 [参考资料](https://www.cnblogs.com/owenChen/archive/2013/02/18/2915521.html)
 
 ## css
@@ -57,6 +67,9 @@ overflow: hidden;
 - align-self： 允许单个项目有与其他项目不一样的对齐方式，跟`align-items`类似，一个针对容器下的所有项目，一个针对单个项目
 
 ## js
+### 如何更好的mock前端数据
+构建一套`mock-server`，供前端使用，只需要简单返回拼接的数据
+
 ### 变量声明
 ```js
 var a = 1
@@ -85,15 +98,59 @@ function foo() {
 }
 ```
 ### 正则表达式
+todo
+
 ### 手写ajax请求
+`httpRequest.readyState`状态值：
+0 (未初始化) or (请求还未初始化)
+1 (正在加载) or (已建立服务器链接)
+2 (加载成功) or (请求已接受)
+3 (交互) or (正在处理请求)
+4 (完成) or (请求已完成并且响应已准备好)
+```js
+// Old compatibility code, no longer needed.
+if (window.XMLHttpRequest) { // Mozilla, Safari, IE7+ ...
+    httpRequest = new XMLHttpRequest();
+} else if (window.ActiveXObject) { // IE 6 and older
+    httpRequest = new ActiveXObject("Microsoft.XMLHTTP");
+}
+httpRequest.onreadystatechange = function(){
+    // Process the server response here.
+    if (httpRequest.readyState === XMLHttpRequest.DONE) {
+      if (httpRequest.status === 200) {
+        alert(httpRequest.responseText);
+        // httpRequest.responseText – 服务器以文本字符的形式返回
+        // httpRequest.responseXML – 以 XMLDocument 对象方式返回，之后就可以使用JavaScript来处理
+      } else {
+        alert('There was a problem with the request.');
+      }
+    }
+}
+// httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded'); // only POST method
+httpRequest.open('GET', 'http://www.example.org/some.file', true);
+httpRequest.send(); // if POST, 参数："name=value&anothername="+encodeURIComponent(myVar)+"&so=on"
+
+```
+
 ### `var a = a || b`这样写有什么问题
 如果a是false类型的值，则会丢失该类型的值，取b值
 
-
 ## wechat
+### 公众号登录流程
+- 建议公众号开发者使用中控服务器统一获取和刷新Access_token，其他业务逻辑服务器所使用的access_token均来自于该中控服务器，不应该各自去刷新，否则容易造成冲突，导致access_token覆盖而影响业务；
+- 目前Access_token的有效期通过返回的expire_in来传达，目前是7200秒之内的值。中控服务器需要根据这个有效时间提前去刷新新access_token。在刷新过程中，中控服务器可对外继续输出的老access_token，此时公众平台后台会保证在5分钟内，新老access_token都可用，这保证了第三方业务的平滑过渡；
+- Access_token的有效时间可能会在未来有调整，所以中控服务器不仅需要内部定时主动刷新，还需要提供被动刷新access_token的接口，这样便于业务服务器在API调用获知access_token已超时的情况下，可以触发access_token的刷新流程。
 
 ## node
 ### 登录授权的完整流程
+- 登录流程
+    - 无账号，去注册
+    - 有账号，去登录
+- 授权
+    - 前端视觉限制（仅限于对内平台）
+    - cookie（可以对外）
+    - 携带token的请求头（可以对外）
+    - 如果是单页应用可以放在state中
 
 ## 性能优化
 
@@ -225,24 +282,41 @@ function deleteCookie(name) {
 ### localstorage
 存在时间：无限制
 用处：缓存上一次访问内容，使得用户进入页面能看到内容
+注意：
+- 不同浏览器无法共享localStorage或sessionStorage中的信息。
+- 相同浏览器的不同页面间可以共享相同的localStorage（**页面属于相同域名和端口**）
+- 不同页面或标签页间无法共享sessionStorage的信息。这里需要注意的是，页面及标签页仅指顶级窗口，如果一个标签页包含多个iframe标签且他们属于同源页面，那么他们之间是可以共享sessionStorage的。
 
 ### sessionstorage
 存在时间：页面会话结束——也就是说当页面被关闭时,数据存储在 `sessionStorage` 会被清除
 
-## webpack原理
-todo
+## webpack
+### 核心概念
+- entry 一个可执行模块或库的入口文件。
+- chunk 多个文件组成的一个代码块，例如把一个可执行模块和它所有依赖的模块组合成一个 chunk 这体现了webpack的打包机制。
+- loader 文件转换器，例如把es6转换为es5，scss转换为css。
+- plugin 插件，用于扩展webpack的功能，在webpack构建生命周期的节点上加入扩展hook为webpack加入功能。
+### 构建流程
+- 解析webpack配置参数，合并从shell传入和webpack.config.js文件里配置的参数，生产最后的配置结果。
+- 注册所有配置的插件，好让插件监听webpack构建生命周期的事件节点，以做出对应的反应。
+- 从配置的entry入口文件开始解析文件构建AST语法树，找出每个文件所依赖的文件，递归下去。
+- 在解析文件递归的过程中根据文件类型和loader配置找出合适的loader用来对文件进行转换。
+- 递归完后得到每个文件的最终结果，根据entry配置生成代码块chunk。
+- 输出所有chunk到文件系统。
+
 
 ## app和web之间如何通信
 [参考资料](https://segmentfault.com/a/1190000008012111)
 **`js2java`，从Js到Java，从网页到app，他们是双向通信，可互相调用的，Android的App是通过WebView（请亲理解成一个组件，想象WebView就是一个没有任何操作按钮的浏览器，你输入baidu.com他就打开了百度的页面）来展示一个网页的，同时WebView为网页和原生App建立一个桥梁，让网页和原生App能够看到彼此暴露的一些方法，从而达到互相操作的目的。
 当然，这些操作是需要前端页面和终端程序互相协商的。虽然很多App遵守了一些相同的原则，使网页在不同的APP中都能具备相同的能力，但是如果你看到同一个网页在一个App中能够调用一些安卓系统的能力，而在另一个APP中却没有对应的能力也不要觉得奇怪（找对应App的开发勾兑一下就好了）。**
 
-## 如何更好的mock前端数据
-构建一套`mock-server`，供前端使用，只需要简单返回拼接的数据
-
+## 浏览器
 ## 兼容性
 - 移动端点击穿透
+    [参考资料](https://juejin.im/entry/56ce9c97c24aa80052101aab)
 - fixed定位问题（如：评论框）
+    [参考资料](https://www.zhihu.com/question/32746176)
+    [参考资料](https://segmentfault.com/a/1190000006243816)
 
-## 页面呈现
 ### 浏览器从接受链接到渲染整个页面的流程
+todo

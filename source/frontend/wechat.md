@@ -157,14 +157,23 @@ button::after{ border: none; } 来去除边框
 
 fixed定位的over-view上不能放置外部http形式的图片，会导致图片不能fixed
 
-## 微信最新版登录流程
+## 微信最新版登录流程 $$
 
 - wx.getSetting()
   - true -> wx.login() -> wx.getUserInfo() -> sso
   - false -> show user-login alert button -> get uesrInfo in button callback -> sso
 - userInfo session
   - check globalData has userInfo
-  - check localStorage has userInfo && it is not invalid.
+
+## 版本更新&兼容
+
+判断api是否可用 - `wx.canIUse(String)`，根据这个执行相应的兼容策略
+管理小程序更新 - `wx.getUpdateManager()`
+onCheckForUpdate	callback	当向微信后台请求完新版本信息，会进行回调
+onUpdateReady	callback	当新版本下载完成，会进行回调
+onUpdateFailed	callback	当新版本下载失败，会进行回调
+applyUpdate		当新版本下载完成，调用该方法会强制当前小程序应用上新版本并重启
+检查更新操作由微信在小程序冷启动时自动触发，不需由开发者主动触发，开发者只需监听检查结果即可。
 
 ## mpVue
 
