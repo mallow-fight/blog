@@ -483,11 +483,6 @@ MyPlugin.install = function (Vue, options) {
 
 - 在变异 (不是替换) 对象或数组时，旧值将与新值相同，因为它们的引用指向同一个对象/数组。Vue 不会保留变异之前值的副本。
 
-## vue-router原理
-todo
-[参考资料](https://juejin.im/post/5b08c9ccf265da0dd527d98d)
-
-
 ## 参考资料
 
 > [链接](https://ustbhuangyi.github.io/vue-analysis/)

@@ -12,7 +12,3 @@ order: 1
 
 ## 高阶组件
 [参考资料](https://doc.react-china.org/docs/higher-order-components.html)
-
-## 路由原理
-todo
-[参考资料](https://juejin.im/post/5b08c9ccf265da0dd527d98d)

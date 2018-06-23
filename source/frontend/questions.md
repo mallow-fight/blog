@@ -19,10 +19,16 @@ order: 1
 - 使用localStorage，这种方式不太安全
 - 通过jsBridge从app获取某些数据，或者通知app某些数据
 
-### 如何实现点击子组件首先触发父组件再去触发子组件以及如何用更好的方式跳转app内嵌网页以及携带参数
+### 如何实现点击子组件首先触发父组件再去触发子组件
 [参考资料](https://www.cnblogs.com/owenChen/archive/2013/02/18/2915521.html)
 
 ## css
+### 外边距塌陷
+[参考资料](https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_Box_Model/Mastering_margin_collapsing)
+[参考资料 - 解决方式](https://segmentfault.com/a/1190000011075163)
+
+### 移动端1px像素显示模糊
+[参考资料](https://segmentfault.com/a/1190000007604842)
 
 ### 消除1px宽度问题/宽度适配
 box-sizing 属性可以被用来调整这些表现:
@@ -140,6 +146,9 @@ httpRequest.send(); // if POST, 参数："name=value&anothername="+encodeURIComp
 - 建议公众号开发者使用中控服务器统一获取和刷新Access_token，其他业务逻辑服务器所使用的access_token均来自于该中控服务器，不应该各自去刷新，否则容易造成冲突，导致access_token覆盖而影响业务；
 - 目前Access_token的有效期通过返回的expire_in来传达，目前是7200秒之内的值。中控服务器需要根据这个有效时间提前去刷新新access_token。在刷新过程中，中控服务器可对外继续输出的老access_token，此时公众平台后台会保证在5分钟内，新老access_token都可用，这保证了第三方业务的平滑过渡；
 - Access_token的有效时间可能会在未来有调整，所以中控服务器不仅需要内部定时主动刷新，还需要提供被动刷新access_token的接口，这样便于业务服务器在API调用获知access_token已超时的情况下，可以触发access_token的刷新流程。
+
+### 小程序底层原理
+todo
 
 ## node
 ### 登录授权的完整流程
@@ -311,6 +320,11 @@ function deleteCookie(name) {
 当然，这些操作是需要前端页面和终端程序互相协商的。虽然很多App遵守了一些相同的原则，使网页在不同的APP中都能具备相同的能力，但是如果你看到同一个网页在一个App中能够调用一些安卓系统的能力，而在另一个APP中却没有对应的能力也不要觉得奇怪（找对应App的开发勾兑一下就好了）。**
 
 ## 浏览器
+
+## 路由原理
+[参考资料](https://zhuanlan.zhihu.com/p/37730038)
+[参考资料](https://juejin.im/post/5b08c9ccf265da0dd527d98d)
+
 ## 兼容性
 - 移动端点击穿透
     [参考资料](https://juejin.im/entry/56ce9c97c24aa80052101aab)
@@ -319,4 +333,21 @@ function deleteCookie(name) {
     [参考资料](https://segmentfault.com/a/1190000006243816)
 
 ### 浏览器从接受链接到渲染整个页面的流程
-todo
+[参考资料](https://segmentfault.com/a/1190000006879700)
+
+## 平时工作中遇到的问题以及解决方式
+
+**移动端**
+- [移动端bug汇总1](https://juejin.im/post/5af918636fb9a07ac5603ecb)
+- [移动端bug汇总2](https://juejin.im/post/5b163eb5e51d4506c4751e44)
+- [移动端bug汇总3](https://cloud.tencent.com/developer/article/1127762)
+- [移动端bug汇总3](http://feg.netease.com/archives/mobile-bug.html)
+
+**pc端**
+- [pc端bug](https://www.kancloud.cn/csnikey/fe-guide/334513)
+
+**微信开发**
+- [坑1](https://juejin.im/entry/58aaaf8aac502e00697300d9)
+- [坑2](https://segmentfault.com/a/1190000005624795)
+- [小程序1](https://juejin.im/entry/5a70100851882569226358a7)
+- [小程序2](https://github.com/senola/wechat-app-issues)
