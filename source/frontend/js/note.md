@@ -11,12 +11,6 @@ type: js
 >[Pro JavaScript Design Patterns](http://jsdesignpatterns.com/)
 >[书写规范](https://github.com/airbnb/javascript)
 
-## todos
-- [ ] es5
-- [ ] es6
-- [ ] js设计模式
-- [ ] js书写规范
-
 ## 笔记
 
 ### web监听滚动

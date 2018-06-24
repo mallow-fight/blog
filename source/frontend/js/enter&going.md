@@ -1,6 +1,6 @@
 ---
 title: 入门与进阶
-order: 1
+order: 2
 type: js
 ---
 

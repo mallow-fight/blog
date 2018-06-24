@@ -73,6 +73,25 @@ overflow: hidden;
 - align-self： 允许单个项目有与其他项目不一样的对齐方式，跟`align-items`类似，一个针对容器下的所有项目，一个针对单个项目
 
 ## js
+### 不正确的数组下标问题
+```js
+// 这里的i会在外层作用域声明
+for(var i = 0; i < 10; i++) {
+  console.log(i) // 9
+}
+console.log(i) // 10
+```
+同：
+```js
+// 原因，触发点击事件的时候，i已经是循环之后的i了，导致重复的i值
+var pAry = document.getElementsByTagName("p");   
+for( var i = 0; i < pAry.length; i++ ) {   
+    pAry[i].onclick = function() {   
+        console.log(i);
+    }
+}
+```
+
 ### 如何更好的mock前端数据
 构建一套`mock-server`，供前端使用，只需要简单返回拼接的数据
 
@@ -104,7 +123,9 @@ function foo() {
 }
 ```
 ### 正则表达式
-todo
+[参考资料](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Regular_Expressions)
+- 注意自带方法的使用（一般使用`replace`替换字符）
+- 注意标志的使用（如`/g`全局搜索）
 
 ### 手写ajax请求
 `httpRequest.readyState`状态值：
@@ -148,7 +169,7 @@ httpRequest.send(); // if POST, 参数："name=value&anothername="+encodeURIComp
 - Access_token的有效时间可能会在未来有调整，所以中控服务器不仅需要内部定时主动刷新，还需要提供被动刷新access_token的接口，这样便于业务服务器在API调用获知access_token已超时的情况下，可以触发access_token的刷新流程。
 
 ### 小程序底层原理
-todo
+[参考资料](https://www.zhihu.com/question/50920642)
 
 ## node
 ### 登录授权的完整流程
@@ -319,6 +340,8 @@ function deleteCookie(name) {
 **`js2java`，从Js到Java，从网页到app，他们是双向通信，可互相调用的，Android的App是通过WebView（请亲理解成一个组件，想象WebView就是一个没有任何操作按钮的浏览器，你输入baidu.com他就打开了百度的页面）来展示一个网页的，同时WebView为网页和原生App建立一个桥梁，让网页和原生App能够看到彼此暴露的一些方法，从而达到互相操作的目的。
 当然，这些操作是需要前端页面和终端程序互相协商的。虽然很多App遵守了一些相同的原则，使网页在不同的APP中都能具备相同的能力，但是如果你看到同一个网页在一个App中能够调用一些安卓系统的能力，而在另一个APP中却没有对应的能力也不要觉得奇怪（找对应App的开发勾兑一下就好了）。**
 
+**现公司jsBridge实现方式，通过在window对象上挂载一个桥对象，通过这个对象用`观察者模式`实现事件的订阅，通知，以及取消订阅。**
+
 ## 浏览器
 
 ## 路由原理
@@ -333,7 +356,12 @@ function deleteCookie(name) {
     [参考资料](https://segmentfault.com/a/1190000006243816)
 
 ### 浏览器从接受链接到渲染整个页面的流程
+[参考资料 - 这上面的回答有一些好的连链接](https://www.zhihu.com/question/34873227)
+[参考资料](http://fex.baidu.com/blog/2014/05/what-happen/)
 [参考资料](https://segmentfault.com/a/1190000006879700)
+[参考资料](https://dailc.github.io/2018/03/12/whenyouenteraurl.html)
+[参考资料](https://blog.csdn.net/sinat_27346451/article/details/77451634)
+[参考资料](https://blog.csdn.net/m0_38099607/article/details/71403298)
 
 ## 平时工作中遇到的问题以及解决方式
 

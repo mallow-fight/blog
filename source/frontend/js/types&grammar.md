@@ -1,6 +1,6 @@
 ---
 title: 类型和语法
-order: 3
+order: 5
 type: js
 ---
 
