@@ -6,7 +6,9 @@ order: 1
 
 ## html
 ### 重绘和回流
-todo
+回流比重绘的代价要高
+[参考资料](http://www.css88.com/archives/4996)
+[参考资料](https://zhuanlan.zhihu.com/p/22181897)
 ### 事件捕获和冒泡
 - 先捕获再冒泡
 - `addEventListener`第三个参数是`false`（默认）时，事件处理采取事件冒泡的原则，当第三个参数是true时，则采取事件捕获的原则
@@ -28,6 +30,9 @@ todo
 [参考资料](https://www.cnblogs.com/owenChen/archive/2013/02/18/2915521.html)
 
 ## css
+### 垂直水平居中
+[参考资料](https://www.zhihu.com/question/20543196)
+[参考资料](https://github.com/hawx1993/tech-blog/issues/12)
 ### 外边距塌陷
 [参考资料](https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_Box_Model/Mastering_margin_collapsing)
 [参考资料 - 解决方式](https://segmentfault.com/a/1190000011075163)
