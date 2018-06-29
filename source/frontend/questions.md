@@ -261,8 +261,8 @@ overflow: hidden;
 
 ## js
 ### Debounce
-todo
 如何用js实现防抖
+[参考资料](https://github.com/lishengzxc/bblog/issues/7)
 
 ### 不正确的数组下标问题
 ```js
@@ -628,7 +628,7 @@ Vue.nextTick(function () {
 ```
 
 ### react
-**什么时虚拟dom:**虚拟DOM（VDOM）是一种编程概念，是指虚拟的视图被保存在内存中，并通过诸如ReactDOM这样的库与“真实”的DOM保持同步。这个过程被称为和解。
+**什么是虚拟dom:**虚拟DOM（VDOM）是一种编程概念，是指虚拟的视图被保存在内存中，并通过诸如ReactDOM这样的库与“真实”的DOM保持同步。这个过程被称为和解。
 这种编程方法使用了React的声明式API：你需要告诉React你想让视图处于什么状态，React则负责确保DOM与该状态相匹配。因此你在构建你的应用时不必自己去完成属性操作、事件处理、DOM更新，React会替你完成这一切。
 由于“虚拟DOM”更像一种模式而不是特定的技术，有时候我们也会用它表示其他的意思。在React的世界中，由于 “虚拟DOM” 和 React元素 都是用于表示视图的对象，因此常常被关联在一起。然而React也使用被称为“fibers”的对象来存放组件树的附加信息。在React中，它们也被认为是“虚拟DOM”实现的一部分。
 
