@@ -53,6 +53,7 @@ order: 1
 ### 事件捕获和冒泡
 - 先捕获再冒泡
 - `addEventListener`第三个参数是`false`（默认）时，事件处理采取事件冒泡的原则，当第三个参数是true时，则采取事件捕获的原则
+
 ### 输入密码保密
 - 使用https
 - 客户端使用提交md5，服务端数据库通过md5 + 服务端数据库通过 md5(salt+md5(password)) 的规则存储密码，该 salt 仅存储在服务端，且在每次存储密码时都随机生成。这样即使被拖库，制作字典的成本也非常高。密码被 md5() 提交到服务端之后，可通过 md5(salt + form['password']) 与数据库密码比对。此方法可以在避免明文存储密码的前提下，实现密码加密提交与验证。这里还有防止 replay 攻击（请求被重新发出一次即可能通过验证）的问题，由服务端颁发并验证一个带有时间戳的可信 token （或一次性的）即可。
@@ -557,7 +558,7 @@ function deleteCookie(name) {
 [参考资料](https://blog.csdn.net/sinat_27346451/article/details/77451634)
 [参考资料](https://blog.csdn.net/m0_38099607/article/details/71403298)
 
-### 重点
+## 重点
 [http状态码](../backend/http.html#状态码)
 [学习css布局 - 盒模型](css.html#学习css布局)
 [html和html5的区别](html.html#和HTML5的区别)
@@ -566,6 +567,7 @@ function deleteCookie(name) {
 [微信小程序生命周期](wechat.html#小程序生命周期)
 [微信最新版登录流程](wechat.html#微信最新版登录流程)
 [git命令](../others/git.html#通用命令)
+[四大规则](js/this&prototype.html#四大规则)
 
 ## 平时工作中遇到的问题以及解决方式
 
