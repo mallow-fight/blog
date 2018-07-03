@@ -539,7 +539,7 @@ function deleteCookie(name) {
 
 ## 浏览器
 
-## 路由原理
+### 路由原理
 [参考资料](https://zhuanlan.zhihu.com/p/37730038)
 [参考资料](https://juejin.im/post/5b08c9ccf265da0dd527d98d)
 - hash 模式
@@ -547,7 +547,7 @@ function deleteCookie(name) {
 - history（html5）
     - pushState 和 replaceState
 
-## 兼容性
+### 兼容性
 - 移动端点击穿透
     [参考资料](https://juejin.im/entry/56ce9c97c24aa80052101aab)
 - fixed定位问题（如：评论框）
@@ -556,11 +556,57 @@ function deleteCookie(name) {
 
 ### 浏览器从接受链接到渲染整个页面的流程
 [参考资料 - 这上面的回答有一些好的连链接](https://www.zhihu.com/question/34873227)
-[参考资料](http://fex.baidu.com/blog/2014/05/what-happen/)
 [参考资料](https://segmentfault.com/a/1190000006879700)
 [参考资料](https://dailc.github.io/2018/03/12/whenyouenteraurl.html)
 [参考资料](https://blog.csdn.net/sinat_27346451/article/details/77451634)
 [参考资料](https://blog.csdn.net/m0_38099607/article/details/71403298)
+
+> [参考资料](http://fex.baidu.com/blog/2014/05/what-happen/)
+#### 从输入URL到浏览器接受的过程中发生了什么事情
+- 从触屏到CPU：触摸屏是一种传感器，当手指在这个传感器上触摸时，有些电子会传递到手上，从而导致该区域的电压变化，触摸屏控制器芯片根据这个变化就能计算出所触摸的位置，然后通过总线接口将信号传到CPU的引脚上
+- CPU内部的处理：移动设备中的CPU并不是一个单独的芯片，而是和GPU等芯片集成在一起，被称为SoC（片上系统）
+- 从CPU到操作系统内核：前面说到触屏控制器将电气信号发送到 CPU 对应的引脚上，接着就会触发 CPU 的中断机制，以 Linux 为例，每个外部设备都有一标识符，称为中断请求(IRQ)号，可以通过 /proc/interrupts 文件来查看系统中所有设备的中断请求号
+- 从操作系统GUI到浏览器：前面提到 Linux 内核已经完成了对硬件的抽象，其它程序只需要通过监听 /dev/input/event0 文件的变化就能知道用户进行了哪些触摸操作
+
+#### 浏览器如何向网卡发送数据
+- 从浏览器到浏览器内核：浏览器可能会进行一些预处理，比如显示历史搜索等，输入URL后的回车，浏览器会对URL进行检查，首先判断协议，如果是http就按照web来处理，另外还会对这个URL进行安全检查，然后直接调用浏览器内核中的对应方法，在浏览器内核中会先查看缓存，然后设置UA等HTTP信息，接着调用不同平台下网络请求的方法
+> 需要注意浏览器和浏览器内核是不同的概念，浏览器指的是Chrome、Firefox，而浏览器内核则是Blink、Gecko，浏览器内核只负责渲染，GUI及网络连接等跨平台工作则是浏览器实现的
+- http请求的发送：因为网络的底层实现是和内核相关的，所以这一部分需要针对不同平台进行处理，从应用层角度看主要做两件事情：通过DNS查询IP、通过Socket发送数据
+- DNS查询：应用程序可以直接调用 Libc 提供的 getaddrinfo() 方法来实现 DNS 查询，基于UDP来实现的
+- 通过Socket发送数据：有了IP地址，就可以通过Socket API来发送数据了，这时可以选择TCP或UDP协议
+- Socket在内核中的实现
+- 底层网络协议
+
+#### 数据如何从本机网卡发送到服务器
+- 从内核到网络适配器
+- 连接Wi-Fi路由
+- 运营商网络内的路由
+- 主干网间的传输
+- IDC内网
+- 服务器CPU
+
+#### 服务器接受到数据后会进行哪些处理
+- 负载均衡
+- LVS
+- 反向代理
+- web server中的处理
+- 进入后端语言
+- web框架
+- 读取数据
+
+#### 服务器返回数据后浏览器如何处理
+- 从01到字符
+- 外链资源的加载
+- js的执行
+- 从字符到图片
+- 跨平台2d绘制库
+- GPU合成
+- 扩展学习
+
+#### 浏览器如何将页面展现出来
+- Framebuffer
+- 从内存到LCD
+- LCD显示
 
 ## 重点
 [http状态码](../backend/http.html#状态码)
