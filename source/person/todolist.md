@@ -25,7 +25,8 @@ order: 1
 - [ ] 后端语言深入了解
 - [ ] 算法
   - [ ] 算法导论
-  - [ ] [在线刷算法](https://www.zhihu.com/question/36488823)
+  - [ ] [一天两道 - 中等等级](https://www.lintcode.com/problem/?level=2)
+  - [x] [在线刷算法](https://www.zhihu.com/question/36488823)
 - [ ] 优化博客结构、内容以及排版（持续迭代，下方记录完成工作）
   - [ ] 博客内容改为懒加载
   - [x] 补充js.md的 你不知道的js部分
