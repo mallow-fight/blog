@@ -1,6 +1,6 @@
 ---
 title: 遍历
-order: 2
+order: 3
 type: arithmetic
 ---
 ## 二叉树遍历

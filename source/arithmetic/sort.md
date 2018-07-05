@@ -1,8 +1,13 @@
 ---
 title: 排序
-order: 1
+order: 2
 type: arithmetic
 ---
+
+## 冒泡排序
+
+## 快速排序
+[参考资料](http://wiki.jikexueyuan.com/project/easy-learn-algorithm/fast-sort.html)
 
 ## 插入排序
 
