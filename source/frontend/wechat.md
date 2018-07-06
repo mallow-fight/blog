@@ -1,10 +1,12 @@
 ---
-title: wechat
+title: 微信相关
 type: wechat
 order: 1
 ---
+## 小程序webview
+**每个`pages`都可以有一个`webview`组件，所以一些静态化和用户无关的界面可以使用`html`链接代替。**
 
-## 小程序生命周期
+## 小程序生命周期 $$
 
 > 测试环境：`"mpVue": "^1.0.10"`。
 > 不要使用`mpVue`自带的生命周期，有时候会出现各种预料之外的`bug`，而且小程序自带的生命周期可以完全满足需求。
@@ -44,8 +46,9 @@ A | A	| 保留原来的状态
 B |	A |	清空原来的页面栈，打开首页（相当于执行 wx.reLaunch 到首页）
 A 或 B |	B |	清空原来的页面栈，打开指定页面（相当于执行 wx.reLaunch 到指定页）
 
-
 ### App()
+
+> 以下钩子函数执行顺序仅限于同步调用，异步调用尽量不要耦合不同钩子函数，会出现依赖失败的情况
 
 - `onLaunch`: 全局只触发一次，注意：
   - 这里面的异步操作不能耗时过长，不然会出现`pages-onLoad`和`pages-onShow`先于异步操作触发
@@ -65,7 +68,7 @@ A 或 B |	B |	清空原来的页面栈，打开指定页面（相当于执行 wx
 
 - `onLoad`: 第一个触发，有`options`，监听页面加载，一个页面只会调用一次，可以在 onLoad 中获取打开当前页面所调用的 query 参数。
 - `onShow`: 第二个触发，监听页面显示，每次打开页面都会调用一次。
-- `onReady`: 第三个触发，监听页面初次渲染完成，一个页面只会调用一次，代表页面已经准备妥当，可以和视图层进行交互。对界面的设置如wx.setNavigationBarTitle请在onReady之后设置。
+- `onReady`: 第三个触发，监听页面初次渲染完成，一个页面只会调用一次，代表页面已经准备妥当，可以和视图层进行交互。对界面的设置如`wx.setNavigationBarTitle`请在onReady之后设置。
 - `onHide`: 先于App()的`onHide`事件触发，当navigateTo或底部tab切换时调用。
 - `onUnload`: 监听页面卸载，一般情况下，不存在页面的卸载，除了长时间未进入小程序，或者删掉小程序，当redirectTo或navigateBack的时候调用，使用其它跳转不会使页面卸载，相反，可能存在缓存，点击左上角返回按钮或者手机上的返回按钮，不会触发这个事件。
 - `onPullDownRefresh`: 下拉动作，需要先配置可下拉
@@ -154,14 +157,23 @@ button::after{ border: none; } 来去除边框
 
 fixed定位的over-view上不能放置外部http形式的图片，会导致图片不能fixed
 
-## 微信最新版登录流程
+## 微信最新版登录流程 $$
 
 - wx.getSetting()
   - true -> wx.login() -> wx.getUserInfo() -> sso
   - false -> show user-login alert button -> get uesrInfo in button callback -> sso
 - userInfo session
   - check globalData has userInfo
-  - check localStorage has userInfo && it is not invalid.
+
+## 版本更新&兼容
+
+判断api是否可用 - `wx.canIUse(String)`，根据这个执行相应的兼容策略
+管理小程序更新 - `wx.getUpdateManager()`
+onCheckForUpdate	callback	当向微信后台请求完新版本信息，会进行回调
+onUpdateReady	callback	当新版本下载完成，会进行回调
+onUpdateFailed	callback	当新版本下载失败，会进行回调
+applyUpdate		当新版本下载完成，调用该方法会强制当前小程序应用上新版本并重启
+检查更新操作由微信在小程序冷启动时自动触发，不需由开发者主动触发，开发者只需监听检查结果即可。
 
 ## mpVue
 
@@ -213,19 +225,9 @@ export const instance = Object.create(INSTANCE)
 
 ## wepy
 
-### [关于编译工具报错 - 出现脚本错误或者未正确调用 Page()](https://github.com/Tencent/wepy/issues/917)
-
-就是.wpy和.js不能重名
-
-## 小程序生命周期
-
-app.js - onLaunch
-
-1. 里面的异步操作不会在加载首页时完全执行
-
-1. 所以首页需要的异步信息需要在首页的onLoad中执行，再去更新app中的globalData
-
-1. 其它需要使用到globalData中的数据的界面需要首先通过首页拿到用户信息再跳转过去
+### issues
+- [关于编译工具报错 - 出现脚本错误或者未正确调用 Page()](https://github.com/Tencent/wepy/issues/917)
+  - 解决方法：就是.wpy和.js不能重名
 
 ## 小程序画弧形
 

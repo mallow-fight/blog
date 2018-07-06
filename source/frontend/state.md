@@ -32,28 +32,25 @@ redux时是js状态容器, 提供可预测化的状态管理
 ## 三大原则
 
 - 单一数据源
-
-整个应用的state被存储在一棵object tree中，并且这个object tree只存在于唯一一个store中
+整个应用的状态被存储在一棵对象树中，并且这个状态树只存在于唯一一个仓库中
 
 - state是只读的
+改变state的唯一方法是提交一个描述发生了什么的动作对象
 
-the only way to change the state to emit an action, an object describing what happened.
-
-- changes are made with pure functions
-
-the specify how the state tree is transformed by actions, you write pure reducers.
+- 变化由纯函数产生
+编写reducers来详细描述状态树是怎么变化的
 
 ## Action
 
-Action 是把数据从应用传到store的有效载荷，它是store数据的唯一来源。
-当应用规模越来越大时，建议用单独的模块或文件来存放action
+- Action 是把数据从应用传到store的有效载荷，它是store数据的唯一来源。
+- 当应用规模越来越大时，建议用单独的模块或文件来存放action
 
 ## Reducer
 
-指定了应用状态的变化如何响应actions并发送到store
-actions只是描述了有事情发生了这一事实，并没有描述应用如何更新state
-纯函数，接受旧的state和action，返回新的state
-禁止在reducer中进行以下操作
+- 指定了应用状态的变化如何响应actions并发送到store
+- actions只是描述了有事情发生了这一事实，并没有描述应用如何更新state
+- 纯函数，接受旧的state和action，返回新的state
+- 禁止在reducer中进行以下操作
   - 修改传入参数
   - 执行有副作用的操作，如API请求和路由跳转
   - 调用非纯函数，如Date.now() 或 Math.random()

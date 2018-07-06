@@ -1,3 +1,13 @@
+<div class="guide-links">
+  <% const lastPage1 = site.pages.find({ type: page.type, order: { $lt: page.order }}).sort({ order: -1 }).first(); %>
+  <% if (lastPage1) { %>
+    <span>← <a href="<%- url_for(lastPage1.path) %>"><%- lastPage1.title %></a></span>
+  <% } %>
+  <% const nextPage1 = site.pages.find({ type: page.type, order: { $gt: page.order }}).sort({ order: 1 }).first(); %>
+  <% if (nextPage1) { %>
+    <span style="float: right;"><a href="<%- url_for(nextPage1.path) %>"><%- nextPage1.title %></a> →</span>
+  <% } %>
+</div>
 <% if (page.type) { %>
   <%- partial('partials/sidebar', { type: page.type === 'menu' ? 'guide' : page.type, index: page.index }) %>
 <% } else { %>
@@ -34,9 +44,10 @@
   </div>
 </div>
 
-<div id="disqus_thread"></div>
 
+<!-- <div id="disqus_thread"></div>
 <script>
+  // it seems slowly page, so i annotation it.
   // disqus评论系统
   /**
   *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
@@ -52,4 +63,4 @@
   (d.head || d.body).appendChild(s);
   })();
 </script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript> -->
