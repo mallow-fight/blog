@@ -28,7 +28,9 @@ order: 1
   - [ ] [一天两道 - 中等等级](https://www.lintcode.com/problem/?level=2)
   - [x] [在线刷算法](https://www.zhihu.com/question/36488823)
 - [ ] 优化博客结构、内容以及排版（持续迭代，下方记录完成工作）
-  - [ ] 博客内容改为懒加载
+  - [ ] 分类questions
+  - [ ] 将未掌握的重点放在questions重点栏目中
+  - [x] 博客内容改为懒加载
   - [x] 补充js.md的 你不知道的js部分
   - [x] 整理 questions 中的 平时遇到的坑
   - [x] 原有纯markdown笔记迁移到这个博客

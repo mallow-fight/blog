@@ -20,8 +20,6 @@ type: arithmetic
 
 ## 排序
 
-> [参考资料](https://github.com/francistao/LearningNotes/blob/master/Part3/Algorithm/Sort/%E9%9D%A2%E8%AF%95%E4%B8%AD%E7%9A%84%2010%20%E5%A4%A7%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93.md)
-
 ### 稳定性
 就是如果两个两个值相等，排序后他们的位置顺序应该跟排序前是一致的，否则，就不稳定
 
@@ -33,6 +31,7 @@ type: arithmetic
 
 常见的稳定排序算法有：
 - 冒泡排序（Bubble Sort） — O(n²)
+- 选择排序 - O(n²)
 - 插入排序（Insertion Sort）— O(n²)
 - 桶排序（Bucket Sort）— O(n); 需要 O(k) 额外空间
 - 计数排序 (Counting Sort) — O(n+k); 需要 O(n+k) 额外空间
@@ -47,15 +46,20 @@ type: arithmetic
 - 快速排序（Quicksort）— O(nlogn) 期望时间, O(n²) 最坏情况; 对于大的、乱数串行一般相信是最快的已知排序
 
 ### 冒泡排序
-速度很慢，不要使用
+速度很慢，不推荐使用
+思路：一个数组需要降序排列，首先对比`a[0]`和`a[1]`，如果`a[0] < a[1]`，交换值，否则继续比较`a[1]`和`a[2]`，以此类推
 ```js
-function popSort(nums) {
+function bubbleSort(nums) {
+  // 降序
+  // 外层循环一共需要nums.length次比较，每次比较产生一个排序好的元素
+  // 内层循环一共需要nums.length - i次比较，除去已经排好的元素，对剩下的元素进行排序
+  // 最终得到升序/降序的数组
   for(let i = 0; i < nums.length; i++) {
-    for(let j = i; j < nums.length; j++) {
-      if(nums[i] < nums[j]) { // 降序
-        const iv = nums[i]
-        nums[i] = nums[j]
-        nums[j] = iv
+    for(let j = 0; j < nums.length - i; j++) {
+      if(nums[j - 1] > nums[j]) {
+        const temp = nums[j - 1]
+        nums[j - 1] = nums[j]
+        nums[j] = temp
       }
     }
   }
@@ -63,11 +67,25 @@ function popSort(nums) {
 }
 ```
 
-### 快速排序
-[参考资料](http://wiki.jikexueyuan.com/project/easy-learn-algorithm/fast-sort.html)
+### 选择排序
+速度很慢，不推荐使用
+思路：冒泡排序的优化版，只有确定顺序后才进行调换
+```js
+function chooseSort(nums) {
+  for(let i = 0; i < nums.length; i++) {
+    for(let j = i; j < nums.length; j++) {
+      if(nums[i] < nums[j]) {
+        const temp = nums[i]
+        nums[i] = nums[j]
+        nums[j] = temp
+      }
+    }
+  }
+  return nums
+}
+```
 
 ### 插入排序
-
 ```js
 function InsertSort(array, direction) {
   for(let i = 1; i < array.length; i++) {
@@ -83,6 +101,12 @@ function InsertSort(array, direction) {
   return array
 }
 ```
+
+### 快速排序
+
+> [参考资料](http://wiki.jikexueyuan.com/project/easy-learn-algorithm/fast-sort.html)
+
+> [参考资料](https://github.com/francistao/LearningNotes/blob/master/Part3/Algorithm/Sort/%E9%9D%A2%E8%AF%95%E4%B8%AD%E7%9A%84%2010%20%E5%A4%A7%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93.md)
 
 ## 遍历
 
