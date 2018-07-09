@@ -17,7 +17,8 @@ order: 1
   - [ ] 每天练习写半个小时sql
   - [ ] 算法
   - [ ] 算法导论
-  - [ ] [一天两道 - 中等等级](https://www.lintcode.com/problem/?level=2)
+  - [x] [一天两道 - 中等等级 - leetcode更不好用](https://leetcode-cn.com/problems/add-two-numbers/solution/)
+  - [ ] [一天两道 - 中等等级 - lintcode不好用](https://www.lintcode.com/problem/?level=2)
   - [x] [在线刷算法](https://www.zhihu.com/question/36488823)
 - [ ] 软件工程化思想
   - [x] 导论

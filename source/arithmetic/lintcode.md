@@ -74,7 +74,19 @@ const nthUglyNumber = function (n) {
 要求时间复杂度为O(n)，空间复杂度为O(1)
 
 思路
-正常：首先从大到小排序(冒泡排序pass，太慢了，使用插入排序也不行，只能试试快速排序)，如果数组长度 === k，则返回k
-```js
+首先找最简单的实现方式，就是js自带的排序功能，在尝试自己写的排序方法，试过了冒泡，选择，插入，快速排序，都超时了，应该对不同的数组有不同的排序策略
 
+todo: sort原理
+```js
+/**
+ * @param n: An integer
+ * @param nums: An array
+ * @return: the Kth largest element
+ */
+const kthLargestElement = function (n, nums) {
+  nums.sort((a, b) => {
+    return b - a
+  })
+  return nums[n - 1]
+}
 ```

@@ -177,6 +177,32 @@ applyUpdate		当新版本下载完成，调用该方法会强制当前小程序�
 
 ## mpVue
 
+### 使用process.env区分不同环境
+- 首先安装`cross-env`: `cnpm i cross-env -D`
+- 修改`config/dev.env.js`为：
+```js
+var merge = require('webpack-merge')
+var prodEnv = require('./prod.env')
+
+module.exports = merge(prodEnv, {
+  NODE_ENV: '"development"',
+  ENV: '"' + process.env.ENV + '"'
+})
+```
+- 然后就可以访问`process.env.ENV`这个环境变量了
+- 可修改`package.json`为：
+```js
+"scripts": {
+  "dev": "cross-env ENV=test node build/dev-server.js", // test env
+  "start": "npm run dev", // test env
+  "debug": "cross-env ENV=debug node build/dev-server.js", // debug mode
+  "build:local": "cross-env ENV=local node build/dev-server.js", // local env
+  "build:test": "rimraf dist && cross-env ENV=test node build/build.js", // build for test
+  "build:production": "rimraf dist && cross-env ENV=production node build/build.js", // build for production
+  "lint": "eslint --ext .js,.vue src" // lint your files
+}
+```
+
 ### something notice
 
 - you should delete `dist` folder and rebuild when delete some file in `src`.

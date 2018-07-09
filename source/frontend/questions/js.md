@@ -5,6 +5,21 @@ type: questions
 ---
 
 ## js
+
+### 函数参数
+```js
+// 如果参数o是一个对象或者数组，那么在函数体里面的修改会导致函数外面o的修改，这里的o是对象的应用，共享同一个o对象
+// o对象里面的对象作为参数传入同样会使得o对象发生改变
+// 如果对这个参数对象进行重新赋值，那么会新创建一个o类型的值，这个值的改变不会影响外面的o
+function foo(o) {
+  o.a = 1 // o: { a: 1 }
+  o = 1
+  console.log(o) // 1
+}
+const o = {} // []
+foo(o)
+```
+
 ### Debounce
 如何用js实现防抖
 [参考资料](https://github.com/lishengzxc/bblog/issues/7)

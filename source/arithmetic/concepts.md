@@ -86,19 +86,24 @@ function chooseSort(nums) {
 ```
 
 ### 插入排序
+**思路：这玩意跟摸牌一样，首先假设摸到了第一张牌，这张牌不用排序，然后摸到第二张牌，对比第一张牌，如果比它大就放在左边，在摸到第三张牌，首先对比最右边的那张牌，如果比它大，插在这张牌的左边，再继续对比左边的牌，如果还是这张牌大，继续移动操作。**
 ```js
-function InsertSort(array, direction) {
-  for(let i = 1; i < array.length; i++) {
-    let flag = array[i]
+/**
+ * @param n: An integer
+ * @param nums: An array
+ * @return: the Kth largest element
+ */
+const kthLargestElement = function (n, nums) {
+  for(let i = 1; i < nums.length; i++) {
     let j = i - 1
-    const condition = direction ? flag < array[j] : flag > array[j]
-    while(j >= 0 && condition) {
-      array[j + 1] = array[j]
+    while(j >= 0 && nums[j + 1] > nums[j]) {
+      const temp = nums[j + 1]
+      nums[j + 1] = nums[j]
+      nums[j] = temp
       j--
     }
-    array[j + 1] = flag
   }
-  return array
+  return nums[n - 1]
 }
 ```
 
@@ -106,7 +111,41 @@ function InsertSort(array, direction) {
 
 > [参考资料](http://wiki.jikexueyuan.com/project/easy-learn-algorithm/fast-sort.html)
 
+```js
+function swap(arr, left, right) {
+  const temp = arr[right]
+  arr[right] = arr[left]
+  arr[left] = temp
+}
+
+function partition(arr, left, right) {
+  // 右边哨位先动，基准点取第一个
+  const privotKey = arr[left]
+  // 如果left小于right，就继续对比：先移动右边，如果有值比基准点大，交换，再从左边移动哨位，移到比基准点大的位置
+  while(left < right) {
+    while(arr[right] < privotKey) {
+      right--
+    }
+    swap(arr, left, right)
+    while(arr[left] > privotKey) {
+      left++
+    }
+  }
+  return left
+}
+
+// 左大右小
+function quickSort(arr, left, right) {
+  if(left >= right) return
+  const pivotPosition = partition(arr, left, right)
+  quickSort(arr, 0, pivotPosition - 1)
+  quickSort(arr, pivotPosition + 1, right)
+}
+quickSort(nums, 0, nums.length - 1)
+```
+
 > [参考资料](https://github.com/francistao/LearningNotes/blob/master/Part3/Algorithm/Sort/%E9%9D%A2%E8%AF%95%E4%B8%AD%E7%9A%84%2010%20%E5%A4%A7%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93.md)
+> [参考资料](https://github.com/damonare/Sorts)
 
 ## 遍历
 
