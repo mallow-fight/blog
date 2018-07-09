@@ -1,7 +1,7 @@
 ---
 title: sails
-type: sails
-order: 1
+type: node
+order: 2
 ---
 
 ## sails相关

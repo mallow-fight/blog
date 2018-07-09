@@ -1,7 +1,7 @@
 ---
 title: webpack
-order: 1
-type: webpack
+type: node
+order: 3
 ---
 
 ## loader

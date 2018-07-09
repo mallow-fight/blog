@@ -1,7 +1,7 @@
 ---
 title: 健身
-order: 1
-type: health
+type: ideas
+order: 3
 ---
 
 **身体是革命的本钱**

@@ -6,6 +6,9 @@ order: 1
 
 ## 第一象限
 
+- [ ] 每天练习sql > 0.5h
+- [ ] 每天复习面试题 > 0.5h
+- [ ] [一天两道算法题，针对面试高频题](https://www.lintcode.com/problem/?level=2)
 - [ ] 对公司产生较大效益的工作
 - [ ] 管理能力
 - [ ] 高效学习
@@ -14,11 +17,9 @@ order: 1
 ## 第二象限(优先级按顺序)
 
 - [ ] 长期工作
-  - [ ] 每天练习写半个小时sql
   - [ ] 算法
   - [ ] 算法导论
   - [x] [一天两道 - 中等等级 - leetcode更不好用](https://leetcode-cn.com/problems/add-two-numbers/solution/)
-  - [ ] [一天两道 - 中等等级 - lintcode不好用](https://www.lintcode.com/problem/?level=2)
   - [x] [在线刷算法](https://www.zhihu.com/question/36488823)
 - [ ] 软件工程化思想
   - [x] 导论

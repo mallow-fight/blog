@@ -1,7 +1,7 @@
 ---
-title: mac
-type: mac
-order: 1
+title: mac指令
+type: software
+order: 4
 ---
 
 ## 搜狗输入法问题

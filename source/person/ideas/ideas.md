@@ -1,5 +1,5 @@
 ---
-title: 点子
+title: 灵感
 type: ideas
 order: 1
 ---

@@ -6,7 +6,7 @@ order: 1
 ## 小程序webview
 **每个`pages`都可以有一个`webview`组件，所以一些静态化和用户无关的界面可以使用`html`链接代替。**
 
-## 小程序生命周期 $$
+## 小程序生命周期
 
 > 测试环境：`"mpVue": "^1.0.10"`。
 > 不要使用`mpVue`自带的生命周期，有时候会出现各种预料之外的`bug`，而且小程序自带的生命周期可以完全满足需求。
@@ -157,7 +157,7 @@ button::after{ border: none; } 来去除边框
 
 fixed定位的over-view上不能放置外部http形式的图片，会导致图片不能fixed
 
-## 微信最新版登录流程 $$
+## 微信最新版登录流程
 
 - wx.getSetting()
   - true -> wx.login() -> wx.getUserInfo() -> sso
@@ -248,6 +248,9 @@ export const sa = (key, payload) => {
 ```js
 this.$sa('whichEvent', {eventName: 'event description'})
 ```
+
+- `sa`守卫
+可以在`resource.js`中加上事件的守卫，来监听事件有没有注册
 
 ### 使用process.env区分不同环境
 - 首先安装`cross-env`: `cnpm i cross-env -D`

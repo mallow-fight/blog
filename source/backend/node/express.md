@@ -1,6 +1,6 @@
 ---
 title: express
-type: express
+type: node
 order: 1
 ---
 

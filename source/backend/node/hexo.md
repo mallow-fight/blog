@@ -1,9 +1,8 @@
 ---
 title: hexo
-type: hexo
-order: 1
+type: node
+order: 4
 ---
-
 
 <p class="tip">本篇文章通篇在`mac-os`环境下运行。</p>
 
