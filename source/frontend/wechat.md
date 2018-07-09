@@ -177,6 +177,78 @@ applyUpdate		当新版本下载完成，调用该方法会强制当前小程序�
 
 ## mpVue
 
+### 对接打点
+- 首先引入`sensorsdata.min.js`，修改配置部分，实例：
+```js
+/* eslint-disable */
+var conf = {
+  test: {
+    // 神策分析注册在APP全局函数中的变量名，在非app.js中可以通过getApp().sensors(你这里定义的名字来使用)
+    name: 'sensors',
+    // 神策分析数据接收地址
+    server_url: 'xxx-test',
+    // 传入的字符串最大长度限制
+    max_string_length: 300,
+    // 发送事件的时间使用客户端时间还是服务端时间
+    use_client_time: false,
+    // 是否自动采集如下事件
+    autoTrack:{
+      //$MPLaunch
+      appLaunch:false,
+      //$MPShow
+      appShow:false,
+      //$MPHide
+      appHide:false,
+      //$MPViewScreen
+      pageShow:false
+    }
+  },
+  production: {
+    // 神策分析注册在APP全局函数中的变量名，在非app.js中可以通过getApp().sensors(你这里定义的名字来使用)
+    name: 'sensors',
+    // 神策分析数据接收地址
+    server_url: 'xxx-prod',
+    // 传入的字符串最大长度限制
+    max_string_length: 300,
+    // 发送事件的时间使用客户端时间还是服务端时间
+    use_client_time: false,
+    // 是否自动采集如下事件
+    autoTrack:{
+      //$MPLaunch
+      appLaunch:false,
+      //$MPShow
+      appShow:false,
+      //$MPHide
+      appHide:false,
+      //$MPViewScreen
+      pageShow:false
+    }
+  }
+};
+
+export default conf[process.env.ENV]
+```
+
+- 在`main.js`中引入：
+```js
+import './utils/sensorsdata.min.js'
+import {sa} from './utils/index'
+
+Vue.prototype.$sa = sa
+```
+
+- `sa`定义：
+```js
+export const sa = (key, payload) => {
+  return getApp().sensors.track(key, payload)
+}
+```
+
+- `sa`使用方式
+```js
+this.$sa('whichEvent', {eventName: 'event description'})
+```
+
 ### 使用process.env区分不同环境
 - 首先安装`cross-env`: `cnpm i cross-env -D`
 - 修改`config/dev.env.js`为：
