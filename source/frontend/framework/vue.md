@@ -1,6 +1,6 @@
 ---
 title: vue
-type: vue
+type: framework
 order: 1
 ---
 

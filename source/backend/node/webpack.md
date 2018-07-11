@@ -15,8 +15,8 @@ order: 3
 
 ## issues
 
-### Unknown custom element: `<search-form>` - did you register the component correctly? For recursive components, make sure to provide the "name" option
+### 描述
+
+Unknown custom element: `<search-form>` - did you register the component correctly? For recursive components, make sure to provide the "name" option
 
 `import xx from 'xx'` 而不是 `import {xx} from 'xx'`
-
-### render函数中修改一个对象之后，视图需要重新调整渲染一下，通常是控制样式隐藏再显示一次。不太确定，data中已定义的值或对象健值对就可以，有可能是因为绑定了监听器。直接在this对象上新建的健值对不可以。

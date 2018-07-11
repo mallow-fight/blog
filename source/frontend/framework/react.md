@@ -1,7 +1,7 @@
 ---
 title: react
-type: react
-order: 1
+type: framework
+order: 3
 ---
 
 ## react的坑

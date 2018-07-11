@@ -6,7 +6,8 @@ type: questions
 
 ## css
 ### 垂直水平居中
-[参考资料](https://github.com/hawx1993/tech-blog/issues/12)
+
+> [参考资料](https://github.com/hawx1993/tech-blog/issues/12)
 
 **flex:**
 ```html
@@ -122,8 +123,10 @@ type: questions
 ```
 
 ### 外边距塌陷
-[参考资料](https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_Box_Model/Mastering_margin_collapsing)
-[参考资料 - 解决方式](https://segmentfault.com/a/1190000011075163)
+
+> [MDN](https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_Box_Model/Mastering_margin_collapsing)
+> [解决方式](https://segmentfault.com/a/1190000011075163)
+
 **块的顶部外边距和底部外边距有时被组合（折叠）为单个边框，其大小是组合到其中的最大外边距，这种行为称为外边距塌陷（合并）**
 
 **发生外边距塌陷的三种情况：**

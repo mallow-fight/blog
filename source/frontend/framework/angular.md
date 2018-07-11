@@ -1,7 +1,8 @@
 ---
 title: angular
-type: angular
-order: 1
+type: framework
+order: 2
 ---
 
 # angular
+todo

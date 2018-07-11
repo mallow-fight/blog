@@ -1,7 +1,7 @@
 ---
 title: 微信相关
-type: wechat
-order: 1
+type: framework
+order: 5
 ---
 ## 小程序webview
 **每个`pages`都可以有一个`webview`组件，所以一些静态化和用户无关的界面可以使用`html`链接代替。**

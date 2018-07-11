@@ -1,7 +1,7 @@
 ---
-title: 状态管理
-order: 1
-type: state
+title: state
+type: framework
+order: 4
 ---
 
 当一个项目变得很大、很复杂的时候，就会想用到状态管理工具了。
