@@ -3,9 +3,8 @@ title: 文字样式
 order: 5
 type: css
 ---
-## 文字样式
 
-### 字体
+## 字体
 
 - color
 - font-family 字体种类
@@ -20,7 +19,7 @@ Times New Roman | serif
 Trebuchet MS | sans-serif
 Verdana | sans-serif
 
-### 默认字体
+## 默认字体
 
 **css定义了5个常用的字体名称：**
 
@@ -30,7 +29,7 @@ Verdana | sans-serif
 1. cursive
 1. fantasy
 
-### 字体栈
+## 字体栈
 
 **使浏览器有多种字体选择**
 
@@ -40,12 +39,12 @@ p {
 }
 ```
 
-### 字体大小
+## 字体大小
 
 - 单位：px、em、rem
 - 浏览器的`font-size`标准设置的值为`16px`
 
-### 其它字体属性
+## 其它字体属性
 
 - font-style：用来打开和关闭文本斜体
 - font-weight：设置文字的粗体大小
@@ -53,7 +52,7 @@ p {
 - text-decoration：设置/取消字体上的文本装饰
 - text-shadow：对文本应用阴影：可以用逗号分隔开阴影值，将多个阴影应用于同一文本
 
-### 文本布局
+## 文本布局
 
 - 文本对齐：text-align
 - 行高：line-height

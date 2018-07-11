@@ -4,9 +4,7 @@ order: 6
 type: css
 ---
 
-## 列表
-
-### 列表样式
+## 列表样式
 
 1. `list-style-type`: 设置用于列表项目符号的类型
 1. `list-style-position`: 项目符号出现在列表项内，还是出现在其外

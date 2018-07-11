@@ -4,16 +4,14 @@ order: 9
 type: css
 ---
 
-## 布局
-
-### `inline-block`元素的对齐
+## `inline-block`元素的对齐
 ```css
 .align{
     vertical-align: middle;
 }
 ```
 
-### 超出部分字体省略号
+## 超出部分字体省略号
 ```css
 .ignore{
     white-space: nowrap;
@@ -22,7 +20,7 @@ type: css
 }
 ```
 
-### ios下流畅的滑动
+## ios下流畅的滑动
 ```css
 .scroll{
     overflow: scroll;
@@ -32,9 +30,7 @@ type: css
 }
 ```
 
-### 学习css布局
-
-#### display属性
+## display属性
 
 - block: 块级元素
 
@@ -64,7 +60,7 @@ type: css
 
 - none: 用于隐藏元素，不占据空间
 
-#### 盒模型
+## 盒模型
 
 - 传统的盒模型
 
@@ -82,7 +78,7 @@ type: css
 }
 ```
 
-#### position
+## position
 
 - static
 `static`是默认值，表示不会被`positioned`
@@ -132,19 +128,19 @@ type: css
 }
 ```
 
-### 百分比宽度
+## 百分比宽度
 限制图片宽度，可以使用`min-width`和`max-width`
 
-### 媒体查询
+## 媒体查询
 ‘响应式设计’是一种让网站针对不同的浏览器和设备呈现不同显示效果的策略。
 
-### inline-block
+## inline-block
 需要注意的事：
 - `vertical-align`属性会影响到`inline-block`属性
 - 需要设置每一列的宽度
 - 如果`html`源码中元素之间有空格，那么列与列之间会产生空隙
 
-### column
+## column
 ```css
 /* 三列文章，文章间隙1em */
 .three-column{
@@ -158,9 +154,11 @@ type: css
 }
 ```
 
-### 学习flex布局
-- [参考资料](https://zhuanlan.zhihu.com/p/25303493)
-- ![flex布局示意图](/images/flex.jpg)
+## 学习flex布局
+> [知乎专栏](https://zhuanlan.zhihu.com/p/25303493)
+
+![flex布局示意图](/images/flex.jpg)
+
 - 示意图解读
 在 `flex` 容器中默认存在两条轴，水平主轴(`main axis`) 和垂直的交叉轴(`cross axis`)，这是默认的设置，当然你可以通过修改使垂直方向变为主轴，水平方向变为交叉轴
 在容器中的每个单元块被称之为 `flex item`，每个项目占据的主轴空间为 (`main size`), 占据的交叉轴的空间为 (`cross size`)。
@@ -216,7 +214,7 @@ type: css
     space-between：轴线两端对齐，之间的间隔相等，即剩余空间等分成间隙。
     space-around：每个轴线两侧的间隔相等，所以轴线之间的间隔比轴线与边缘的间隔大一倍。
 
-#### 有六种属性可运用在 item 项目上
+## 有六种属性可运用在 item 项目上
 
 - order: 定义项目在容器中的排列顺序，数值越小，排列越靠前，默认值为 0
 - flex-basis: 定义了在分配多余空间之前，项目占据的主轴空间，浏览器根据这个属性，计算主轴是否有多余空间

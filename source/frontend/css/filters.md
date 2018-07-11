@@ -3,7 +3,6 @@ title: 过滤器
 order: 3
 type: css
 ---
-## Filters（过滤器）
 
 `CSS`过滤器提供了一种过滤元素的方法，就好比你在诸如`Photoshop`这样的平面设计程序中过滤元素一样。
 

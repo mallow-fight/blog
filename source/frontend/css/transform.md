@@ -3,9 +3,7 @@ title: 渐变
 order: 14
 type: css
 ---
-## 线性渐变
-
-### 线性渐变 - 从上到下
+## 线性渐变 - 从上到下
 **可使用postcss修补样式**
 ```css
 #grad {
@@ -16,7 +14,7 @@ type: css
 }
 ```
 
-### 线性渐变 - 从左到右
+## 线性渐变 - 从左到右
 ```css
 #grad {
   background: -webkit-linear-gradient(left, red , blue); /* Safari 5.1 - 6.0 */
@@ -26,7 +24,7 @@ type: css
 }
 ```
 
-### 线性渐变 - 从左上角到右下角的线性渐变
+## 线性渐变 - 从左上角到右下角的线性渐变
 ```css
 #grad {
   background: -webkit-linear-gradient(left top, red , blue); /* Safari 5.1 - 6.0 */
@@ -36,7 +34,7 @@ type: css
 }
 ```
 
-### 使用角度
+## 使用角度
 **如果你想要在渐变的方向上做更多的控制，你可以定义一个角度，而不用预定义方向（`to bottom`、`to top`、`to right`、`to left`、`to bottom right`，等等）。**
 - 语法
 `background: linear-gradient(angle, color-stop1, color-stop2);`
@@ -54,7 +52,7 @@ type: css
 }
 ```
 
-### 使用多个颜色结点
+## 使用多个颜色结点
 下面的实例演示了如何设置多个颜色结点：
 实例
 带有多个颜色结点的从上到下的线性渐变：
@@ -81,7 +79,7 @@ type: css
   background: linear-gradient(to right, red,orange,yellow,green,blue,indigo,violet); 
 }
 ```
-### 使用透明度（transparent）
+## 使用透明度（transparent）
 `CSS3` 渐变也支持透明度（`transparent`），可用于创建减弱变淡的效果。
 为了添加透明度，我们使用 `rgba()` 函数来定义颜色结点。`rgba()` 函数中的最后一个参数可以是从 0 到 1 的值，它定义了颜色的透明度：0 表示完全透明，1 表示完全不透明。
 下面的实例演示了从左边开始的线性渐变。起点是完全透明，慢慢过渡到完全不透明的红色：
@@ -96,7 +94,7 @@ type: css
 }
 ```
 
-### 重复的线性渐变
+## 重复的线性渐变
 `repeating-linear-gradient()` 函数用于重复线性渐变：
 实例
 一个重复的线性渐变：
@@ -113,7 +111,7 @@ type: css
 }
 ```
 
-### CSS3 径向渐变
+## CSS3 径向渐变
 径向渐变由它的中心定义。
 为了创建一个径向渐变，你也必须至少定义两种颜色结点。颜色结点即你想要呈现平稳过渡的颜色。同时，你也可以指定渐变的中心、形状（圆形或椭圆形）、大小。默认情况下，渐变的中心是 `center`（表示在中心点），渐变的形状是 `ellipse`（表示椭圆形），渐变的大小是 `farthest-corner`（表示到最远的角落）。
 径向渐变的实例：
@@ -144,7 +142,7 @@ background: radial-gradient(center, shape size, start-color, ..., last-color);
   background: radial-gradient(red 5%, green 15%, blue 60%); /* 标准的语法 */
 }
 ```
-### 设置形状
+## 设置形状
 shape 参数定义了形状。它可以是值 circle 或 ellipse。其中，circle 表示圆形，ellipse 表示椭圆形。默认值是 ellipse。
 实例
 形状为圆形的径向渐变：
@@ -156,7 +154,7 @@ shape 参数定义了形状。它可以是值 circle 或 ellipse。其中，circ
   background: radial-gradient(circle, red, yellow, green); /* 标准的语法 */
 }
 ```
-### 不同尺寸大小关键字的使用
+## 不同尺寸大小关键字的使用
 size 参数定义了渐变的大小。它可以是以下四个值：
   1. closest-side
   1. farthest-side
@@ -186,7 +184,7 @@ size 参数定义了渐变的大小。它可以是以下四个值：
   background: radial-gradient(60% 55%, farthest-side,blue,green,yellow,black);
 }
 ```
-### 重复的径向渐变
+## 重复的径向渐变
 __repeating-radial-gradient()__ 函数用于重复径向渐变：
 - 实例 - 一个重复的径向渐变：
 ```css
