@@ -4,6 +4,33 @@ type: software
 order: 4
 ---
 
+## 配置oh-my-zsh
+- 使用iterm打开：
+```bash
+vim ~/.zshrc
+```
+- 修改主题变量
+```bash
+ZSH_THEME="robbyrussell"
+```
+- 保存，然后执行
+```bash
+source ~/.zshrc
+```
+
+- 设置随机主题
+设置了下面一行之后，每次启动终端会随机选择主题，可以设置一个随机范围通过随机范围变量
+```bash
+ZSH_THEME="random"
+```
+
+- 所有主题变量
+```bash
+( "3den" "Soliah" "adben" "af-magic" "afowler" "agnoster" "alanpeabody" "amuse" "apple" "arrow" "aussiegeek" "avit" "awesomepanda" "bira" "blinks" "bureau" "candy-kingdom" "candy" "clean" "cloud" "crcandy" "crunch" "cypher" "dallas" "darkblood" "daveverwer" "dieter" "dogenpunk" "dpoggi" "dst" "dstufft" "duellj" "eastwood" "edvardm" "emotty" "essembeh" "evan" "example" "fino-time" "fino" "fishy" "flazz" "fletcherm" "fox" "frisk" "frontcube" "funky" "fwalch" "gallifrey" "gallois" "garyblessington" "gentoo" "geoffgarside" "gianu" "gnzh" "gozilla" "half-life" "humza" "imajes" "intheloop" "itchy" "jaischeema" "jbergantine" "jispwoso" "jnrowe" "jonathan" "joshe" "jreeseroot" "jtriley" "juanghurtado" "junkfood" "kafeitu" "kardan" "kennethreitz" "kiwi" "kolo" "kphoen" "lambda" "linuxonly" "lukerandall" "macovsky-ruby" "macovsky" "maran" "mgutz" "mh" "michelebologna" "mikeh" "miloshadzic" "minimal" "mira" "mortalscumbag" "mrtazz" "murilasso" "muse" "nanotech" "nebirhos" "nicoulaj" "norm" "obraun." "peepcode" "philips" "pmcgee" "pure" "pygmalion" "re5et" "refined" "rgm" "risto" "rixius" "rkj-repos" "rkj" "robbyrussell" "sammy" "simonoff" "simple" "skaro" "smt" "sonicradish" "sorin" "sporty_256" "steeef" "strug" "sunaku" "sunrise" "superjarin" "suvash" "takashiyoshida" "terminalparty" "theunraveler" "tjkirch" "tjkirch_mod" "tonotdo" "trapd00r" "wedisagree" "wezm+" "wezm" "wuffers" "xiong-chiamiov-plus" "xiong-chiamiov" "ys" "zhann" )
+```
+> [参考资料-theme](https://www.jianshu.com/p/60a11f762f62)
+> [参考资料-plugin](https://hufangyun.com/2017/zsh-plugin/)
+
 ## 搜狗输入法问题
 
 1. pkill -f SCIM.app
