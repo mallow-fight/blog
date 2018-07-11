@@ -1,9 +1,13 @@
+# system files
 .DS_Store
+.deploy*/
+node_modules/
 Thumbs.db
 db.json
 *.log
-node_modules/
+
+# person files
 public/
-.deploy*/
 practice/
-vue.js
+books
+works
