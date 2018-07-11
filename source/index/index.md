@@ -36,6 +36,6 @@ type: index
 
 ## 请作者喝杯咖啡
 
-### 微信支付
+### 微信
 
 ![wechatPay](../images/wechatPay.png)
