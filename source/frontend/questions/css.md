@@ -3,145 +3,247 @@ title: css
 order: 3
 type: questions
 ---
+## inline-block元素对齐
+- 使用`<!-- -->`来消除元素之间的空隙
+- 使用`vertical-align: middle;`来对齐各元素
 
-## css
-### 垂直水平居中
+```html
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    html, body {
+      padding: 0;
+      margin: 0;
+      height: 100%;
+      width: 100%;
+    }
+    #parent {
+      height: 100%;
+      width: 100%;
+    }
+    #div {
+      display: inline-block;
+      vertical-align: middle;
+      height: 100px;
+      width: 100px;
+      background: red;
+    }
+    #input, #button {
+      vertical-align: middle;
+      height: 100px;
+      width: 100px;
+    }
+  </style>
+</head>
+<body>
+  <div id="parent">
+    test<!-- 插入的文字会在 -->
+    <div id="div"></div><!--  
+  --><input id="input" type="text"><!-- 
+  --><button id="button"></button>
+  </div>
+</body>
+</html>
+```
+
+## 垂直水平居中
 
 > [参考资料](https://github.com/hawx1993/tech-blog/issues/12)
 
-**flex:**
+<p class="tip">注意`html`和`body`的初始化以及父元素的高度需要设置为`100%`<p>
+
+### flex
 ```html
 <!-- 有兼容性问题 -->
-<div class="parent">
-  <div class="child">Demo</div>
-</div>
-
-<style>
-  .parent {
-    display: flex;
-    justify-content: center; /* 水平居中 */
-    align-items: center; /*垂直居中*/
-  }
-</style>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    html, body {
+      padding: 0;
+      margin: 0;
+      height: 100%;
+      width: 100%;
+    }
+    #parent {
+      height: 100%;
+      display: flex;
+      justify-content: center; /* 水平居中 */
+      align-items: center; /* 垂直居中 */
+    }
+    #child {
+      width: 100px;
+      height: 100px;
+      background: red;
+    }
+  </style>
+</head>
+<body>
+  <div id="parent">
+    <div id="child"></div>
+  </div>
+</body>
+</html>
 ```
 
-**table水平垂直居中：**
+### transform
 ```html
-<div class="parent">
-  <div class="child">Demo</div>
-</div>
-
-<style>
-  .parent {
-    text-align: center;//水平居中
-    display: table-cell;
-    vertical-align: middle;//垂直居中
-  }
-  .child {
-    display: inline-block;//防止块级元素宽度独占一行，内联元素可不设置
-  }
-</style>
-<!-- vertical-align的百分比值不是相对于字体大小或者其他什么属性计算的，而是相对于line-height计算的。 -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    html, body {
+      padding: 0;
+      margin: 0;
+      height: 100%;
+      width: 100%;
+    }
+    #parent {
+      position: relative;
+      height: 100%;
+    }
+    #child {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      height: 100px;
+      width: 100px;
+      background: red;
+    }
+  </style>
+</head>
+<body>
+  <div id="parent">
+    <div id="child"></div>
+  </div>
+</body>
+</html>
 ```
 
-**absolute+transform 水平垂直居中：**
+### margin
+> 需要知道子元素的具体宽高
+
 ```html
-<div class="parent">
-  <div class="child">Demo</div>
-</div>
-
-<style>
-  .parent {
-    position: relative;
-  }
-  .child {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-  }
-</style>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    html, body {
+      padding: 0;
+      margin: 0;
+      height: 100%;
+      width: 100%;
+    }
+    #parent {
+      position: relative;
+      height: 100%;
+    }
+    #child {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      height: 100px;
+      width: 100px;
+      margin-left: -50px;
+      margin-top: -50px;
+      background: red;
+    }
+  </style>
+</head>
+<body>
+  <div id="parent">
+    <div id="child"></div>
+  </div>
+</body>
+</html>
 ```
 
-**relative+absolute + negative margin:（需设置子元素宽高）**
-```css
-.parent{
-    position:relative;
-}
-.child{
-     width: 100px;
-     height: 100px;
-     position: absolute;
-     top: 50%;
-     left: 50%;
-     margin: -50px 0 0 -50px;
-}
-```
-
-**绝对定位方式+四个方向置0：**
-```css
-.parent{
-    position:relative
-}
-.child{
-    margin:auto;
-    height: 100px;
-    width: 100px;
-    position: absolute;
-    top: 0; left: 0; bottom: 0; right: 0;
-}
-```
-
-**line-height+text-align文本水平垂直居中:**
+### absolute
 ```html
-<div class="parent">
-    <div class="child">Demo</div>
-</div>
-<style>
-.child{
-    text-align: center;
-    width: 100px;
-    height: 100px;
-    line-height: 100px;
-    /*display: inline-block;*/内联元素设置
-}
-</style>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    html, body {
+      padding: 0;
+      margin: 0;
+      height: 100%;
+      width: 100%;
+    }
+    #parent {
+      position: relative;
+      height: 100%;
+    }
+    #child {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      margin: auto;
+      height: 100px;
+      width: 100px;
+      background: red;
+    }
+  </style>
+</head>
+<body>
+  <div id="parent">
+    <div id="child"></div>
+  </div>
+</body>
+</html>
 ```
 
-**子元素未知宽高的水平垂直居中(IE 不支持 box-pack 和 box-align 属性):**
-```css
-.parent{
-    position: relative;
-    top: 0; left: 0; right: 0; bottom: 0;
-    display: -webkit-box;
-    -webkit-box-align: center;
-    -webkit-box-pack: center;
-}
-.child{
-    -webkit-box-flex: 0;
-}
-```
-
-### 外边距塌陷
+## 外边距塌陷
 
 > [MDN](https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_Box_Model/Mastering_margin_collapsing)
 > [解决方式](https://segmentfault.com/a/1190000011075163)
 
+### 定义
+
 **块的顶部外边距和底部外边距有时被组合（折叠）为单个边框，其大小是组合到其中的最大外边距，这种行为称为外边距塌陷（合并）**
 
-**发生外边距塌陷的三种情况：**
-1. 相邻的兄弟姐妹元素
-1. 块级父元素与其第一个/最后一个子元素
-1. 空块元素
+### 发生条件
+1. 相邻元素之间：毗邻的两个元素之间的外边距会折叠
+1. 父元素与其第一个/最后一个子元素：如果没有触发BFC，那么子元素的外边距会溢出到父元素的外面
+1. 空的块级元素：不包含任何内容，该元素的上下外边距会折叠
 
-**解决方案：**
-1. 设置padding或者border
-1. 触发BFC
-    - 根元素
-    - float属性不为none
-    - position为absolute或fixed
-    - display为inline-block、table-cell、table-caption、flex、inline-flex
-    - overflow不为vidible
+### 解决方案
+1. 设置padding或者border，这个针对第二种情况
+1. 设置同一个方向的margin，这个针对所有情况
+1. 创建BFC(块格式化上下文)，这个针对第二种情况
+    - 根元素或包含根元素的元素
+    - 浮动元素: float != none
+    - 绝对定位元素: position = absolute | fixed
+    - 行内块元素: display = inline-block
+    - 弹性元素: display = flex | inline-flex
+    - overflow != visible
+    - 网格元素: display = grid | inline-grid 元素的直接子元素
+    - 多列容器: conlumn-count | column-width != auto | column-count = 1
+    - column-span = all
+    - display = flow-root
+    - contain = layout | content | strict
+    - 表格单元格: display = table-cell
+    - 表格标题: display = table-caption
+    - 匿名表格单元格元素: display = table | table-row | table-row-group | table-header-group | table-footer-group | inline-table
 
 ### 移动端1px像素显示模糊
 [参考资料](https://segmentfault.com/a/1190000007604842)
