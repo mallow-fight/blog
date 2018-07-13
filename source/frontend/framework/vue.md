@@ -7,6 +7,7 @@ order: 1
 ## [官网](https://cn.vuejs.org/v2/guide/installation.html)
 
 >通过阅读官网来了解一些基础知识，为以后深入了解做铺垫。
+> [主流框架原理](../questions/framework.html#vue)
 
 ## 笔记
 
