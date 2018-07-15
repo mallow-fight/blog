@@ -5,7 +5,8 @@
 # 贡献指南
 
 - [- 提交信息遵循 -](https://mallow-fight.github.io/others/git.html)
-- 欢迎`fork` & 提`issue`
+- [- 如何推送到本项目 -](https://gist.github.com/zxhfighter/62847a087a2a8031fbdf)
+- 欢迎 `fork` & `提issue`
 
 # 内容简介
 
