@@ -17,14 +17,15 @@ order: 1
 ## 第二象限(优先级按顺序)
 
 - [ ] 优化博客结构、内容以及排版
-  - [ ] webpack原理:today
-  - [ ] fastclick原理:today
   - [ ] 完成算法 - 排序
-  - [ ] JS设计模式
-  - [ ] vue、react、angular差异性调研记录:today
   - [ ] 将未掌握的重点放在questions重点栏目中
+  - [ ] 整理questions，将第三方链接内容提炼出来
+  - [ ] JS设计模式
+  - [ ] vue、react、angular差异性调研记录
   - [ ] 后端语言深入了解
   - [ ] [整理提升EQ以及心理素质书籍 + 必看书籍](https://www.zhihu.com/question/22794831)
+  - [x] webpack原理
+  - [x] fastclick原理
   - [x] 修改自我介绍
   - [x] 工作中遇到的问题，分不同客户端以及前后端
   - [x] 为何引入vuex

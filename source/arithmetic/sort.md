@@ -287,3 +287,119 @@ console.log(mergeSort(nums)) // [ 1, 1, 2, 3, 4, 5, 5, 5, 6, 8, 9, 10, 15, 54, 9
 
 #### 示意图
 ![mergeSort](../images/mergeSort.gif)
+
+### 快速排序
+
+> [wiki](https://zh.wikipedia.org/wiki/%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F#JavaScript)
+
+#### 描述
+它是处理大数据排序最快的算法之一，基本思想：
+- 首先找一个基准点，一般是数组的第一项
+- 然后将除了基准点的其它项分成两组，分别是小于等于这个基准点，还有大于这个基准点
+- 继续对这两个数组进行第一步操作
+- 体现了`递归分治`的思想
+
+#### 实现
+```js
+function swap(nums, i, j) {
+  const iv = nums[i]
+  nums[i] = nums[j]
+  nums[j] = iv
+}
+function equal(i, j) {
+  return i === j
+}
+function quickSort(nums) {
+  if(nums.length <= 1) {
+    return nums
+  }
+  const basic = nums[0]
+  const l = nums.length - 1
+  let i = 1, j = l
+  while(!equal(i, j)) {
+    while(nums[i] <= basic && !equal(i, j)) {
+      i++
+    }
+    while(nums[j] > basic && !equal(i, j)) {
+      j--
+    }
+    !equal(i, j) && swap(nums, i, j) // 如果相同就没必要置换了
+  }
+  nums[i] < basic && i++ // 边界情况，如果最后一项还是比基准点小，则i++，将较小的树全部分到左边
+  const left = quickSort(nums.slice(1, i))
+  const right = quickSort(nums.slice(i, l + 1))
+  return left.concat(basic, right)
+}
+const nums = [4, 2, 7, 9, 1, 0, 11, 8, -3, 100]
+const sortNums = quickSort(nums)
+console.log(sortNums) // [ -3, 0, 1, 2, 4, 7, 8, 9, 11, 100 ]
+```
+或者
+```js
+Array.prototype.quickSort = function () {
+const l = this.length
+  if (l < 2) return this // 递归到数组长度为0或者1
+  const basic = this[0],
+    left = [],
+    right = []
+  for (let i = 1; i < l; i++) {
+    const iv = this[i]
+    iv >= basic && right.push(iv) // 算进重复元素
+    iv < basic && left.push(iv)
+  }
+  return left.quickSort().concat(basic, right.quickSort())
+}
+const arr = [5, 3, 7, 4, 1, 9, 8, 6, 2];
+const ascendArr = arr.quickSort()
+console.log(ascendArr) // [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
+```
+
+#### 示意图
+![quickSort](../images/quickSort.gif)
+
+### 堆排序
+
+> [wiki-堆](https://zh.wikipedia.org/wiki/%E5%A0%86_(%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84))
+> [wiki-堆排序](https://zh.wikipedia.org/wiki/%E5%A0%86%E6%8E%92%E5%BA%8F)
+
+#### 描述
+
+#### 实现
+```js
+Array.prototype.heap_sort = function () {
+  function swap(i, j) {
+    const tmp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = tmp;
+  }
+  function max_heapify(dad, end) {
+    let son = dad * 2 + 1;
+    //若子節點指標超過範圍直接跳出函數
+    if (son >= end) return;
+    //先比較兩個子節點大小，選擇最大的
+    son + 1 < end && arr[son] < arr[son + 1] && son++; 
+    //如果父節點小於子節點時，交換父子內容再繼續子節點和孫節點比較
+    if (arr[dad] <= arr[son]) { 
+      swap(dad, son);
+      max_heapify(son, end);
+    }
+  }
+  const arr = this.slice(0); // copy this
+  const len = arr.length;
+  //初始化，i從最後一個父節點開始調整
+  for (let i = Math.floor(len / 2) - 1; i >= 0; i--) {
+    max_heapify(i, len);
+  }
+  //先將第一個元素和已排好元素前一位做交換，再從新調整，直到排序完畢
+  for (let i = len - 1; i > 0; i--) {
+    swap(0, i);
+    max_heapify(0, i);
+  }
+  return arr;
+};
+const a = [3, 5, 3, 0, 8, 6, 1, 5, 8, 6, 2, 4, 9, 4, 7, 0, 1, 8, 9, 7, 3, 1, 2, 5, 9, 7, 4, 0, 2, 6];
+console.log(a.heap_sort());
+```
+
+#### 示意图
+![heapSort](../images/heapSort.gif)
