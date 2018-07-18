@@ -63,3 +63,44 @@ select count(distinct CustomerName) from Customers;
 ```sql
 select Count(*) as DistinctCountries from (select distinct Country from Customers);
 ```
+
+### 条件查询
+- 查询条件是字符串
+```sql
+select * from Customers where Country='Mexico';
+```
+- 查询条件是数字
+```sql
+select * from Customers where CustomerID=1;
+```
+- 查询操作符
+操作符 | 描述
+--- | ---
+`=` | 相等
+`<>` | 不相等，某些版本的SQL可能写作`!=`
+`>` | 大于
+`<` | 小于
+`>=` | 大于等于
+`<=` | 小于等于
+`between and` | 再某个范围内，闭区间
+`like` | 模糊查询
+`in` | 指定某些可能的列集合
+`and` | 同时满足几个条件，可使用多个`and`联合查询
+`or` | 满足某个条件，可使用多个`or`联合查询
+`not` | 筛选出不满足某些条件的集合
+- 例子
+```sql
+select * from Customers where CustomerID=2;
+select * from Customers where CustomerID<>1;
+select * from Customers where CustomerID>1;
+select * from Customers where CustomerID<2;
+select * from Customers where CustomerID>=3;
+select * from Customers where CustomerID<=3;
+select * from Customers where CustomerID between 1 and 3;
+select * from Customers where CustomerName like 'An%'; -- %代表任意值
+select * from Customers where CustomerID in (1, 2, 3);
+select * from Customers where CustomerID=1 and ContactName='Maria Anders' and City='Berlin';
+select * from Customers where CustomerID=1 or CustomerID=2 or CustomerID=3;
+select * from Customers where not CustomerID=1 and not CustomerID=2; -- 筛选出不包含id为1和2的数据
+select * from Customers where not CustomerID=1 and not ContactName='Maria Anders'; -- 筛选出不同时满足条件的记录
+```

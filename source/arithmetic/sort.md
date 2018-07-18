@@ -384,43 +384,179 @@ console.log(ascendArr) // [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
 
 - 技巧
 1. `[0, Math.floor(arr.length / 2) - 1]`：这个集合包含了所有的根节点
+1. 比较根节点和左右子节点的大小，满足条件交换后，将交换后的子节点当作根节点，继续对比，直到无子节点为止
+1. 出堆时首先保存数组第一项，即最大的一项，然后交换第一个和最后一个数组元素，pop掉最后最后一项，直到数组长度为1，完成所有堆的出堆
 
 #### 实现
 ```js
 Array.prototype.heap_sort = function () {
-  function swap(i, j) {
+  function swap(arr, i, j) {
     const tmp = arr[i];
     arr[i] = arr[j];
     arr[j] = tmp;
   }
-  function max_heapify(dad, end) {
-    let son = dad * 2 + 1;
-    //若子節點指標超過範圍直接跳出函數
-    if (son >= end) return;
-    //先比較兩個子節點大小，選擇最大的
-    son + 1 < end && arr[son] < arr[son + 1] && son++; 
-    //如果父節點小於子節點時，交換父子內容再繼續子節點和孫節點比較
-    if (arr[dad] <= arr[son]) { 
-      swap(dad, son);
-      max_heapify(son, end);
+  function maxHeap(arr, father, left, right) {
+    const largeChild = (right < arr.length && arr[right] > arr[left] ? right : left) || left
+    if(arr[father] < arr[largeChild]) { // 如果父节点小于最大子节点，交换它们，把子节点当作父节点，继续对比，直到条件不满足
+      swap(arr, father, largeChild)
+      const left = 2 * largeChild + 1, right = left + 1
+      arr[left] && maxHeap(arr, largeChild, left, right) // 如果不存在子节点，不用比较了
     }
   }
-  const arr = this.slice(0); // copy this
-  const len = arr.length;
-  //初始化，i從最後一個父節點開始調整
-  for (let i = Math.floor(len / 2) - 1; i >= 0; i--) {
-    max_heapify(i, len);
+  const arr = this.slice(0) // 复制原数组
+  const len = arr.length
+  // 从最底下的根节点生成生成最大二叉堆
+  for(let i = ~~(len / 2) - 1; i >= 0; i--) {
+    maxHeap(arr, i, 2 * i + 1, 2 * i + 2)
   }
-  //先將第一個元素和已排好元素前一位做交換，再從新調整，直到排序完畢
-  for (let i = len - 1; i > 0; i--) {
-    swap(0, i);
-    max_heapify(0, i);
+  const riseArr = []
+  for(let i = 0; i < len; i++) {
+    riseArr.push(arr[0])
+    const l = arr.length
+    if(l > 1) {
+      arr[0] = arr[l - 1]
+      arr.pop()
+      maxHeap(arr, 0, 1, 2)
+    }
   }
-  return arr;
+  return riseArr
 };
-const a = [3, 5, 3, 0, 8, 6, 1, 5, 8, 6, 2, 4, 9, 4, 7, 0, 1, 8, 9, 7, 3, 1, 2, 5, 9, 7, 4, 0, 2, 6];
+const a = [3, 5, 1, 0, 8, 6, 11, 2, 99, -5, 1, 3, 5];
 console.log(a.heap_sort());
 ```
 
 #### 示意图
 ![heapSort](../images/heapSort.gif)
+
+### 计数排序
+
+> [wiki](https://zh.wikipedia.org/wiki/%E8%AE%A1%E6%95%B0%E6%8E%92%E5%BA%8F)
+
+#### 描述
+计数排序是一种稳定的线性时间排序算法，使用一个额外的数组C，其中第i个元素是待排序数组A中值等于i的元素的个数。然后根据数组C来将A中的元素排到正确的位置。
+
+1. 找出待排序的数组中最大和最小的元素
+1. 统计数组中每个值为 i 的元素出现的次数，存入数组 C 的第 i 项
+1. 对所有的计数累加从 C 中的第一个元素开始，每一项和前一项相加
+1. 反向填充目标数组：将每个元素 i放在新数组的第 C[i] 项，每放一个元素就将 C[i] 减去1
+
+- 最适合小范围整数排序
+- 不是比较排序，排序速度快于任何比较算法
+
+#### 实现
+```js
+Array.prototype.countSort = function() {
+  const C = []
+  for(let i = 0; i < this.length; i++) {
+    const j = this[i]
+    C[j] >= 1 ? C[j] ++ : (C[j] = 1)
+  }
+  const D = []
+  for(let j = 0; j < C.length; j++) {
+    if(C[j]) {
+      while(C[j] > 0) {
+        D.push(j)
+        C[j]--
+      }
+    }
+  }
+  return D
+}
+const arr = [11, 9, 6, 8, 1, 3, 5, 1, 1, 0, 100]
+console.log(arr.countSort())
+```
+
+#### 示意图
+![countSort](../images/countSort.gif)
+
+### 桶排序
+
+> [wiki](https://zh.wikipedia.org/wiki/%E6%A1%B6%E6%8E%92%E5%BA%8F)
+
+#### 描述
+桶排序（Bucket sort）或所谓的箱排序，是一个排序算法，工作的原理是将数组分到有限数量的桶里。每个桶再个别排序（有可能再使用别的排序算法或是以递归方式继续使用桶排序进行排序）。桶排序是鸽巢排序的一种归纳结果。当要被排序的数组内的数值是均匀分配的时候，桶排序使用线性时间。但桶排序并不是比较排序，他不受到 O(nlogn) 下限的影响。
+
+桶排序以下列程序进行：
+- 设置一个定量的数组当作空桶子。
+- 寻访序列，并且把项目一个一个放到对应的桶子去。
+- 对每个不是空的桶子进行排序。
+- 从不是空的桶子里把项目再放回原来的序列中。
+
+思路：
+- 创建N个桶，将数组的每一项插入对应的桶中
+- 插入的时候进行某种策略的排序
+- 最后将所有桶拿出来结合成一个数组
+
+#### 实现
+```js
+Array.prototype.bucketSort = function(num) {
+  function swap(arr, i, j) {
+    const temp = arr[i]
+    arr[i] = arr[j]
+    arr[j] = temp
+  }
+  const max = Math.max(...this)
+  const min = Math.min(...this)
+  const buckets = []
+  const bucketsSize = Math.floor((max - min) / num) + 1
+  for(let i = 0; i < this.length; i++) {
+    const index = ~~(this[i] / bucketsSize)
+    !buckets[index] && (buckets[index] = [])
+    buckets[index].push(this[i])
+    let l = buckets[index].length
+    while(l > 0) {
+      buckets[index][l] < buckets[index][l - 1] && swap(buckets[index], l, l - 1)
+      l--
+    }
+  }
+  let wrapBuckets = []
+  for(let i = 0; i < buckets.length; i++) {
+    buckets[i] && (wrapBuckets = wrapBuckets.concat(buckets[i]))
+  }
+  return wrapBuckets
+}
+const arr = [11, 9, 6, 8, 1, 3, 5, 1, 1, 0, 100]
+console.log(arr.bucketSort(10))
+```
+
+#### 示意图
+![bucketSort](../images/bucketSort.png)
+
+### 基数排序
+
+#### 描述
+是一种非比较型整数排序算法，其原理是将整数按位数切割成不同的数字，然后按每个位数分别比较。由于整数也可以表达字符串（比如名字或日期）和特定格式的浮点数，所以基数排序也不是只能使用于整数。
+
+#### 思路
+将所有待比较数值（正整数）统一为同样的数位长度，数位较短的数前面补零。然后，从最低位开始，依次进行一次排序。这样从最低位排序一直到最高位排序完成以后，数列就变成一个有序序列。
+
+#### 实现
+```js
+Array.prototype.radixSort = function() {
+  let arr = this.slice(0)
+  const max = Math.max(...arr)
+  let digit = `${max}`.length
+  let start = 1
+  let buckets = []
+  while(digit > 0) {
+    start *= 10
+    for(let i = 0; i < arr.length; i++) {
+      const index = arr[i] % start
+      !buckets[index] && (buckets[index] = [])
+      buckets[index].push(arr[i])
+    }
+    arr = []
+    for(let i = 0; i < buckets.length; i++) {
+      buckets[i] && (arr = arr.concat(buckets[i]))
+    }
+    buckets = []
+    digit --
+  }
+  return arr
+}
+const arr = [1, 10, 100, 1000, 98, 67, 3, 28, 67, 888, 777]
+console.log(arr.radixSort())
+```
+
+#### 示意图
+![radixSort](../images/radixSort.gif)

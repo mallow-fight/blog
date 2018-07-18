@@ -4,6 +4,15 @@ order: 4
 type: questions
 ---
 
+## Math.max使用方法
+必须将所有数组项解构成一个个参数
+```js
+const arr = [1, 2, 3, 4, 5]
+Math.max.apply(null, arr)
+// or
+Math.max(...arr)
+```
+
 ## 函数参数
 ```js
 // 如果参数o是一个对象或者数组，那么在函数体里面的修改会导致函数外面o的修改，这里的o是对象的应用，共享同一个o对象
