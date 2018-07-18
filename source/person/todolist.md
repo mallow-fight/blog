@@ -7,7 +7,9 @@ order: 1
 ## 第一象限
 
 - [ ] 每天练习sql > 0.5h: at mysqlPractice.md
+  - [x] 2018-07-18
 - [ ] 每天复习面试题 > 0.5h: at questions
+  - [x] 2018-07-18
 - [ ] [一天两道算法题，针对面试高频题](https://www.lintcode.com/problem/?level=2)
 - [x] 对公司产生较大效益的工作
 - [x] 管理能力
@@ -18,12 +20,17 @@ order: 1
 
 - [ ] 优化博客结构、内容以及排版
   - [ ] 浏览器输入URL到显示整个页面
-  - [ ] 算法
-    - [ ] 排序
+    - [x] 大致流程
+    - [ ] 细节整理
+  - [x] 算法
+    - [x] 排序
   - [ ] 将未掌握的重点放在questions重点栏目中
   - [ ] 整理questions，将第三方链接内容提炼出来
   - [ ] JS设计模式
   - [ ] vue、react、angular差异性调研记录
+    - [x] vue
+    - [x] react
+    - [ ] angular
   - [ ] 后端语言深入了解
   - [ ] [整理提升EQ以及心理素质书籍 + 必看书籍](https://www.zhihu.com/question/22794831)
   - [x] webpack原理

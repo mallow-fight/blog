@@ -58,10 +58,17 @@ for( var i = 0; i < pAry.length; i++ ) {
 var a = 1
 function foo() {
   console.log(a) 
+  console.log(a())
   var a = 2
   console.log(a)
   function bar() {
 
+  }
+  function a() {
+    console.log('a1')
+  }
+  function a() {
+    console.log('a2')
   }
 }
 foo()
@@ -74,10 +81,17 @@ function foo() {
   function bar() { // 函数优先提升
 
   }
+  function a() {
+    console.log('a1')
+  }
+  function a() {
+    console.log('a2')
+  }
   var a // 这里的a是undefined
-  console.log(a)
+  console.log(a) // Function a：如果a只是声明了，但是没有赋值，那么取最后声明的函数值
+  console.log(a()) // a2
   a = 2
-  console.log(a)
+  console.log(a) // 2
 }
 ```
 ## 正则表达式
