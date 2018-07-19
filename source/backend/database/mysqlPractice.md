@@ -103,4 +103,237 @@ select * from Customers where CustomerID=1 and ContactName='Maria Anders' and Ci
 select * from Customers where CustomerID=1 or CustomerID=2 or CustomerID=3;
 select * from Customers where not CustomerID=1 and not CustomerID=2; -- 筛选出不包含id为1和2的数据
 select * from Customers where not CustomerID=1 and not ContactName='Maria Anders'; -- 筛选出不同时满足条件的记录
+select * from Customers where Country='Germany' and (City='Berlin' OR City='München'); -- 多种操作符结合筛选
 ```
+
+## 数据排序
+- ASC: ascend 升序排列
+- DESC: descend 降序排列
+```sql
+select * from Customers order by City;
+select * from Customers order by City, Country;
+select * from Customers order by City asc;
+select * from Customers order by City desc;
+select * from Customers order by City asc, Country desc;
+```
+
+## 插入数据
+```sql
+insert into Customers (CustomerName, ContactName, Address, City, PostalCode, Country) values ('Cardinal', 'Tom B. Erichsen', 'Skagen 21', 'Stavanger', '4006', 'Norway');
+```
+
+## 空值
+当某个字段是可选的时候，如果插入数据的时候没有插入该字段，该字段就会保存一个空值
+
+### 如何测试空值
+```sql
+select City from Customers where City is null;
+select City from Customers where City is not null;
+```
+
+## 更新数据
+```sql
+update Customers set ContactName='Alfred Schmidt', City='Frankfurt'
+where CustomerID=1;
+update Customers set ContactName='Mallow'; -- it will update all ContactName
+```
+
+## 删除数据
+```sql
+delete from Customers where ContactName='Mallow';
+delete from table_name; -- delete all records;
+delete * from table_name; -- delete all records;
+```
+
+## 取固定量数据
+### sql sever / MS Access Syntax:
+```sql
+select top number|percent column_name(s)
+from table_name
+where condition;
+```
+
+### mysql Syntax:
+```sql
+select column_name(s)
+from table_name
+where condition
+limit number;
+```
+
+### oracle Syntax:
+```sql
+select column_name(s)
+from table_name
+where ronum <= number;
+```
+
+### example
+```sql
+select top 3 * from Customers; -- sql server
+select * from Customers limit 3; -- mysql
+select * from Customers where Country='Germany' and rownum <= 3;
+```
+
+## 最大/小值
+```sql
+select min(price) from Products;
+select min(price) as smallestPrice from Products;
+select max(price) as largestPrice from Products;
+```
+
+## 计数
+```sql
+select count(column_name) from table_name where condition;
+```
+
+## 平均值
+```sql
+select avg(column_name) from table_name where condition;
+```
+
+## 求和
+```sql
+select sum(column_name) from table_name where condition;
+```
+
+## like操作符
+```sql
+select column1, column2 from table_name where column2 like pattern;
+select column1, column2 from table_name where column2 not like pattern;
+```
+
+pattern | description
+--- | ---
+'a%' | 从a开始
+'%a' | 以a结束
+'%or%' | 包含or
+'_r%' | 第二个字符是r
+'a_%_%' | 以a开始且最少三个字符长度
+'a%o' | 从a开始，以o结束
+'[bsp]%' | 从b、s、p其中一个开始
+'[a-z]%' | 从a～z开始
+'[!bsp]' | 不从b、s、p其中一个开始
+
+## in操作符
+```sql
+select * from Customers where Country in ('Germany', 'France', 'UK');
+select * from Customers where Country not in ('Germany', 'France', 'UK');
+select * from Customers where Country in (select Country from supplies);
+```
+
+## between
+```sql
+select * from Customers where CustomerID between 1 and 10;
+select * from Customers where CustomerID not between 10 and 20;
+select * from Customers where (CustomerID between 5 and 15) and not CustomerID in (10, 11, 12);
+select * from Products
+where ProductName between 'Carnarvon Tigers' and 'Mozzarella di Giovanni'
+order by ProductName;
+select * from Products
+where ProductName not between 'Carnarvon Tigers' and 'Mozzarella di Giovanni'
+order by ProductName;
+select * from Orders
+where OrderDate between #07/04/1996# and #07/09/1996#; -- select date.
+```
+
+## as
+```sql
+select CustomerID as ID, CustomerName as Customer from Customers;
+select CustomerID as ID, CustomerName as [customer name] from Customers; -- 带空格的字段名
+select CustomerID, Address + ', ' + PostalCode + ' ' + City + ', ' + Country as Address from Customers;
+select CustomerName, concat(Address,', ',PostalCode,', ',City,', ',Country) as Address from Customers; -- in mysql
+select o.OrderID, o.OrderDate, c.CustomerName
+from Customers as c, Orders as o
+where c.CustomerName='Around the Horn' and c.CustomerID=o.CustomerID; -- 给表名来个简写
+select Orders.OrderID, Orders.OrderDate, Customers.CustomerName
+from Customers, Orders
+where Customers.CustomerName="Around the Horn" and Customers.CustomerID=Orders.CustomerID; -- 未简写的表名
+```
+
+## joins
+```sql
+select Orders.OrderID, Customers.CustomerName, Orders.OrderDate from Orders inner join Customers on Orders.CustomerID=Customers.CustomerID;
+select o.orderID, c.CustomerName, o.OrderDate from Orders as o inner join Customers as c on o.CustomerID=c.CustomerID; -- 使用别名
+```
+
+### 区别
+
+![img_innerjoin](../../images/img_innerjoin.gif)
+---
+![img_leftjoin](../../images/img_leftjoin.gif)
+---
+![img_rightjoin](../../images/img_rightjoin.gif)
+---
+![img_fulljoin](../../images/img_fulljoin.gif)
+
+### innerjoin
+```sql
+select Orders.OrderID, Customers.CustomerName from Orders inner join Customers on Orders.CustomerID = Customers.CustomerID;
+select o.OrderID, c.CustomerName, s.shipperName from ((Orders as o inner join Customers as c on o.CustomerID = c.CustomerID) inner join Shippers as s on o.ShipperID = s.ShipperID); -- 使用别名，三表innerjoin
+```
+
+### leftjoin
+```sql
+select c.CustomerName, o.OrderID from Customers as c left join Orders as o on c.CustomerID=o.CustomerID order by c.CustomerName;
+```
+
+### rightjoin
+```sql
+select o.OrderID, e.LastName, e.FirstName from Orders as o right join Employees as e on o.EmployeeID=e.EmployeeID order by o.OrderID;
+```
+
+### full outer join
+```sql
+select c.CustomerName, o.OrderID from Customers as c full outer join Orders as o on c.CustomerID=o.CustomerID order by c.CustomerName;
+```
+
+### self join
+```sql
+select a.CustomerName as c1, b.CustomerName as c2, a.City from Customers a, Customers b where a.CustomerID<>b.CustomerID and a.City=b.City order by a.City;
+```
+
+## union
+
+### 规则
+- 每个选择声明必须有相同数量的列
+- 每列必须要有类似的数据结构
+- 查询的每列顺序必须相同
+
+### union(去重)
+```sql
+select City from Customers
+union -- 占据一整行，看着更清晰
+select City from Suppliers
+order by City;
+```
+
+### union all（不去重）
+```sql
+select City from Customers
+union all
+select City from Suppliers
+order by City;
+```
+
+### 结合where
+```sql
+select City, Country from Customers
+where Country='Germany'
+union -- 去重
+select City, Country from Suppliers
+where Country='Germany'
+order by City;
+
+select City, Country from Customers
+where Country='Germany'
+union all -- 不去重
+select City, Country from Suppliers
+where Country='Germany'
+order by City;
+
+select 'Customer' as Type, ContactName, City, Country from Customers
+union -- 多了一行type，下面的Supplier只是占位
+select 'Supplier', ContactName, City, Country from Suppliers;
+```
+

@@ -3,6 +3,14 @@ title: wechat
 order: 5
 type: questions
 ---
+## pages不左右滑动
+```css
+#box {
+  overflow: hidden
+  width: 100vw
+  height: 100vh
+}
+```
 
 ## 公众号登录流程
 - 建议公众号开发者使用中控服务器统一获取和刷新Access_token，其他业务逻辑服务器所使用的access_token均来自于该中控服务器，不应该各自去刷新，否则容易造成冲突，导致access_token覆盖而影响业务；

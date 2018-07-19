@@ -19,6 +19,8 @@ type: questions
 
 ## vue
 [开发插件](../framework/vue.html#开发插件)
+[数据和方法](../framework/vue.html#数据和方法)
+[生命周期钩子](../framework/vue.html#生命周期钩子)
 
 ## 小程序
 [微信小程序生命周期](../framework/wechat.html#小程序生命周期)
