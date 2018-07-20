@@ -1,11 +1,8 @@
 ---
-title: mysql练习
+title: mysql表操作
 order: 2
 type: mysql
 ---
-
-> [在线练习网站](http://sqlzoo.net/wiki/SELECT_basics)
-> [w3schools](https://www.w3schools.com/sql/default.asp)
 
 ## 一些重要的sql命令
 - SELECT：从数据库中提取数据
@@ -337,3 +334,128 @@ union -- 多了一行type，下面的Supplier只是占位
 select 'Supplier', ContactName, City, Country from Suppliers;
 ```
 
+## group by
+
+```sql
+select count(CustomerID), Country from Customers group by Country;
+select count(CustomerID), Country from Customers group by Country order by count(CustomerID) desc;
+select s.ShipperName, count(o.OrderID) as NumberOfOrders from Orders as o left join Shippers as s on o.ShipperID=s.ShipperID group by ShipperName;
+```
+
+## having
+对比于where，having和函数对象一起用
+
+```sql
+select count(CustomerID), Country from Customers group by Country having count(CustomerID)>5;
+
+select count(CustomerID), Country from Customers group by Country having count(CustomerID)>5 order by count(CustomerID) desc;
+
+select e.lastName, count(o.OrderID) as NumberOfOrders from (Orders as o inner join Employees as e on o.EmployeeID=e.EmployeeID) group by LastName having count(o.OrderID)>10;
+
+select e.lastName, count(o.OrderID) as NumberofOrders from Orders as o inner join Employees as e on o.EmployeeID=e.EmployeeID where lastName='Davolio' or LastName='Fuller' group by LastName having count(o.OrderID)>25;
+```
+
+## exists
+check if records is exists.
+
+```sql
+select SupplierName from Suppliers as s where exists (select ProductName from Products where SupplierId=s.supplierId and Price<20);
+
+select SupplierName from Suppliers as s where exists (select ProductName from Products as p where SupplierId=s.supplierId and Price=22);
+```
+
+## any&all
+any：某条记录满足条件
+all：所有记录满足条件
+```sql
+select ProductName from Products where ProductID=any(select ProductID from OrderDetails where Quantity=10);
+
+select ProductName from Products where ProductID=any(select ProductID from OrderDetails where Quantity>99);
+
+select ProductName from Products where ProductID=all(select ProductID from OrderDetails where Quantity=10);
+```
+
+## select into
+copy data from one table into a new table.
+
+```sql
+select * into CustomersBackup2017 from Customers;
+
+select * into CustomersBackup2017 in 'Backup.mdb' from Customers;
+
+select * into CustomersBackup2017 in 'Backup.mdb' from Customers;
+
+select CustomerName, ContactName into CustomersBackup2017 from Customers;
+
+select * into CustomersGermany from Customers where Country='Germany';
+
+select c.CustomerName, o.OrderID into CustomersOrderBackup2017 from Customers as c left join Orders as o on c.CustomerID=o.CustomerID;
+
+select * into newtable from oldtable where 1=0;
+```
+
+## insert into
+```sql
+insert into Customers (CustomerName, City, Country) select SupplierName, City, Country from Suppliers;
+
+insert into Customers (CustomerName, ContactName, Address, City, PostalCode, Country) select SupplierName, ContactName, Address, City, PostalCode, Country from Suppliers;
+
+insert into Customers (CustomerName, City, Country) select SupplierName, City, Country from Suppliers where Country='Germany';
+```
+
+## null functions
+```sql
+select ProductName, UnitPrice * (UnitsInStock + ifnull(UnitsOnOrder, 0)) from Products; -- mysql
+
+select ProductName, UnitPrice * (UnitsInStock + coalesce(UnitsOnOrder, 0)) from Products; -- mysql
+
+select ProductName, UnitPrice * (UnitsInStock + isnull(UnitsOnOrder, 0)) from Products; -- sql server
+
+select ProductName, UnitPrice * (UnitsInStock + iif(isnull(UnitsOnOrder), 0, UnitsOnOrder)) from Products; -- ms access
+
+select ProductName, UnitPrice * (UnitsInStock + nvl(UnitsOnOrder, 0)) from Products; -- oracle
+```
+
+## stored procedure
+```sql
+create procedure SelectAllCustomers as select * from Customers
+go;
+exec SelectAllCustomers;
+
+create procedure SelectAllCustomers @City nvachar(30) as select * from Customers where City=@City
+go;
+exec SelectAllCustomers City = "London";
+
+create procedure SelectAllCustomers @City nvarcahr(30), @PostalCode nvarchar(10)
+as
+select * from Customers where City=@City and PostalCode=@PostalCode
+go;
+exec SelectAllCustomers City='London', PostalCode='WALLDP';
+```
+
+## comments
+```sql
+-- Select all:
+select * from Customers;
+
+-- where City='Berlin':
+select * from Customers;
+
+-- select * from Customers:
+select * from Products;
+
+/* Select all the columns of all the records in the Customers table: */
+select * from Customers;
+
+/* select * from Customers;
+select * from Products;
+select * from Orders;
+select * from Categories; */
+select * from Suppliers;
+
+select CustomerName, /* City, */
+Country from Customers;
+
+select * from Customers where (CustomerName like 'L%' or CustomerName like 'R%' /* or CustomerName like 'S%' or CustomerName like 'T%' */ or CustomerName like 'W%') and Country='USA' order by CustomerName;
+
+```

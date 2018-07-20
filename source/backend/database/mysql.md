@@ -4,6 +4,9 @@ order: 1
 type: mysql
 ---
 
+> [在线练习网站](http://sqlzoo.net/wiki/SELECT_basics)
+> [w3schools](https://www.w3schools.com/sql/default.asp)
+
 ## 定义
 **最流行的关系型数据库（建立在关系模型基础上的数据库，借助于集合代数等数学概念和方法来处理数据库中的数据）管理系统，在web应用方面mysql是最好的RDBMS应用软件之一**
 
