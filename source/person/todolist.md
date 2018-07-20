@@ -9,9 +9,11 @@ order: 1
 - [ ] 每天练习sql > 0.5h: at mysqlPractice.md
   - [x] 2018-07-18
   - [x] 2018-07-19
+  - [x] 2018-07-20
 - [ ] 每天复习面试题 > 0.5h: at questions
   - [x] 2018-07-18
   - [x] 2018-07-19
+  - [x] 2018-07-20
 - [ ] [一天两道算法题，针对面试高频题](https://www.lintcode.com/problem/?level=2)
 - [x] 对公司产生较大效益的工作
 - [x] 管理能力
@@ -28,10 +30,10 @@ order: 1
   - [ ] 将未掌握的重点放在questions重点栏目中
   - [ ] 整理questions，将第三方链接内容提炼出来
   - [ ] JS设计模式
-  - [ ] vue、react、angular差异性调研记录
+  - [x] vue、react、angular差异性调研记录
     - [x] vue
     - [x] react
-    - [ ] angular
+    - [x] angular
   - [x] 算法
     - [x] 排序
   - [x] webpack原理
