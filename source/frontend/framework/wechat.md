@@ -1,12 +1,50 @@
 ---
-title: 微信相关
+title: 小程序
 type: framework
 order: 5
 ---
-## 小程序webview
-**每个`pages`都可以有一个`webview`组件，所以一些静态化和用户无关的界面可以使用`html`链接代替。**
+## webview组件
+**每个`pages`都可以有一个`webview`组件，所以一些静态化和用户无关的界面可以使用`html`链接代替。需要企业用户才能使用webview。**
 
-## 小程序生命周期
+## 版本更新&兼容
+
+- 判断api是否可用：`wx.canIUse(String)`，根据这个执行相应的兼容策略
+- 管理小程序更新：`wx.getUpdateManager()`
+  - onCheckForUpdate：callback，当向微信后台请求完新版本信息，会进行回调
+  - onUpdateReady：callback，当新版本下载完成，会进行回调
+  - onUpdateFailed：callback，当新版本下载失败，会进行回调
+  - applyUpdate：当新版本下载完成，调用该方法会强制当前小程序应用上新版本并重启
+- 检查更新操作由微信在小程序冷启动时自动触发，不需由开发者主动触发，开发者只需监听检查结果即可。
+
+### 示例
+```js
+const updateManager = wx.getUpdateManager()
+
+updateManager.onCheckForUpdate(function (res) {
+  // 请求完新版本信息的回调
+  console.log(res.hasUpdate)
+})
+
+updateManager.onUpdateReady(function () {
+  wx.showModal({
+    title: '更新提示',
+    content: '新版本已经准备好，是否重启应用？',
+    success: function (res) {
+      if (res.confirm) {
+        // 新的版本已经下载好，调用 applyUpdate 应用新版本并重启
+        updateManager.applyUpdate()
+      }
+    }
+  })
+
+})
+
+updateManager.onUpdateFailed(function () {
+  // 新的版本下载失败
+})
+```
+
+## 生命周期
 
 > 测试环境：`"mpVue": "^1.0.10"`。
 > 不要使用`mpVue`自带的生命周期，有时候会出现各种预料之外的`bug`，而且小程序自带的生命周期可以完全满足需求。
@@ -46,7 +84,7 @@ A | A	| 保留原来的状态
 B |	A |	清空原来的页面栈，打开首页（相当于执行 wx.reLaunch 到首页）
 A 或 B |	B |	清空原来的页面栈，打开指定页面（相当于执行 wx.reLaunch 到指定页）
 
-### App()
+### App
 
 > 以下钩子函数执行顺序仅限于同步调用，异步调用尽量不要耦合不同钩子函数，会出现依赖失败的情况
 
@@ -120,7 +158,95 @@ A 或 B |	B |	清空原来的页面栈，打开指定页面（相当于执行 wx
 - 提审材料
 - 压缩代码（有可能打包之后有些方法和样式不支持，需要排查）
 
-## 小程序页面渲染
+## 底层原理
+### 参考资料
+> [腾讯云社区](https://cloud.tencent.com/developer/article/1029663)
+> [知乎](https://www.zhihu.com/question/50920642)
+
+### 架构
+- 微信小程序的框架包含两部分View视图层、App Service逻辑层
+  - View层用来渲染页面结构
+  - AppService层用来逻辑处理、数据请求、接口调用
+  - 它们在两个进程（两个Webview）里运行
+- 视图层和逻辑层通过系统层的JSBridage进行通信，逻辑层把数据变化通知到视图层，触发视图层页面更新，视图层把触发的事件通知到逻辑层进行业务处理
+
+![小程序架构图](../../images/mpFramework.png)
+
+- 小程序启动时会从CDN下载小程序的完整包，一般是数字命名的,如：_-2082693788_4.wxapkg
+
+### 实现
+
+> [什么是webview](https://juejin.im/entry/573441971ea4930060c97cd2)
+
+- 小程序的UI视图和逻辑处理是用多个webview实现的，逻辑处理的JS代码全部加载到一个Webview里面，称之为AppService，整个小程序只有一个，并且整个生命周期常驻内存。
+- 而所有的视图（wxml和wxss）都是单独的Webview来承载，称之为AppView。
+- 所以一个小程序打开至少就会有2个webview进程，正式因为每个视图都是一个独立的webview进程，考虑到性能消耗，小程序不允许打开超过5个层级的页面，当然同是也是为了体验更好。
+
+#### AppService
+
+可以理解AppService即一个简单的页面，主要功能是负责逻辑处理部分的执行，底层提供一个WAService.js的文件来提供各种api接口，主要是以下几个部分：
+- 消息通信封装为WeixinJSBridge
+  - 开发环境：window.postMessage
+  - IOS：WKWebview的window.webkit.messageHandlers.invokeHandler.postMessage
+  - android：WeixinJSCore.invokeHandler）
+- 日志组件Reporter封装
+- wx对象下面的api方法
+- 全局的App,Page,getApp,getCurrentPages等全局方法
+- 还有就是对AMD模块规范的实现
+
+然后整个页面就是加载一堆JS文件，包括小程序配置config，上面的WAService.js（调试模式下有asdebug.js），剩下就是我们自己写的全部的js文件，一次性都加载。
+
+#### AppView
+
+类似于h5的页面，提供UI渲染，底层提供一个WAWebview.js来提供底层的功能,具体如下：
+- 消息通信封装为WeixinJSBridge（同AppService）
+- 日志组件Reporter封装
+- wx对象下的api，这里的api跟WAService里的还不太一样，有几个跟那边功能差不多，但是大部分都是处理UI显示相关的方法
+- 小程序组件实现和注册
+- VirtualDOM，Diff和Render UI实现
+- 页面事件触发
+
+在此基础上，AppView有一个html模板文件，通过这个模板文件加载具体的页面，这个模板主要就一个方法：$gwx，主要是返回指定page的VirtualDOM，而在打包的时候，会事先把所有页面的WXML转换为ViirtualDOM放到模板文件里，而微信自己写了2个工具wcc（把WXML转换为VirtualDOM）和wcsc（把WXSS转换为一个JS字符串的形式通过style标签append到header里）。
+
+#### service和view通信
+
+使用消息`publish`和`subscribe`机制实现两个`Webview`之间的通信，实现方式就是统一封装一个`WeixinJSBridge`对象，而不同的环境封装的接口不一样，具体实现的技术如下：
+
+- windows
+  - 通过window.postMessage实现（使用chrome扩展的接口注入一个contentScript.js，它封装了postMessage方法，实现webview之间的通信，并且也它通过chrome.runtime.connect方式，也提供了直接操作chrome native原生方法的接口）
+  - 发送消息：window.postMessage(data, ‘*’);，// data里指定 webviewID
+  - 接收消息：window.addEventListener(‘message’, messageHandler); // 消息处理并分发，同样支持调用nwjs的原生能力。
+  - appservice也是通过一个webview实现的，实现原理上跟view一样，只是处理的业务逻辑不一样。
+- ios
+  - 通过 WKWebview的window.webkit.messageHandlers.NAME.postMessage实现微信navite代码里实现了两个handler消息处理器：
+    - invokeHandler: 调用原生能力
+    - publishHandler: 消息分发
+
+![iosJsBridge](../../images/iosJsBridge.png)
+
+- Android
+  - 通过WeixinJSCore.invokeHanlder实现，这个WeixinJSCore是微信提供给JS调用的接口（native实现）
+    - invokeHandler: 调用原生能力
+    - publishHandler: 消息分发
+
+### 总结
+**小程序底层还是基于`webview`实现的，基于`web`规范，只需要了解框架规范便可以进行快速开发。**
+
+- MSSM：对逻辑和UI进行了完全隔离，这个跟当前流行的react，agular，vue有本质的区别，小程序逻辑和UI完全运行在2个独立的Webview里面，而后面这几个框架还是运行在一个webview里面的，如果你想，还是可以直接操作dom对象，进行ui渲染的。
+
+- 组件机制：引入组件化机制，但是不完全基于组件开发，跟vue一样大部分UI还是模板化渲染，引入组件机制能更好的规范开发模式，也更方便升级和维护。
+
+- 多种节制：不能同时打开超过5个窗口，打包文件不能大于2M，dom对象不能大于16000个等，这些都是为了保证更好的体验。
+
+## 踩坑
+
+### 通用
+#### access_token的保存
+- 建议公众号开发者使用中控服务器统一获取和刷新Access_token，其他业务逻辑服务器所使用的access_token均来自于该中控服务器，不应该各自去刷新，否则容易造成冲突，导致access_token覆盖而影响业务；
+- 目前Access_token的有效期通过返回的expire_in来传达，目前是7200秒之内的值。中控服务器需要根据这个有效时间提前去刷新新access_token。在刷新过程中，中控服务器可对外继续输出的老access_token，此时公众平台后台会保证在5分钟内，新老access_token都可用，这保证了第三方业务的平滑过渡；
+- Access_token的有效时间可能会在未来有调整，所以中控服务器不仅需要内部定时主动刷新，还需要提供被动刷新access_token的接口，这样便于业务服务器在API调用获知access_token已超时的情况下，可以触发access_token的刷新流程。
+
+#### 页面渲染
 
 小程序不同于原生app应用，存在诸多性能限制，需要注意：
 
@@ -136,28 +262,7 @@ A 或 B |	B |	清空原来的页面栈，打开指定页面（相当于执行 wx
 - 事件锁
 - 多页应用，保证页面可以正常承载
 
-## 小程序分享
-
-`pages`分享不能带有异步操作，这意味着：
-
-- 分享弹窗事件优先
-- 点击一个分享按钮之前，必须将数据准备好，不能异步获取，但可以同步调用
-- 如果分享函数中携带了异步操作，会导致分享失效
-
-## [button清除样式](https://blog.csdn.net/Wu_shuxuan/article/details/78209125)
-
-传统的用“border:none;来去除边框”，依旧有一条细细的border
-button::after{ border: none; } 来去除边框
-
-## getCurrentPage method
-
-可以调用getCurrentPage(), 来获取进入页面的堆栈，最先进入的在最上面
-
-## image
-
-fixed定位的over-view上不能放置外部http形式的图片，会导致图片不能fixed
-
-## 微信最新版登录流程
+#### 微信最新版登录流程
 
 - wx.getSetting()
   - true -> wx.login() -> wx.getUserInfo() -> sso
@@ -165,19 +270,130 @@ fixed定位的over-view上不能放置外部http形式的图片，会导致图�
 - userInfo session
   - check globalData has userInfo
 
-## 版本更新&兼容
+#### 分享
 
-判断api是否可用 - `wx.canIUse(String)`，根据这个执行相应的兼容策略
-管理小程序更新 - `wx.getUpdateManager()`
-onCheckForUpdate	callback	当向微信后台请求完新版本信息，会进行回调
-onUpdateReady	callback	当新版本下载完成，会进行回调
-onUpdateFailed	callback	当新版本下载失败，会进行回调
-applyUpdate		当新版本下载完成，调用该方法会强制当前小程序应用上新版本并重启
-检查更新操作由微信在小程序冷启动时自动触发，不需由开发者主动触发，开发者只需监听检查结果即可。
+`pages`分享不能带有异步操作，这意味着：
 
-## mpVue
+- 分享弹窗事件优先
+- 点击一个分享按钮之前，必须将数据准备好，不能异步获取，但可以同步调用
+- 如果分享函数中携带了异步操作，会导致分享失效
 
-### 对接打点
+#### button清除样式
+> [参考](https://blog.csdn.net/Wu_shuxuan/article/details/78209125)
+
+传统的用“border:none;来去除边框”，依旧有一条细细的border
+button::after{ border: none; } 来去除边框
+
+#### getCurrentPage method
+
+可以调用getCurrentPage(), 来获取进入页面的堆栈，最先进入的在最上面
+
+#### image
+
+fixed定位的over-view上不能放置外部http形式的图片，会导致图片不能fixed
+
+#### pages左右滑动
+```css
+#box {
+  overflow: hidden
+  width: 100vw
+  height: 100vh
+}
+```
+
+#### wx.request封装实例
+
+```js
+/**
+ * 1. 调用initBaseUrl初始化域名
+ * 2. 传入路径 + options（具体参数见【https://developers.weixin.qq.com/miniprogram/dev/api/network-request.html#wxrequestobject】）
+ * 3. 该实例返回一个promise，可使用asyc-await。
+ */
+const INSTANCE = {
+  initBaseUrl (url) {
+    this.baseUrl = url
+  },
+  initMethods (methods) {
+    return methods.map(method => {
+      this[method.toLowerCase()] = this.request(method)
+    })
+  },
+  request (method) {
+    return function (url, options) {
+      return new Promise((resolve, reject) => {
+        return wx.request({
+          url: `${this.baseUrl || ''}${url}`,
+          method,
+          ...options,
+          success (res) {
+            return resolve(res)
+          },
+          fail (res) {
+            return reject(res)
+          }
+        })
+      })
+    }
+  }
+}
+INSTANCE.initMethods(['OPTIONS', 'GET', 'HEAD', 'POST', 'PUT', 'DELETE', 'TRACE', 'CONNECT'])
+/**
+ * expose INSTANCE prototype constructor to outside, prevent outside change it.
+ */
+export const instance = Object.create(INSTANCE)
+```
+
+#### 画弧形
+
+使用`canvas`，移动设备不兼容，待微信修复，`canvas`总是在最上层，使用`cover-view`的话不方便。
+```html
+<template>
+  <canvas canvas-id="commonBack" class="commonBack"/>
+</template>
+```
+```js
+// 缺陷 - 层级最高不适合做背景
+export default {
+  props: {
+    heightScale: {
+      type: Number,
+      default: 1.2
+    },
+    linerScale: {
+      type: Number,
+      default: 0.52
+    }
+  },
+  name: 'common-back',
+  mounted () {
+    const {deviceW, deviceH} = getApp().globalData
+    const ctx = wx.createCanvasContext('commonBack')
+    const grd = ctx.createLinearGradient(0, 0, 0, deviceH * this.linerScale)
+    grd.addColorStop(0, '#FF5640')
+    grd.addColorStop(1, '#FFC896')
+    ctx.arc(deviceW / 2, -deviceW / this.heightScale, deviceW * 1.6, 0, Math.PI)
+    ctx.setFillStyle(grd)
+    ctx.fill()
+    ctx.draw()
+  }
+}
+```
+
+### mpVue
+
+#### $emit 失效
+
+子组件`$emit`失效，一直报错
+
+原因：子组件中有一个props和自定义的click事件名相同，导致报错：找不到emit的事件名
+
+心得：遇到问题要用排除法，确定用法没有出错的情况下，得查看语法有没有错误
+
+#### getApp().globalData.appOptions.query
+
+这个query不会完全继承链接里面的参数，应该使用`this.$root.$mp.query`
+
+#### 对接打点
 - 首先引入`sensorsdata.min.js`，修改配置部分，实例：
 ```js
 /* eslint-disable */
@@ -252,7 +468,7 @@ this.$sa('whichEvent', {eventName: 'event description'})
 - `sa`守卫
 可以在`resource.js`中加上事件的守卫，来监听事件有没有注册
 
-### 使用process.env区分不同环境
+#### 使用process.env区分不同环境
 - 首先安装`cross-env`: `cnpm i cross-env -D`
 - 修改`config/dev.env.js`为：
 ```js
@@ -278,104 +494,14 @@ module.exports = merge(prodEnv, {
 }
 ```
 
-### something notice
+### wepy
 
-- you should delete `dist` folder and rebuild when delete some file in `src`.
+#### 编译工具报错
 
-## wechat-request-instance
+> [参考](https://github.com/Tencent/wepy/issues/917)
 
-```js
-/**
- * 1. 调用initBaseUrl初始化域名
- * 2. 传入路径 + options（具体参数见【https://developers.weixin.qq.com/miniprogram/dev/api/network-request.html#wxrequestobject】）
- * 3. 该实例返回一个promise，可使用asyc-await。
- */
-const INSTANCE = {
-  initBaseUrl (url) {
-    this.baseUrl = url
-  },
-  initMethods (methods) {
-    return methods.map(method => {
-      this[method.toLowerCase()] = this.request(method)
-    })
-  },
-  request (method) {
-    return function (url, options) {
-      return new Promise((resolve, reject) => {
-        return wx.request({
-          url: `${this.baseUrl || ''}${url}`,
-          method,
-          ...options,
-          success (res) {
-            return resolve(res)
-          },
-          fail (res) {
-            return reject(res)
-          }
-        })
-      })
-    }
-  }
-}
-INSTANCE.initMethods(['OPTIONS', 'GET', 'HEAD', 'POST', 'PUT', 'DELETE', 'TRACE', 'CONNECT'])
-/**
- * expose INSTANCE prototype constructor to outside, prevent outside change it.
- */
-export const instance = Object.create(INSTANCE)
-```
+问题：出现脚本错误或者未正确调用 Page()
+解决方法：`.wpy`和`.js`不能重名
 
-## wepy
-
-### issues
-- [关于编译工具报错 - 出现脚本错误或者未正确调用 Page()](https://github.com/Tencent/wepy/issues/917)
-  - 解决方法：就是.wpy和.js不能重名
-
-## 小程序画弧形
-
-使用`canvas`，移动设备不兼容，待微信修复，`canvas`总是在最上层，使用`cover-view`的话不方便。
-```html
-<template>
-  <canvas canvas-id="commonBack" class="commonBack"/>
-</template>
-```
-```js
-// 缺陷 - 层级最高不适合做背景
-export default {
-  props: {
-    heightScale: {
-      type: Number,
-      default: 1.2
-    },
-    linerScale: {
-      type: Number,
-      default: 0.52
-    }
-  },
-  name: 'common-back',
-  mounted () {
-    const {deviceW, deviceH} = getApp().globalData
-    const ctx = wx.createCanvasContext('commonBack')
-    const grd = ctx.createLinearGradient(0, 0, 0, deviceH * this.linerScale)
-    grd.addColorStop(0, '#FF5640')
-    grd.addColorStop(1, '#FFC896')
-    ctx.arc(deviceW / 2, -deviceW / this.heightScale, deviceW * 1.6, 0, Math.PI)
-    ctx.setFillStyle(grd)
-    ctx.fill()
-    ctx.draw()
-  }
-}
-```
-
-## mpVue
-
-### $emit 失效
-
-子组件`$emit`失效，一直报错
-
-原因：子组件中有一个props和自定义的click事件名相同，导致报错：找不到emit的事件名
-
-心得：遇到问题要用排除法，确定用法没有出错的情况下，得查看语法有没有错误
-
-### getApp().globalData.appOptions.query
-
-这个query不会完全继承链接里面的参数，应该使用`this.$root.$mp.query`
+#### 编译的dist文件出粗
+删掉重新编译

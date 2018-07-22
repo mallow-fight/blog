@@ -483,7 +483,7 @@ MyPlugin.install = function (Vue, options) {
 
 - 在变异 (不是替换) 对象或数组时，旧值将与新值相同，因为它们的引用指向同一个对象/数组。Vue 不会保留变异之前值的副本。
 
-## 参考资料
+<!-- ## 参考资料
 
 > [链接](https://ustbhuangyi.github.io/vue-analysis/)
 
@@ -829,4 +829,4 @@ extend(Vue.options.components, builtInComponents);
 - 关于源码一步步实现以及分析可以参考开头的那篇文章，不在此赘述
 - 仔细阅读官网上的实现原理
 - 首先掌握核心思想，至于实现细节，目前不太适合查看
-- 画出原理图，理解实现原理，使用脑图或者流程图
+- 画出原理图，理解实现原理，使用脑图或者流程图 -->

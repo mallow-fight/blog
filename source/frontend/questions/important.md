@@ -3,31 +3,59 @@ title: 重点
 order: 1
 type: questions
 ---
-## html
+
+## 软件工程化
+
+### git
+[git命令](../../software/git.html#通用命令)
+[提交信息标准](../../software/git.html#提交信息标准)
+
+### webpack
+[webpack](../../backend/node/webpack.html)
+
+## 算法
+[排序](../../arithmetic/sort.html)
+
+## 前端
+[知识骨架](../../frontend/skeleton/skeleton.html)
+
+### html
 [HTML5新增内容](../html/define.html)
 [结构化网站](../html/tag.html#结构化网站)
+[元素和属性](../html/element&attribute.html)
+[安全与预防](../html/safe.html)
 
-## css
+### css
+[css3新的特性](../css/define.html)
 [盒模型](../css/display.html#盒模型)
+[层叠和继承](../css/inhreit.html)
+[布局](../css/display.html)
+[选择器](../css/selector.html)
 
-## js
-[上下文四大规则](../js/this&prototype.html#四大规则)
+### js
+[作用域和闭包](../js/scope&closures.html)
+[上下文和对象原型](../js/this&prototype.html)
+[类型和语法](../js/types&grammar.html)
+[异步和性能](../js/async&performance.html)
+
+### vue
+[都看看](../framework/vue.html)
+
+### react
+[了解一下](../framework/react.html)
+
+### 状态管理
+[工具以及思想](../framework/state.html)
+
+### 小程序
+[都看看](../framework/wechat.html)
+
+## 后端
 
 ## http
 [状态码](../../backend/http/http.html#状态码)
 [请求和类型](../../backend/http/http.html#请求)
 
-## vue
-[开发插件](../framework/vue.html#开发插件)
-[数据和方法](../framework/vue.html#数据和方法)
-[生命周期钩子](../framework/vue.html#生命周期钩子)
+## database
+[表操作](../../backend/database/mysqlTable.html)
 
-## 小程序
-[微信小程序生命周期](../framework/wechat.html#小程序生命周期)
-[微信最新版登录流程](../framework/wechat.html#微信最新版登录流程)
-
-## git
-[git命令](../../software/git.html#通用命令)
-
-## webpack
-[webpack](../../backend/node/webpack.html)
