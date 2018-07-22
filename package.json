@@ -25,7 +25,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-push": "npm run deploy"
+      "pre-push": "npm run deploy && npm run crawler"
     }
   },
   "devDependencies": {
