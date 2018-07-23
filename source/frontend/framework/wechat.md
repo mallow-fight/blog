@@ -3,6 +3,10 @@ title: 小程序
 type: framework
 order: 5
 ---
+## animation
+scale(x, y)
+x, y 值的范围是0～2，如果是负值的话，画面会倒置
+
 ## webview组件
 **每个`pages`都可以有一个`webview`组件，所以一些静态化和用户无关的界面可以使用`html`链接代替。需要企业用户才能使用webview。**
 

@@ -68,7 +68,7 @@ type: skeleton
 ## 从浏览器接受URL到开启网络请求线程
 
 - [ ] 浏览器什么情况下合并进程
-- [ ] [浏览器进程机制整理]((https://segmentfault.com/a/1190000012925872))
+- [ ] [浏览器进程机制整理]((https://segmentfault.com/a/1190000012925872)
 - [ ] 优化DNS解析
 - [ ] 解决tcp/ip并发限制
 
