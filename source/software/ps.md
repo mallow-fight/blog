@@ -1,7 +1,7 @@
 ---
 title: photoshop
-type: questions
-order: 13
+type: software
+order: 7
 ---
 
 ## 关于ps裁切的图片有白色阴影

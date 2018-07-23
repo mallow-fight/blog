@@ -1,7 +1,7 @@
 ---
 title: 重点
 order: 1
-type: questions
+type: important
 ---
 
 ## 软件工程化

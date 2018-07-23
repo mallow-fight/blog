@@ -4,6 +4,19 @@ type: css
 order: 10
 ---
 
+## 移动端1px像素显示模糊
+[参考资料](https://segmentfault.com/a/1190000007604842)
+- boder-image：图片实现
+- background-image：渐变实现
+- viewport + rem：调整设备像素比
+- box-shadow：阴影实现
+- transform: scale(0.5)
+
+## 消除1px宽度问题/宽度适配
+box-sizing 属性可以被用来调整这些表现:
+- content-box：默认值。如果你设置一个元素的宽为100px，那么这个元素的内容区会有100px宽，并且任何边框和内边距的宽度都会被增加到最后绘制出来的元素宽度中。
+- border-box：告诉浏览器去理解你设置的边框和内边距的值是包含在width内的。也就是说，如果你将一个元素的width设为100px,那么这100px会包含其它的border和padding，内容区的实际宽度会是width减去border + padding的计算值。大多数情况下这使得我们更容易的去设定一个元素的宽高。
+
 ## 值的类型
 - 数值
 - 百分比

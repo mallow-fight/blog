@@ -1,7 +1,7 @@
 ---
-title: 主流框架原理&对比
-order: 11
-type: questions
+title: 对比
+order: 5
+type: framework
 ---
 
 ## Vue vs React

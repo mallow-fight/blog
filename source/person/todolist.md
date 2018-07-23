@@ -24,6 +24,7 @@ order: 1
 ## 第二象限(优先级按顺序)
 
 - [ ] 优化博客结构、内容以及排版
+  - [ ] node原理
   - [ ] [整理面试题](https://github.com/markyun/My-blog/tree/master/Front-end-Developer-Questions)
   - [ ] 浏览器输入URL到显示整个页面
     - [x] 大致流程
