@@ -47,6 +47,9 @@ type: important
 ### 状态管理
 [工具以及思想](../framework/state.html)
 
+### 框架
+[对比](../framework/compare.html)
+
 ### 小程序
 [都看看](../framework/wechat.html)
 

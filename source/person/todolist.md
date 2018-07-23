@@ -25,6 +25,9 @@ order: 1
 
 - [ ] 优化博客结构、内容以及排版
   - [ ] node原理
+    - [ ] [参考](https://www.cnblogs.com/bingooo/p/6720540.html)
+    - [ ] [参考](https://blog.csdn.net/xiangzhihong8/article/details/53954600)
+    - [ ] [参考](http://taobaofed.org/blog/2015/10/29/deep-into-node-1)
   - [ ] [整理面试题](https://github.com/markyun/My-blog/tree/master/Front-end-Developer-Questions)
   - [ ] 浏览器输入URL到显示整个页面
     - [x] 大致流程
@@ -33,10 +36,10 @@ order: 1
     - [ ] 样式继承
     - [ ] 和qustions中的布局整合
   - [ ] js补充，不够详细
-  - [ ] 将未掌握的重点放在questions重点栏目中
-  - [ ] 整理questions
-    - [ ] 将第三方链接内容提炼出来
-    - [ ] 合并问题到对应的模块下
+  - [x] 将未掌握的重点放在questions重点栏目中
+  - [x] 整理questions
+    - [x] 将第三方链接内容提炼出来
+    - [x] 合并问题到对应的模块下
   - [ ] 代码大全
   - [x] JS设计模式
   - [x] vue、react、angular差异性调研记录
