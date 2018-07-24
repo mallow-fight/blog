@@ -6,11 +6,11 @@ order: 1
 
 ## 第一象限
 
-- [ ] 每天练习sql > 0.5h: at mysqlDB.md
+- [ ] 每天练习sql > 0.5h
   - [x] 2018-07-18
   - [x] 2018-07-19
   - [x] 2018-07-20
-- [ ] 每天复习面试题 > 0.5h: at questions
+- [ ] 每天复习面试题 > 0.5h
   - [x] 2018-07-18
   - [x] 2018-07-19
   - [x] 2018-07-20
@@ -24,10 +24,10 @@ order: 1
 ## 第二象限(优先级按顺序)
 
 - [ ] 优化博客结构、内容以及排版
-  - [ ] node原理
-    - [ ] [参考](https://www.cnblogs.com/bingooo/p/6720540.html)
-    - [ ] [参考](https://blog.csdn.net/xiangzhihong8/article/details/53954600)
-    - [ ] [参考](http://taobaofed.org/blog/2015/10/29/deep-into-node-1)
+  - [x] node原理
+    - [x] [参考](https://www.cnblogs.com/bingooo/p/6720540.html)
+    - [x] [参考](https://blog.csdn.net/xiangzhihong8/article/details/53954600)
+    - [x] [参考](http://taobaofed.org/blog/2015/10/29/deep-into-node-1)
   - [ ] [整理面试题](https://github.com/markyun/My-blog/tree/master/Front-end-Developer-Questions)
   - [ ] 浏览器输入URL到显示整个页面
     - [x] 大致流程

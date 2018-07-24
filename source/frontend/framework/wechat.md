@@ -4,8 +4,79 @@ type: framework
 order: 5
 ---
 ## animation
+
+### scale
 scale(x, y)
 x, y 值的范围是0～2，如果是负值的话，画面会倒置
+
+### 循环
+注意每次循环对上一次的结果进行倒叙
+```js
+initShareIconAnimationAnimate (animation, direction) {
+  const animateGroup = {true: [[-180, 0], [0, 180], [0.5, 1]], false: [[180, 0], [0, -180], [1, 0.5]]}[direction]
+  animation.rotate(animateGroup[0][0], animateGroup[0][1]).scale(animateGroup[2][0]).step()
+  animation.rotate(animateGroup[1][0], animateGroup[1][1]).scale(animateGroup[2][1]).step()
+  this.shareIconAnimation = animation.export()
+},
+initShareIconAnimation (delay) {
+  const animation = wx.createAnimation({
+    duration: delay,
+    timingFunction: 'linear'
+  })
+  let direction = true
+  this.initShareIconAnimationAnimate(animation, direction)
+  setInterval(() => {
+    direction = !direction
+    this.initShareIconAnimationAnimate(animation, direction)
+  }, delay + 100)
+}
+```
+
+### 切换
+只能同时进行一个动画step
+```js
+touchClickShareAnimation (isShareMode) {
+  if (this.animateOn) return
+  this.animateOn = true
+  this.setIsShareMode(isShareMode)
+  const animation = wx.createAnimation({
+    duration: this.setIsShareModeDelay,
+    timingFunction: 'ease'
+  })
+  const animationStep = (opa) => {
+    animation.opacity(opa).step()
+    return animation
+  }
+  if (isShareMode) {
+    this.clickShareAnimation = animationStep(0).export() // 首先执行它
+    setTimeout(() => {
+      this.cancelShareAnimation = animationStep(1).export() // 延迟时间过后再执行这个动画
+    }, this.setIsShareModeDelay / 2) // 可以将这个动画提前一般延迟时间使得后半段动画可以出现
+  } else {
+    this.cancelShareAnimation = animationStep(0).export() // 首先执行它
+    this.clickShareAnimation = animationStep(1).export() // 直接使click透明度变为1，没有过渡过程，因为这个时候cancelShareAnimation还在执行，这个效果看起来还不错，保留了
+  }
+},
+```
+
+### 滑动
+```js
+touchMoveCardAnimation (type) {
+  const animation = wx.createAnimation({
+    duration: 800,
+    timingFunction: 'ease'
+  })
+  console.log(type)
+  if (type) {
+    animation.translateY(52).step()
+    animation.translateY(42).step() // 这个在多个卡片的情况下会出现上下晃动，待解决
+  } else {
+    animation.translateY(0).step()
+    animation.translateY(0).step() // 只使用一个step会上下摇动，原因不明
+  }
+  this.moveCardAnimation = animation.export()
+}
+```
 
 ## webview组件
 **每个`pages`都可以有一个`webview`组件，所以一些静态化和用户无关的界面可以使用`html`链接代替。需要企业用户才能使用webview。**
