@@ -24,6 +24,7 @@ order: 1
 ## 第二象限(优先级按顺序)
 
 - [ ] 优化博客结构、内容以及排版
+  - [ ] 代码大全
   - [x] node原理
     - [x] [参考](https://www.cnblogs.com/bingooo/p/6720540.html)
     - [x] [参考](https://blog.csdn.net/xiangzhihong8/article/details/53954600)
@@ -34,13 +35,12 @@ order: 1
     - [ ] 细节整理
   - [ ] css
     - [ ] 样式继承
-    - [ ] 和qustions中的布局整合
+    - [x] 和qustions中的布局整合
   - [ ] js补充，不够详细
   - [x] 将未掌握的重点放在questions重点栏目中
   - [x] 整理questions
     - [x] 将第三方链接内容提炼出来
     - [x] 合并问题到对应的模块下
-  - [ ] 代码大全
   - [x] JS设计模式
   - [x] vue、react、angular差异性调研记录
     - [x] vue

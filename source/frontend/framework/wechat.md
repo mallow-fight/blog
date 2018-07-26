@@ -3,6 +3,37 @@ title: 小程序
 type: framework
 order: 5
 ---
+## 到底了
+不能使用relative，使用fixed
+在根元素上使用relative会导致ios页面乱滑
+使用长度为二的数组监听scroll方向，保存触发时间戳，第一项是前一个时间，后一项是当前时间戳，对比两个数组的scrollleft，如果小于0代表向左滑动，否则向右滑动
+注意最好提前触发到底动作，这样滑到底的时候刚好可以看到提示
+
+## 状态不更新
+针对很深层级的子组件
+初始化子组件
+估计原因是computed属性监听不到对象的值发生变化了
+使用vuex来进行祖先和后代之间的通信
+或者避免太深的组件嵌套
+```js
+onHide() {
+  this.init()
+},
+onShow() {
+  this.init()
+}
+```
+
+## 下拉刷新
+不要调用startPullDown，ios下会出现bug
+直接这么写：
+```js
+async onPullDownRefresh () {
+  await this.refreshMyScores()
+  wx.stopPullDownRefresh()
+}
+```
+
 ## animation
 
 ### scale
