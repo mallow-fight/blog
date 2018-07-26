@@ -46,6 +46,7 @@ type: skeleton
 简述为：Bytes -> characters -> tokens -> nodes -> CSSOM
 
 实例，有这样一个css文件：
+
 ```css
 body { font-size: 16px }
 p { font-weight: bold }
@@ -53,6 +54,7 @@ span { color: red }
 p span { display: none }
 img { float: right }
 ```
+
 最终的CSSOM树就是：
 ![browser_parse_cssom](../../images/browser_parse_cssom.png)
 
@@ -65,7 +67,7 @@ img { float: right }
 
 ## 渲染
 有了render树，接下来就是开始渲染了，基本流程如下：
-![browser_rendingprocess](../../images/browser_rendingprocess.png)
+![browser_rendingprocess](../../images/browser_rendingprocess.jpg)
 简述：
 - 计算CSS样式
 - 构建渲染树

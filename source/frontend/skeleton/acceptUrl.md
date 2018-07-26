@@ -1,5 +1,5 @@
 ---
-title: 从浏览器接受URL到开启网络请求线程
+title: 接受URL ~ 开启网络请求线程
 order: 2
 type: skeleton
 ---

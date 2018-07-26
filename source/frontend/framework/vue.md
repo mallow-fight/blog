@@ -4,6 +4,8 @@ type: framework
 order: 1
 ---
 
+- [ ] 使用`vue-router`改变`:id`会调用哪些生命周期
+
 > [官网](https://cn.vuejs.org/v2/guide/installation.html)
 > [主流框架原理](../questions/framework.html#vue)
 > 通过阅读官网来了解一些基础知识，为以后深入了解做铺垫。

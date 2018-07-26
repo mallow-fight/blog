@@ -25,18 +25,19 @@ order: 1
 
 - [ ] 优化博客结构、内容以及排版
   - [ ] 代码大全
+  - [ ] js补充，不够详细
+  - [ ] 整理前端骨架的衍生知识点
   - [x] node原理
     - [x] [参考](https://www.cnblogs.com/bingooo/p/6720540.html)
     - [x] [参考](https://blog.csdn.net/xiangzhihong8/article/details/53954600)
     - [x] [参考](http://taobaofed.org/blog/2015/10/29/deep-into-node-1)
   - [ ] [整理面试题](https://github.com/markyun/My-blog/tree/master/Front-end-Developer-Questions)
-  - [ ] 浏览器输入URL到显示整个页面
+  - [x] 浏览器输入URL到显示整个页面
     - [x] 大致流程
-    - [ ] 细节整理
-  - [ ] css
-    - [ ] 样式继承
+    - [x] 细节整理
+  - [x] css
+    - [x] 样式继承
     - [x] 和qustions中的布局整合
-  - [ ] js补充，不够详细
   - [x] 将未掌握的重点放在questions重点栏目中
   - [x] 整理questions
     - [x] 将第三方链接内容提炼出来
@@ -89,7 +90,7 @@ order: 1
 ## 第四象限
 
 - [x] 过度娱乐
-  - [x] 每次娱乐时间不超过1h
+  - [x] 每次娱乐时间不超过2h
 - [x] 无意义的记录
 - [x] 无意义的浏览
 - [x] 对工作无帮助的交流

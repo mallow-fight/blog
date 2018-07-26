@@ -4,7 +4,6 @@ order: 1
 type: skeleton
 ---
 
-## 浏览器从接受链接到渲染整个页面的流程
 > [这个比较好，整理出来](https://dailc.github.io/2018/03/12/whenyouenteraurl.html)
 > [更详细，涉及硬件层面的，不太适合前端](http://fex.baidu.com/blog/2014/05/what-happen/)
 

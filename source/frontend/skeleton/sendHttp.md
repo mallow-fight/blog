@@ -1,5 +1,5 @@
 ---
-title:  开启网络线程到发出一个完整的http请求
+title:  开启网络线程 ~ 发出http请求
 order: 3
 type: skeleton
 ---
