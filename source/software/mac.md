@@ -4,6 +4,12 @@ type: software
 order: 4
 ---
 
+## 好用的插件
+
+### CheatSheet
+快捷键提示
+[点击下载](https://www.mediaatelier.com/CheatSheet/))
+
 ## makefile注意事项
 
 - 不能随便使用`tab`，要使用`enter`进行换行

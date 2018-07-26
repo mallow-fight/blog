@@ -10,6 +10,10 @@ type: skeleton
 - [ ] 解决tcp/ip并发限制
 - [ ] [浏览器内核源码解析](https://www.cnblogs.com/lhb25/p/how-browsers-work.html)
 - [ ] 什么是GUI
+- [ ] js是如何操作dom的
+- [ ] 可执行上下文
+- [ ] VO
+- [ ] scope chain
 
 ## 进程和线程
 都是一个时间段的描述，是CPU工作时间段的描述，不过是颗粒大小不同的。
@@ -169,3 +173,214 @@ CPU + RAM + 各种资源（显卡、光驱、键盘、GPS等）构成了电脑�
 - Browser进程接收到结果并将结果绘制出来
 
 ### 梳理浏览器内核中线程之间的关系
+
+#### GUI渲染线程和JS引擎线程互斥
+
+- 由于js可操纵dom，如果修改元素的同时渲染界面（即JS线程和渲染线程同时运行），那么渲染线程前后获得的元素数据就可能不一致了
+- 为了防止渲染出现不可预期的结果，浏览器设置GUI渲染线程和JS引擎为互斥的关系，当JS引擎执行时GUI线程会被挂起
+- GUI更新则会被保存在一个队列中等到JS引擎线程空闲时立即被执行
+
+#### JS阻塞页面加载
+
+- 如果JS执行时间太长就会阻塞页面
+- 假设JS引擎正在进行巨量的计算，此时就算GUI有更新，也会被保存到队列中，等待JS引擎空闲后执行
+- 由于巨量计算，所以JS引擎可能很久很久之后才能空闲，自然感觉卡
+- 所以要避免JS执行时间过长
+
+#### WebWorker，JS的多线程
+- 创建Worker时，JS引擎向浏览器申请开一个子线程（浏览器开的，完全受主线程控制，且不能操作dom）
+- JS引擎线程和worker线程间通过特定的方式通信（postMessage API，需要通过序列化对象来与线程交互特定的数据）
+
+#### WebWorker和SharedWorker
+
+- WebWorder只属于某个页面，不会和其他页面的Render进程共享
+  - Chrome在Render进程（每一个tap）中创建一个新的线程来运行Worker中的js程序
+- SharedWorker是浏览器所有页面共享的，不能采用和Worker同样的方式实现，因为它不属于某个Render进程，可以为多个Render进程共享使用
+  - Chrome浏览器为SharedWorker单独创建一个进程来运行JS程序，在浏览器中每个相同的js只存在一个SharedWorker进程，不管它被创建多少次
+- SharedWorker由独立的进程管理，WebWorker只是属于render进程下的一个线程
+
+### 简单梳理下浏览器渲染流程
+
+- 浏览器输入url，浏览器主进程接管，开一个下载线程，然后进行http请求，等待响应，获取内容，随后将内容通过RendererHost接口转交给Renderer进程
+- 浏览器渲染进程开始
+- 浏览器内核拿到内容后，渲染大概可以划分为以下几个步骤：
+  - 解析html建立dom树
+  - 解析css构建render树（将CSS代码解析成树形的数据结构，然后结合DOM合并成render树）
+  - 布局render树（Layout/reflow），负责各元素尺寸、位置的计算
+  - 绘制render树，绘制页面像素信息
+  - 浏览器会将各层的信息发送到GPU，GPU会将各层合成，显示在屏幕上
+- 渲染完毕后就是load事件了，之后就是自己的JS逻辑处理了
+
+![paint](../../images/paint.png)
+
+#### load事件和DOMContentLoaded事件的先后
+
+- 当DOMContentLoaded事件触发时，仅当DOM加载完成，不包括样式表，图片。
+- 当onload事件触发时，页面上所有的DOM，样式表，脚本，图片都已经加载完成了
+
+所以：DOMContentLoaded -> load
+
+#### css加载是否会阻塞dom树渲染
+- css是由单独的下载线程异步下载的
+- css加载不会阻塞DOM树解析（异步加载时DOM照常构建）
+- 会阻塞render树渲染（渲染时需等css加载完毕，因为render树需要css信息）
+
+原因：先把DOM树结构解析完，再等css加载完，根据最终的样式来渲染render树，这种做法性能方面确实会比较好一点，避免重绘或者回流，减少损耗。
+
+#### 普通图层和复合图层
+- 浏览器渲染的图层中一般包含两大类：普通图层和复合图层
+  - 普通图层
+    - 普通文档流内可以理解为一个复合图层（这里称为默认复合层，里面不管添加多少元素，其实都是在同一个复合图层中）
+    - absolute、fixed布局也一样，虽然可以脱离普通文档流，但它仍然属于默认复合层
+    - 可以通过硬件加速的方式，声明一个新的复合层，它会单独分配资源
+      - 它会脱离普通文档流，这样一来，不管这个复合图层中怎么变化，也不会影响默认复合层里的回流重绘
+    - GPU中，各个复合图层是单独绘制的，所以互不影响，这也是为什么某些场景硬件加速效果一级棒
+  - 复合图层（GPU硬件加速）
+    - 最常用的方式：translate3d、translateZ
+    - opacity属性/过渡动画（需要动画执行的过程中才会创建合成层，动画没有开始或结束后元素还会回到之前的状态）
+    - will-change属性，一般配合opacity和translate使用，提前告诉浏览器做一些优化工作（最好用完就释放）
+    - `<video><iframe><canvas><webgl>`等元素
+    - 其它，譬如以前的flash插件
+
+- absolute和硬件加速的区别
+  - absolute虽然可以脱离文档流，但是无法脱离默认复合图层
+  - 就算是absolute中信息改变时不会改变普通文档流中的render树
+  - 浏览器最终绘制时，是整个复合层绘制的，所以absolute中信息的改变，会影响整个复合层的绘制
+    - 浏览器会重绘它，如果复合层中内容多，absolute带来的绘制信息变化过大，资源消耗是非常严重的
+  - 硬件加速直接就是在另一个复合层了，所以它的信息改变不会影响默认复合层
+
+- 复合图层的作用
+  - 一般一个元素开启硬件加速后会变成复合图层，可以独立于普通文档流中，改动后可以避免整个页面重绘，提升性能
+  - 尽量不要大量使用复合图层，否则由于资源消耗过度，页面反而会变的更卡
+  - 硬件加速时请使用z-index
+    - [参考资料](http://web.jobbole.com/83575/)
+
+### 从Event Loop谈JS的运行机制
+
+- JS分为同步任务和异步任务
+- 同步任务都在主线程上执行，形成一个执行栈
+- 主线程之外，事件触发线程管理着一个任务队列，只要异步任务有了运行结果，就在任务队列中放置一个事件
+- 一旦执行栈中的所有同步任务执行完毕（此时JS引擎空闲），系统就会读取任务队列，将可运行的异步任务添加到可执行栈中，开始执行
+- 这也就是为什么有时候setTimeout推入的事件不能准时执行，因为可能在它推入到事件列表时，主线程还不空闲，正在执行其它代码
+
+#### 补充
+![event_loop](../../images/event_loop.png)
+
+- 主线程运行时会产生执行栈
+- 栈中的代码调用某些api时，它们会在事件队列中添加各种事件（当满足条件后，如ajax请求完毕）
+  - 栈中的代码执行完毕，就会读取事件队列中的事件，去执行那些回调
+  - 以此类推，总是等待栈中的代码执行完毕后才会去读取事件队列中的事件
+
+#### 定时器
+- 由定时器线程控制，js引擎是单线程的，如果处于阻塞状态就会影响计时的准确，很有必要单独开一个线程用来计时
+- 当使用setTimeout或setInterval，它需要定时器线程计时，计时完成后就将特定的事件推入事件队列中
+- 例子：
+  ```js
+  setTimeout(function(){
+      console.log('hello!');
+  }, 0);
+  console.log('begin');
+  ```
+  - 执行结果是：先begin后hello!
+  - 虽然代码的本意是0毫秒后就推入事件队列，但是W3C在HTML标准中规定，规定要求setTimeout中低于4ms的时间间隔算为4ms。
+  - 就算不等待4ms，就算假设0毫秒就推入事件队列，也会先执行begin（因为只有可执行栈内空了后才会主动读取事件队列）
+
+#### setTimeout而不是setInterval
+- 用setTimeout模拟定期计时和直接用setInterval是有区别的。
+- 因为每次setTimeout计时到后就会去执行，然后执行一段时间后才会继续setTimeout，中间就多了误差（误差多少与代码执行时间有关）
+- 而setInterval则是每次都精确的隔一段时间推入一个事件（但是，事件的实际执行时间不一定就准确，还有可能是这个事件还没执行完毕，下一个事件就来了）
+- 而且setInterval有一些比较致命的问题就是：
+  - 累计效应（上面提到的），如果setInterval代码在（setInterval）再次添加到队列之前还没有完成执行，就会导致定时器代码连续运行好几次，而之间没有间隔。就算正常间隔执行，多个setInterval的代码执行时间可能会比预期小（因为代码执行需要一定时间）
+  - 而且把浏览器最小化显示等操作时，setInterval并不是不执行程序，它会把setInterval的回调函数放在队列中，等浏览器窗口再次打开时，一瞬间全部执行
+- 所以，鉴于这么多但问题，目前一般认为的最佳方案是：用setTimeout模拟setInterval，或者特殊场合直接用requestAnimationFrame
+- 补充：JS高程中有提到，JS引擎会对setInterval进行优化，如果当前事件队列中有setInterval的回调，不会重复添加
+
+### 事件循环进阶：macrotask和microtask
+
+> [参考资料](https://jakearchibald.com/2015/tasks-microtasks-queues-and-schedules/)
+
+例子：
+```js
+console.log('script start');
+
+setTimeout(function() {
+    console.log('setTimeout');
+}, 0);
+
+Promise.resolve().then(function() {
+    console.log('promise1');
+}).then(function() {
+    console.log('promise2');
+});
+
+console.log('script end');
+```
+运行结果：
+```
+script start
+script end
+promise1
+promise2
+setTimeout
+```
+
+#### 原因
+Promise中有了一个新的概念：
+microtask
+进一步，JS中分为两种任务类型：macrotask和microtask，在ECMAScript中，microtask称为jobs，macrotask称为task
+
+#### 区别
+- macrotask（宏任务），可以理解为每次执行栈执行的代码就是一个宏任务（包括每次从事件队列中获取一个事件回调并放到执行栈中执行）
+  - 每一个task从头到尾将这个任务执行完毕，不会执行其它
+  - 浏览器为了能够使得js内部task与dom任务能够有序的执行，会在一个task执行结束后，在下一个task执行开始前，对页面进行重新渲染
+  - task -> render -> task -> ...
+- microtask（微任务），可以理解是在当前task执行结束后立即执行的任务
+  - 在当前task任务后，下一个task之前，在渲染之前
+  - 所以它的响应速度比setTimeout会更快，因为无需等渲染
+  - 在某一个macrotask执行完毕后，就会将在它执行期间产生的所有microtask都执行完毕（在render前）
+
+#### 生成场景
+- macrotask：主代码块、setTimeout、setInterval等（事件队列中的每一个事件都是一个macrotask）
+- microtask：Promise、process.nextTick等
+- 在node环境下，process.nextTick优先级高于Promise，简单理解为：在宏任务结束后会先执行微任务队列中的nextTickQueue部分，然后才会执行微任务中的Promise部分
+  - [为什么？](https://www.zhihu.com/question/36972010/answer/71338002)
+
+#### 线程角度
+- macrotask中的事件都是放在一个事件队列中的，而这个队列由事件触发线程维护
+- microtask中的所有微任务都是添加到微任务队列中，等待当前macrotask执行完毕后执行，而这个队列由JS引擎线程维护
+
+#### 运行机制
+
+- 执行一个宏任务（栈中没有就从事件队列中获取）
+- 执行过程中如果遇到微任务，就将它添加到微任务的任务队列中
+- 宏任务执行完毕后，立即执行当前微任务队列中的所有微任务（依次执行）
+- 当前宏任务执行完毕，开始检查渲染，然后GUI线程接管渲染
+- 渲染完毕后，JS线程继续接管，开始下一个宏任务（从事件队列中获取）
+
+![run](../../images/run.png)
+
+- Promise的polyfill与官方版本的区别
+  - 官方版本中，是标准的microtask形式
+  - polyfill，一般都是setTimeout模拟的，所以是macrotask形式
+
+> [vue-MutationObserver](https://github.com/vuejs/vue/blob/9cfd63a7d08c1eba029c8bd7463b3047c3347826/src/core/util/env.js#L86-L95)
+> [vue-MessageChannel](https://juejin.im/post/5a1af88f5188254a701ec230)
+
+- 使用MutationObserver实现microtask
+  - MutationObserver可以用来实现microtask，（它属于microtask，优先级小于Promise，一般是Promise不支持时才会这样做）
+  - 它是HTML5中的新特性，作用是：监听一个DOM变动，当DOM对象树发生任何变动时，Mutation Observer会得到通知
+  - 像以前的Vue源码中就是利用它来模拟nextTick的，具体原理是，创建一个TextNode并监听内容变化，然后要nextTick的时候去改一下这个节点的文本内容，如下：（Vue的源码，未修改）
+  ```js
+  var counter = 1
+  var observer = new MutationObserver(nextTickHandler)
+  var textNode = document.createTextNode(String(counter))
+  observer.observe(textNode, {
+      characterData: true
+  })
+  timerFunc = () => {
+      counter = (counter + 1) % 2
+      textNode.data = String(counter)
+  }
+  ```
+  - 不过，现在的Vue（2.5+）的nextTick实现移除了MutationObserver的方式（据说是兼容性原因），取而代之的是使用MessageChannel（当然，默认情况仍然是Promise，不支持才兼容的）。
+  - MessageChannel属于宏任务，优先级是：MessageChannel->setTimeout，所以Vue（2.5+）内部的nextTick与2.4及之前的实现是不一样的，需要注意下。
