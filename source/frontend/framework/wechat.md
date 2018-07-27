@@ -3,18 +3,20 @@ title: 小程序
 type: framework
 order: 5
 ---
+
+- [ ] 小程序是怎么渲染原生组件的
+- [ ] webview的通信
+
 ## 到底了
-不能使用relative，使用fixed
-在根元素上使用relative会导致ios页面乱滑
-使用长度为二的数组监听scroll方向，保存触发时间戳，第一项是前一个时间，后一项是当前时间戳，对比两个数组的scrollleft，如果小于0代表向左滑动，否则向右滑动
-注意最好提前触发到底动作，这样滑到底的时候刚好可以看到提示
+- 不能使用relative，使用fixed：在根元素上使用relative会导致ios页面乱滑
+- 使用长度为二的数组监听scroll方向，保存触发时间戳，第一项是前一个时间，后一项是当前时间戳，对比两个数组的scrollleft，如果小于0代表向左滑动，否则向右滑动
+- 注意最好提前触发到底动作，这样滑到底的时候刚好可以看到提示
 
 ## 状态不更新
-针对很深层级的子组件
-初始化子组件
-估计原因是computed属性监听不到对象的值发生变化了
-使用vuex来进行祖先和后代之间的通信
-或者避免太深的组件嵌套
+- 针对很深层级的子组件：可以初始化子组件，设置onHide事件
+- 估计原因是computed属性监听不到对象的值发生变化了
+- 使用vuex来进行祖先和后代之间的通信
+- 或者避免太深的组件嵌套
 ```js
 onHide() {
   this.init()
@@ -194,9 +196,10 @@ A 或 B |	B |	清空原来的页面栈，打开指定页面（相当于执行 wx
 
 > 以下钩子函数执行顺序仅限于同步调用，异步调用尽量不要耦合不同钩子函数，会出现依赖失败的情况
 
+- `onShow`: 同步操作，先于`onLaunch`触发，小程序从后台进入前台显示时，会触发
 - `onLaunch`: 全局只触发一次，注意：
   - 这里面的异步操作不能耗时过长，不然会出现`pages-onLoad`和`pages-onShow`先于异步操作触发
-- `onShow`: 同步操作，先于`onLaunch`触发，小程序从后台进入前台显示时，会触发
+
 - `onHide`: 小程序从前台进入后台显示时，会触发
 - `onError`: 参数就是报错信息，脚本错误或api调用失败时触发
 - `onPageNotFound`: 打开的页面不存在时触发
@@ -210,7 +213,7 @@ A 或 B |	B |	清空原来的页面栈，打开指定页面（相当于执行 wx
 
 ### Page
 
-- `onLoad`: 第一个触发，有`options`，监听页面加载，一个页面只会调用一次，可以在 onLoad 中获取打开当前页面所调用的 query 参数。
+- `onLoad`: 第一个触发，有`options`，监听页面加载，一个页面只会调用一次，onLoad 的第一个参数包含页面的query。
 - `onShow`: 第二个触发，监听页面显示，每次打开页面都会调用一次。
 - `onReady`: 第三个触发，监听页面初次渲染完成，一个页面只会调用一次，代表页面已经准备妥当，可以和视图层进行交互。对界面的设置如`wx.setNavigationBarTitle`请在onReady之后设置。
 - `onHide`: 先于App()的`onHide`事件触发，当navigateTo或底部tab切换时调用。
@@ -274,6 +277,7 @@ A 或 B |	B |	清空原来的页面栈，打开指定页面（相当于执行 wx
   - View层用来渲染页面结构
   - AppService层用来逻辑处理、数据请求、接口调用
   - 它们在两个进程（两个Webview）里运行
+
 - 视图层和逻辑层通过系统层的JSBridage进行通信，逻辑层把数据变化通知到视图层，触发视图层页面更新，视图层把触发的事件通知到逻辑层进行业务处理
 
 ![小程序架构图](../../images/mpFramework.png)
@@ -294,10 +298,11 @@ A 或 B |	B |	清空原来的页面栈，打开指定页面（相当于执行 wx
 - 消息通信封装为WeixinJSBridge
   - 开发环境：window.postMessage
   - IOS：WKWebview的window.webkit.messageHandlers.invokeHandler.postMessage
-  - android：WeixinJSCore.invokeHandler）
+  - android：WeixinJSCore.invokeHandler
+
 - 日志组件Reporter封装
 - wx对象下面的api方法
-- 全局的App,Page,getApp,getCurrentPages等全局方法
+- 全局的App、Page、getApp、getCurrentPages等全局方法
 - 还有就是对AMD模块规范的实现
 
 然后整个页面就是加载一堆JS文件，包括小程序配置config，上面的WAService.js（调试模式下有asdebug.js），剩下就是我们自己写的全部的js文件，一次性都加载。
@@ -319,10 +324,17 @@ A 或 B |	B |	清空原来的页面栈，打开指定页面（相当于执行 wx
 使用消息`publish`和`subscribe`机制实现两个`Webview`之间的通信，实现方式就是统一封装一个`WeixinJSBridge`对象，而不同的环境封装的接口不一样，具体实现的技术如下：
 
 - windows
-  - 通过window.postMessage实现（使用chrome扩展的接口注入一个contentScript.js，它封装了postMessage方法，实现webview之间的通信，并且也它通过chrome.runtime.connect方式，也提供了直接操作chrome native原生方法的接口）
-  - 发送消息：window.postMessage(data, ‘*’);，// data里指定 webviewID
-  - 接收消息：window.addEventListener(‘message’, messageHandler); // 消息处理并分发，同样支持调用nwjs的原生能力。
+  - 通过window.postMessage实现
+    - 使用chrome扩展的接口注入一个contentScript.js，它封装了postMessage方法，实现webview之间的通信，并且也它通过chrome.runtime.connect方式，也提供了直接操作chrome native原生方法的接口
+
+  - 发送消息：`window.postMessage(data, '*')`
+    - data里指定 webviewID
+
+  - 接收消息：window.addEventListener(‘message’, messageHandler); 
+    - 消息处理并分发，同样支持调用nwjs的原生能力。
+
   - appservice也是通过一个webview实现的，实现原理上跟view一样，只是处理的业务逻辑不一样。
+
 - ios
   - 通过 WKWebview的window.webkit.messageHandlers.NAME.postMessage实现微信navite代码里实现了两个handler消息处理器：
     - invokeHandler: 调用原生能力
@@ -609,5 +621,5 @@ module.exports = merge(prodEnv, {
 问题：出现脚本错误或者未正确调用 Page()
 解决方法：`.wpy`和`.js`不能重名
 
-#### 编译的dist文件出粗
+#### 编译的dist文件出错
 删掉重新编译

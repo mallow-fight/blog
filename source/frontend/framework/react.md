@@ -1,8 +1,11 @@
 ---
 title: react
 type: framework
-order: 3
+order: 2
 ---
+
+- [ ] vue和react 虚拟dom更新机制差异
+- [ ] 为什么vue不需要使用shouldComponentUpdate
 
 ## jsx
 - 可以任意的在jsx中使用js表达式，要包含在大括号中
@@ -25,13 +28,17 @@ const element = (
     Hello, world!
   </h1>
 )
-// after Babel get
+```
+after Babel get
+```js
 const element = React.createElement(
   'h1',
   {className: 'greeting'},
   'Hello, world!'
 )
-// React.createElement will do: bugs check, then return Object like:
+```
+React.createElement will do: bugs check, then return Object like:
+```js
 const element = (
   type: 'h1',
   props: {
@@ -107,7 +114,7 @@ class Welcome extends React.Component {
 ```
 
 ### 组件渲染
-当React的元素是用户自定义的组件，它会将JSX属性作为单个对象传递给该组件，这个对象称之为"props"。
+当React的元素是用户自定义的组件，它会将JSX属性作为单个对象传递给该组件，这个对象称之为`props`。
 ```jsx
 function Welcome(props) {
   return <h1>Hello, {props.name}</h1>
@@ -130,6 +137,7 @@ function App() {
     </div>
   )
 }
+
 ReactDOM.render(
   App,
   document.getElementById('root')
@@ -196,8 +204,30 @@ class Clock extends React.Component {
 ```
 
 ### 添加生命周期钩子
-组件第一次加载到dom中的时候，称为挂载
-dom被移除的时候，称为卸载
+- 装载过程（Mount）：第一次把组件渲染到DOM树的过程
+  - constructor：构造函数，经常是为了初始化state或者绑定成员函数的this环境，建议直接使用箭头函数，则需要在构造函数中进行函数的bind操作。
+  - componentWillMount：预装载函数，不能进行修改state的操作，即使做了，也不会进行数据状态的渲染。在该函数中做的操作，都可以提前到构造函数中，比较鸡肋。
+  - render：渲染函数，唯一不能省略的函数，必须有返回值，返回null或false表示不渲染任何dom元素。它是一个仅仅用于渲染的纯函数，返回值完全取决于this.state和this.props，不能在函数中任何修改props、state、拉取数据等具有副作用的操作。render函数返回的是jsx对象，该函数并不因为这渲染到DOM树，何时进行真正的渲染是由React库决定的。
+  - componentDidMount：挂载成功函数，该函数不会在render函数调用完成之后立即调用，因为render函数仅仅是返回了JSX的对象，并没有立即挂载到DOM树上，而componentDidMount是在组件被渲染到DOM树之后被调用的。另外，componentDidMount函数在进行服务器端渲染时不会被调用。
+  - 在React中，除了render函数之外，都有默认的函数实现，如果不要使用相应的生命周期函数则可以省略。constructor通常用于state的初始化操作，this.state = {}；函数绑定this建议在定义的时候直接使用箭头函数来实现，就不需要在constructor函数中进行this绑定操作了。componentWillMount用的很少，比较鸡肋。render函数必须实现，可以返回null来进行不渲染。componentDidMount通常用于服务器数据的拉取操作，之所以在componentDidMount中而不是在构造函数中进行数据拉取的原因：如果数据拉取回来了，即props已经有值了，但是组件还没有渲染出来，会报错。但是这里有一些把数据拉取提前到constructor函数的思路：在constructor函数中，通过promise来进行数据的拉取，并且绑定到this对象上，然后在componentDidMount中执行promise把数据更新到props上。
+
+- 更新过程（Update）：组件进行渲染更新的过程
+  - 当组件挂载到DOM树上之后，props/state被修改会导致组件进行更新操作，更新过程会以此调用如下的生命周期函数：
+  - componentWillReceiveProps(nextProps)：该函数在组件进行更新以及父组件render函数（不管数据是否发生了变化）被调用后执行，this.props取得当前的props，nextProps传入的是要更新的props
+  - shouldComponentUpdate(nextProps, nextState)：返回bool值，true表示要更新，false表示不更新，使用得当将大大提高React组件的性能，避免不需要的渲染。
+  - componentWillUpdate：预更新函数
+  - render：渲染函数
+  - componentDidUpdate：更新完成函数
+  - 相比装载过程的生命周期函数，更新过程的生命周期函数使用的相对来说要少一些。常用的是componentWillReceiveProps、componentShouldUpdate，前者经常用于根据前后两个数据去设置组件的状态，而后者则是常用于优化，避免不必要的渲染。
+
+- 卸载过程（Unmount）：组件从DOM树中删除的过程
+  - 卸载过程只涉及一个函数componentWillUnmount，当React组件要从DOM树上删除前，会调用一次这个函数。这个函数经常用于去除componentDidMount函数带来的副作用，例如清除定时器、删除componentDidMount中创造的非React元素。
+
+- setState
+  - 要修改state，只能使用this.setState()，不能使用this.state.value=2类似方式设置state，一是不会驱动重新渲染，二是很可能被后面的操作替换，造成无法预知的错误。此外，React利用状态队列来实现setState的异步更新，避免频繁地重复更新state。
+  - setState的调用是有风险的，在某些生命周期函数中调用可能会无用甚至造成循环调用导致崩溃。state的初始化一般在构造函数中实现：setState可以在装载过程的componentWillMount、componentDidMount中调用，可以在更新过程中的componentWillReceiveProps、componentDidUpdate中调用。
+
+- 举例：定时器的添加和删除
 ```js
 componentDidMount() {
   this.timerID = setInterval(
@@ -711,8 +741,10 @@ React提供了一组声明式API以让你不必关心每次更新的变化。这
 接下来，render()方法被调用，同时对比算法会递归处理之前的结果和新的结果。
 
 #### 递归子节点
-默认时。当递归DOM节点的子节点，React仅在同一时间点递归两个子节点列表，并在有不同时产生一个变更。
-使用Keys
+- 默认时。当递归DOM节点的子节点，React仅在同一时间点递归两个子节点列表，并在有不同时产生一个变更。
+- 使用Keys：key必须在其兄弟节点中是唯一的，而非全局唯一。
+  - 万不得已，你可以传递他们在数组中的索引作为key。若元素没有重排，该方法效果不错，但重排会使得其变慢。
+  - 当索引用作key时，组件状态在重新排序时也会有问题。组件实例基于key进行更新和重用。如果key是索引，则item的顺序变化会改变key值。这将导致受控组件的状态可能会以意想不到的方式混淆和更新。
 
 ### 权衡
 牢记协调算法的实现细节非常重要。React可能会在每次操作时渲染整个应用；而结果仍是相同的。为保证大多数场景效率能更快，我们通常提炼启发式的算法。

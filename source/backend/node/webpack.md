@@ -1,7 +1,7 @@
 ---
 title: webpack
 type: node
-order: 3
+order: 4
 ---
 ## 核心概念
 - entry 一个可执行模块或库的入口文件。

@@ -4,13 +4,17 @@ type: framework
 order: 1
 ---
 
-- [ ] 使用`vue-router`改变`:id`会调用哪些生命周期
 
 > [官网](https://cn.vuejs.org/v2/guide/installation.html)
 > [主流框架原理](../questions/framework.html#vue)
 > 通过阅读官网来了解一些基础知识，为以后深入了解做铺垫。
 
-## 笔记
+## vue-router
+
+### 使用`vue-router`改变`:id`会调用哪些生命周期
+`beforeUpdate` -> `updated`，只是针对虚拟dom打补丁
+
+## vue-笔记
 
 ### 声明式渲染
 
@@ -469,7 +473,7 @@ MyPlugin.install = function (Vue, options) {
 
 - `beforeUpdate`: 数据更新时调用，发生在虚拟 `DOM` 打补丁之前。这里适合在更新之前访问现有的 `DOM`，比如手动移除已添加的事件监听器。该钩子在服务器端渲染期间不被调用，因为只有初次渲染会在服务端进行。这一步发生在`watch`之后，如果更新的值有`watcher`。更新`data`才会触发，更新`methods`不会触发。
 
-- `updated`: 由于数据更改导致的虚拟 DOM 重新渲染和打补丁，在这之后会调用该钩子。当这个钩子被调用时，组件 DOM 已经更新，所以你现在可以执行依赖于 DOM 的操作。然而在大多数情况下，你应该避免在此期间更改状态。如果要相应状态改变，通常最好使用计算属性或 watcher 取而代之。注意 updated 不会承诺所有的子组件也都一起被重绘。如果你希望等到整个视图都重绘完毕，可以用 vm.$nextTick 替换掉 updated
+- `updated`: 由于数据更改导致的虚拟 DOM 重新渲染和打补丁，在这之后会调用该钩子。当这个钩子被调用时，组件 DOM 已经更新(这意味着hash的改变不会导致`mounted`的调用)，所以你现在可以执行依赖于 DOM 的操作。然而在大多数情况下，你应该避免在此期间更改状态。如果要相应状态改变，通常最好使用计算属性或 watcher 取而代之。注意 updated 不会承诺所有的子组件也都一起被重绘。如果你希望等到整个视图都重绘完毕，可以用 vm.$nextTick 替换掉 updated
 
 - `activated`: keep-alive 组件激活时调用。该钩子在服务器端渲染期间不被调用。
 

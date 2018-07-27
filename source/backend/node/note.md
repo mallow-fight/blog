@@ -1,6 +1,6 @@
 ---
 title: 笔记
-order: 5
+order: 1
 type: node
 ---
 

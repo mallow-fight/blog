@@ -16,13 +16,16 @@ title: 安全
   - CORS需要浏览器和服务器同时支持。目前，所有浏览器都支持该功能，IE浏览器不能低于IE10。
   - 整个CORS通信过程，都是浏览器自动完成，不需要用户参与。对于开发者来说，CORS通信与同源的AJAX通信没有差别，代码完全一样。浏览器一旦发现AJAX请求跨源，就会自动添加一些附加的头信息，有时还会多出一次附加的请求，但用户不会有感觉。
   - 因此，实现CORS通信的关键是服务器。只要服务器实现了CORS接口，就可以跨源通信。
+
 - jsonp
  - 利用`<script>`标签没有跨域限制的“漏洞”（历史遗迹啊）来达到与第三方通讯的目的。
  - 当需要通讯时，本站脚本创建一个`<script>`元素，地址指向第三方的API网址，`<script src="http://www.example.net/api?param1=1&param2=2"></script>`并提供一个回调函数来接收数据（函数名可约定，或通过地址参数传递）。
  - 第三方产生的响应为json数据的包装（故称之为jsonp，即json padding，相当于一个立即执行的函数），形如：callback({"name":"hax","gender":"Male"})，这样浏览器会调用callback函数，并传递解析后json对象作为参数。本站脚本可在callback函数里处理所传入的数据。
  - JSONP只支持GET请求，CORS支持所有类型的HTTP请求。JSONP的优势在于支持老式浏览器，以及可以向不支持CORS的网站请求数据。
+
 - 服务器代理
  - 浏览器有跨域限制，但是服务器不存在跨域问题，所以可以由服务器请求所要域的资源再返回给客户端。
+ 
 - document.domain
 - window.name
 - location.hash
@@ -34,13 +37,15 @@ title: 安全
 - 最好使用第三方登录以及手机验证码验证
 
 ## 类型
+
 - XSS：跨站脚本（cross-site scripting），是一种网站应用程序的安全漏洞攻击，是代码注入的一种。它允许恶意用户将代码注入到网页上，其他用户在观看网页时就会受到影响。这类攻击通常包含了HTML以及用户端脚本语言。比如：发帖时写下恶意代码
 
-- CSRF:跨站请求伪造（Cross-site request forgery），也被称为 one-click attack 或者 session riding，通常缩写为 CSRF 或者 XSRF， 是一种挟制用户在当前已登录的Web应用程序上执行非本意的操作的攻击方法。比如：帖子里包含恶意链接，点击就会发出恶意请求
+- CSRF：跨站请求伪造（Cross-site request forgery），也被称为 one-click attack 或者 session riding，通常缩写为 CSRF 或者 XSRF， 是一种挟制用户在当前已登录的Web应用程序上执行非本意的操作的攻击方法。比如：帖子里包含恶意链接，点击就会发出恶意请求
 
 XSS是过程，CSRF是结果，XSS获取到用户信息，CSRF利用用户信息伪造请求来损害用户利益，CSRF是基于XSS的。
 
 预防：
+
 **CSRF依赖于XSS，防住XSS基本也就防住了CSRF**
 - 始终检查用户发送给服务器的数据，尽量不要显示用户提供的html内容
 - 执行存储用户发送的数据的清理工作

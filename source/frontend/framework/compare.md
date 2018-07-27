@@ -1,8 +1,10 @@
 ---
 title: 对比
-order: 5
+order: 4
 type: framework
 ---
+
+[参考资料-Vue官网](https://cn.vuejs.org/v2/guide/comparison.html)
 
 ## Vue vs React
 
@@ -23,7 +25,7 @@ type: framework
   - 这个特点使得开发者不再需要考虑此类优化，从而能够更好的专注于应用本身
 
 #### React
-- 当某个组件的状态发生变化是，它会以该组件为根，重新渲染整个组件子树
+- 当某个组件的状态发生变化时，它会以该组件为根，重新渲染整个组件子树
   - 如要避免不必要的子组件的重渲染，你需要在所有可能的地方使用`PureComponent`，或是手动实现shouldComponentUpdate方法。同时你可能会需要使用不可变的数据结构来使得组件更容易被优化
   - 使用PureComponent和shouldComponentUpdate时，需要保证该组件的整个子树的渲染输出都是由该组件的props所决定的。如果不符合这个情况，那么此类优化就会导致难以察觉的渲染结果不一致，这使得React中的组件优化伴随着相当的心智负担
 
@@ -140,10 +142,20 @@ AngularJS使用双向绑定，Vue在不同组件间强制使用单向数据流�
 解决方式：
 1. Vue.set(object, key, value)
 1. this.$set(object, key, value)
-1. 创建一个新的对象，例：this.someObject = Object.assign({}, this.someObject, {a: 1, b: 2})
+1. 创建一个新的对象：
+  - this.someObject = Object.assign({}, this.someObject, {a: 1, b: 2})
+
 1. 针对数组，不能检测以下变动的数组：
-    - 当你利用索引直接设置一个项时：可使用`Vue.set(vm.array, index, newValue)` or `vm.items.splice(index, 1, newValue)` or `this.$set`
-    - 当你修改数组的长度时：`splice`
+  - 当你利用索引直接设置一个项时：
+    - `Vue.set(vm.array, index, newValue)` 
+    - `vm.items.splice(index, 1, newValue)` 
+    - `this.$set`
+
+  - 当你修改数组的长度时：
+    - `splice`
+
+  - 如果数组中某项是对象，设置对象的时
+    - `this.items = [].concat(this.items)`
 
 **异步更新队列：**`Vue` 异步执行 `DOM` 更新。只要观察到数据变化，`Vue` 将开启一个队列，并缓冲在同一事件循环中发生的所有数据改变。如果同一个 `watcher` 被多次触发，只会被推入到队列中一次。这种在缓冲时去除重复数据对于避免不必要的计算和 `DOM` 操作上非常重要。然后，在下一个的事件循环“`tick`”中，`Vue` 刷新队列并执行实际 (已去重的) 工作。`Vue` 在内部尝试对异步队列使用原生的 `Promise.then` 和 `MessageChannel`，如果执行环境不支持，会采用 `setTimeout(fn, 0)` 代替。例：
 ```html
@@ -164,7 +176,8 @@ Vue.nextTick(function () {
 ```
 
 ### react
-**什么是虚拟dom:**虚拟DOM（VDOM）是一种编程概念，是指虚拟的视图被保存在内存中，并通过诸如ReactDOM这样的库与“真实”的DOM保持同步。这个过程被称为和解。
+**虚拟dom:**
+ 一种编程概念，是指虚拟的视图被保存在内存中，并通过诸如ReactDOM这样的库与“真实”的DOM保持同步。这个过程被称为和解。
 这种编程方法使用了React的声明式API：你需要告诉React你想让视图处于什么状态，React则负责确保DOM与该状态相匹配。因此你在构建你的应用时不必自己去完成属性操作、事件处理、DOM更新，React会替你完成这一切。
 由于“虚拟DOM”更像一种模式而不是特定的技术，有时候我们也会用它表示其他的意思。在React的世界中，由于 “虚拟DOM” 和 React元素 都是用于表示视图的对象，因此常常被关联在一起。然而React也使用被称为“fibers”的对象来存放组件树的附加信息。在React中，它们也被认为是“虚拟DOM”实现的一部分。
 
@@ -181,7 +194,7 @@ Vue.nextTick(function () {
 
 DI / 双向数据绑定中：
 - 用户 -> 内存 ：
-  - 浏览器提供有User Event触发事件的API，如click，change...等等等；、
+  - 浏览器提供有User Event触发事件的API，如click，change...等等等；
   
 - 内存 -> 用户：
   - 浏览器并没有提供数据监测的API，故任何内存数据变动（定时、异步请求、事件触发...导致的数据变动）都无法被Listen，自然也就没办法再处理callback了；
@@ -191,11 +204,9 @@ DI / 双向数据绑定中：
     - ng-click，ng-change，ng-blur...就是对各类用户事件的封装
     - $timeout，$http，$window，$location...就是对各种JS/API事件的封装
     - ng-model，以及控制器中的数据，就是对值的“注册”
-    - $scope 本质是一个总的事件逻辑的封装容器，同时抽象为数据载体，
+    - $scope 本质是一个总的事件逻辑的封装容器，同时抽象为数据载体
+
   - 实质上数据都存在于浏览器堆内存中
     - $scope.apply() & $scope.digest() 即Angular中的“数据大检查”的function
     - 所以如果我们使用了非Angular封装的事件改编数据时，要手动执行一次大检查
     - 由于Angular这种脏检查的方法效率不高，如果一个页面绑定的view超过2000个，就可能存在比较明显的性能问题，官方称之为“脏检查”
-
-### 对比
-[参考资料](https://cn.vuejs.org/v2/guide/comparison.html)

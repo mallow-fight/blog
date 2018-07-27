@@ -1,7 +1,7 @@
 ---
 title: hexo
 type: node
-order: 4
+order: 5
 ---
 
 <p class="tip">本篇文章通篇在`mac-os`环境下运行。</p>
