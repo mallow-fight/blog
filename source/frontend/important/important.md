@@ -24,6 +24,7 @@ type: important
 [结构化网站](../html/tag.html#结构化网站)
 [元素和属性](../html/element&attribute.html)
 [安全与预防](../html/safe.html)
+[问题](../html/questions.html)
 
 ### css
 [css3新的特性](../css/define.html)
@@ -31,6 +32,7 @@ type: important
 [层叠和继承](../css/inhreit.html)
 [布局](../css/display.html)
 [选择器](../css/selector.html)
+[问题](../css/questions.html)
 
 ### js
 [作用域和闭包](../js/scope&closures.html)
@@ -61,4 +63,3 @@ type: important
 
 ## database
 [表操作](../../backend/database/mysqlTable.html)
-
