@@ -4,8 +4,8 @@ order: 1
 type: skeleton
 ---
 
-> [这个比较好，整理出来](https://dailc.github.io/2018/03/12/whenyouenteraurl.html)
-> [更详细，涉及硬件层面的，不太适合前端](http://fex.baidu.com/blog/2014/05/what-happen/)
+> [参考资料 - 偏前端](https://dailc.github.io/2018/03/12/whenyouenteraurl.html)
+> [参考资料 - 偏硬件](http://fex.baidu.com/blog/2014/05/what-happen/)
 
 ## 大纲
 - 从浏览器接受URL到开启网络请求线程

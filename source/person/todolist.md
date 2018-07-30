@@ -29,6 +29,7 @@ order: 1
   - [x] 浏览器输入URL到显示整个页面
     - [x] 大致流程
     - [x] 细节整理
+    - [x] [浏览器进程机制整理](https://segmentfault.com/a/1190000012925872)
   - [x] css
     - [x] 样式继承
     - [x] 和qustions中的布局整合

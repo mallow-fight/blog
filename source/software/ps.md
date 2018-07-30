@@ -1,5 +1,5 @@
 ---
-title: photoshop
+title: photoshop相关
 type: software
 order: 7
 ---

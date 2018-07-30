@@ -1,6 +1,6 @@
 ---
 title: 设计模式
-order: 6
+order: 3
 type: software
 ---
 
