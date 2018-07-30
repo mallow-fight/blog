@@ -54,3 +54,24 @@ click：在这个dom（或冒泡到这个dom）上手指触摸开始，且手指
 - 通过`navigator.userAgent`判断浏览器类型，或者根据浏览器特有的属性或者方法来判断浏览器类型，再去做出合适的polyfill。
 - 直接使用悬浮窗显示输入的内容。
 
+## 自适应所有手机和电脑浏览器大小
+```html
+<meta name="viewport" content="width=device-widht,initial-scale=1.0,suer-scalable=1.0,maximum-scale=1.0,minimum-scale=1.0">
+```
+```js
+(function () {
+    var b = document.documentElement,
+        a = function () {
+            // 获取屏幕宽度
+            var a = b.getBoundingClientRect().width;
+            // size is screen width
+            b.style.fontSize = (a / 'size') * 100 + "px";
+        }, c = null;
+    window.addEventListener("resize", function () {
+        clearTimeout(c);
+        c = setTimeout(a, 300);
+    });
+    a();
+})();
+```
+

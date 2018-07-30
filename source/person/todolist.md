@@ -7,15 +7,8 @@ order: 1
 ## 第一象限
 
 - [ ] 每天练习sql > 0.5h
-  - [x] 2018-07-18
-  - [x] 2018-07-19
-  - [x] 2018-07-20
-- [ ] 每天复习面试题 > 0.5h
-  - [x] 2018-07-18
-  - [x] 2018-07-19
-  - [x] 2018-07-20
-  - [x] 2018-07-21
-- [ ] [一天两道算法题，针对面试高频题](https://www.lintcode.com/problem/?level=2)
+- [ ] 每天复习博客 > 0.5h
+- [ ] [一天两道算法题](https://www.lintcode.com/problem/?level=2)
 - [x] 对公司产生较大效益的工作
 - [x] 管理能力
 - [x] 高效学习
@@ -24,15 +17,15 @@ order: 1
 ## 第二象限(优先级按顺序)
 
 - [ ] 优化博客结构、内容以及排版
-  - [ ] 代码大全
   - [ ] js补充，不够详细
   - [ ] 整理前端骨架的衍生知识点
-  - [ ] 移动端屏幕大小自适应
+  - [ ] 补充todo项
+  - [x] 移动端屏幕大小自适应
   - [x] node原理
     - [x] [参考](https://www.cnblogs.com/bingooo/p/6720540.html)
     - [x] [参考](https://blog.csdn.net/xiangzhihong8/article/details/53954600)
     - [x] [参考](http://taobaofed.org/blog/2015/10/29/deep-into-node-1)
-  - [ ] [整理面试题](https://github.com/markyun/My-blog/tree/master/Front-end-Developer-Questions)
+  - [x] [整理面试题](https://github.com/markyun/My-blog/tree/master/Front-end-Developer-Questions)
   - [x] 浏览器输入URL到显示整个页面
     - [x] 大致流程
     - [x] 细节整理
@@ -81,6 +74,8 @@ order: 1
 
 ## 第三象限
 
+- [ ] 代码大全
+- [ ] 算法导论
 - [ ] 后端语言深入了解
 - [ ] [整理提升EQ以及心理素质书籍 + 必看书籍](https://www.zhihu.com/question/22794831)
 - [ ] PWA

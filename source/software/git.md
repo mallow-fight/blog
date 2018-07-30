@@ -1,5 +1,5 @@
 ---
-title: git工具
+title: git相关
 type: software
 order: 3
 ---
@@ -114,7 +114,7 @@ git push origin branch # 将本地branch分支推到远程主分支
 git push -u origin master # 客户端首次提交
 ```
 
-## 上传本地仓库
+### 上传本地仓库
 ```bash
 # if not exist
 echo "# image-bed" >> README.md
@@ -128,13 +128,13 @@ git remote add origin https://github.com/mallow-fight/image-bed.git
 git push -u origin master
 ```
 
-## 打tag
+### 打tag
 
 git tag -a v1.4 -m 'my version 1.4'
 
-## 重新使gitignore生效
+### 重新使gitignore生效
 
->[how to use .gitignore](https://help.github.com/articles/ignoring-files/)
+>[参考资料-如何使用.gitignore](https://help.github.com/articles/ignoring-files/)
 
 ```bash
 git rm -r --cached .
