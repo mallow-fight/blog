@@ -45,9 +45,13 @@ type: html
 
 ### 总结
 - 用清晰的链接措辞
+
 - 尽可能使用相对链接
+
 - 链接到非html资源时，留下清晰的指示
+
 - 在下载链接时使用下载属性
+
 - 当您链接到要下载的资源而不是在浏览器中打开时，您可以使用下载属性来提供一个默认的保存文件名。下面是一个下载链接到`Firefox 39 Windows`版本的示例：
 ```html
 <a href="https://download.mozilla.org/?product=firefox-39.0-SSL&os=win&lang=en-US"

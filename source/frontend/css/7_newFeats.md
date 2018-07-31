@@ -1,6 +1,6 @@
 ---
-title: 渐变
-order: 14
+title: CSS3新特性
+order: 7
 type: css
 ---
 ## 线性渐变 - 从上到下

@@ -27,12 +27,12 @@ type: important
 [问题](../html/questions.html)
 
 ### css
-[css3新的特性](../css/define.html)
-[盒模型](../css/display.html#盒模型)
-[层叠和继承](../css/inhreit.html)
-[布局](../css/display.html)
-[选择器](../css/selector.html)
-[问题](../css/questions.html)
+[css3新的特性](../css/1_define.html)
+[盒模型](../css/2_display.html#盒模型)
+[层叠和继承](../css/3_inhreit.html)
+[布局](../css/2_display.html)
+[选择器](../css/4_selector.html)
+[问题](../css/10_questions.html)
 
 ### js
 [作用域和闭包](../js/scope&closures.html)

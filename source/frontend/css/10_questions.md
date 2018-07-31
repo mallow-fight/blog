@@ -1,8 +1,83 @@
 ---
 title: 问题
-order: 15
+order: 10
 type: css
 ---
+## 高度塌陷 - 使用float的元素高度会塌陷，造成接下来的元素不能在它下方显示
+解决方案：
+给这个元素的接下来的元素设置样式
+
+```css
+.after-box{
+    /* 和float方向保持一致 */
+    clear: left;
+    /* clear: both 清除所有方向的浮动 */
+}
+/* 或者 */
+.after-box{
+    overflow: hidden;
+}
+```
+
+## 图片比元素还要高，会造成图片溢出元素范围
+解决方案：
+
+```css
+.clearfix{
+    overflow: auto;
+    /* for ie6 */
+    zoom: 1;
+}
+```
+
+## 元素的边框和内边距会撑开元素
+
+- 解决方案: 设置一个元素为`box-sizing: border-box`,则此元素的内边距和边框不会增加它的宽度
+
+```css
+.simple{
+    width: 500px;
+    margin: 20px auto;
+    border: solid blue 10px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+```
+
+## `inline-block`元素的对齐
+```css
+.align{
+    vertical-align: middle;
+}
+```
+
+## 超出部分字体省略号
+```css
+.ignore{
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+```
+
+## ios下流畅的滑动
+```css
+.scroll{
+    overflow: scroll;
+    -webkit-overflow-scrolling: touch;
+    overflow: scroll;
+    -webkit-overflow-scrolling: touch;
+}
+```
+
+## 多列布局
+
+> [MDN](https://developer.mozilla.org/zh-CN/docs/Web/Guide/CSS/Using_multi-column_layouts)
+
+- CSS多列布局 扩展块布局模式，以便更容易地定义多列文本。如果一行太长，人们阅读文本很麻烦; 如果眼睛从一行的终点移动到下一个行的开始需要太长时间，它们就会丢失它们所在的行。因此，为了最大限度地利用大屏幕，作者应该将宽度不等的文本列并排放置，就像报纸一样。
+- 糟糕的是如果不使用CSS和HTML在特定的位置强制换行，或者严格限制文本中允许的标记，或者夸张地使用脚本的话，这是不可能实现的。该限制通过从传统的块级布局模块中延伸出来的新的CSS属性得以解决。
+
 ## 什么是脱离文档流？
 - 使用float后
   - 一个元素脱离文档流（out of normal flow）之后，其他的元素在定位的时候会当做没看见它，两者位置重叠都是可以的。
