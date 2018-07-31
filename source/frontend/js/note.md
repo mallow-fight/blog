@@ -1,6 +1,6 @@
 ---
 title: 笔记
-order: 1
+order: 6
 type: js
 ---
 

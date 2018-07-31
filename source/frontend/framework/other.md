@@ -1,5 +1,5 @@
 ---
-title: 画图
+title: 其它
 order: 6
 type: framework
 ---
