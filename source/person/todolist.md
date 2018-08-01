@@ -8,7 +8,8 @@ order: 1
 
 - [ ] 每天练习sql > 0.5h
 - [ ] 每天复习博客 > 0.5h
-- [ ] [一天两道算法题](https://www.lintcode.com/problem/?level=2)
+- [ ] 阅读github星标的算法仓库
+- [x] [一天两道算法题 - 这上面有很多限制 - 不太好](https://www.lintcode.com/problem/?level=2)
 - [x] 对公司产生较大效益的工作
 - [x] 管理能力
 - [x] 高效学习

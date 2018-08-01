@@ -3,6 +3,14 @@ title: lintcode笔记
 order: 1
 type: arithmetic
 ---
+## 尾部的零
+设计一个算法，计算出n阶乘中尾部零的个数
+样例
+11! = 39916800，因此应该返回 2
+挑战
+O(logN)的时间复杂度
+
+> [csdn](https://blog.csdn.net/surp2011/article/details/51168272)
 
 ## 统计数字
 统计数字
