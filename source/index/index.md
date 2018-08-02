@@ -7,10 +7,9 @@ type: index
 ## 前端传送门
 
 - [html](/frontend/html/define.html)
-- [css](/frontend/css/define.html)
+- [css](/frontend/css/1_define.html)
 - [js](/frontend/js/note.html)
 - [framework](/frontend/framework/vue.html)
-- [questions](/frontend/questions/important.html)
 
 ## 后端传送门
 

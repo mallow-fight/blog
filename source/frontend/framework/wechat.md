@@ -4,116 +4,6 @@ type: framework
 order: 5
 ---
 
-- [ ] 小程序是怎么渲染原生组件的
-- [ ] webview的通信
-
-## 到底了
-- 不能使用relative，使用fixed：在根元素上使用relative会导致ios页面乱滑
-- 使用长度为二的数组监听scroll方向，保存触发时间戳，第一项是前一个时间，后一项是当前时间戳，对比两个数组的scrollleft，如果小于0代表向左滑动，否则向右滑动
-- 注意最好提前触发到底动作，这样滑到底的时候刚好可以看到提示
-
-## 状态不更新
-- 针对很深层级的子组件：可以初始化子组件，设置onHide事件
-- 估计原因是computed属性监听不到对象的值发生变化了
-- 使用vuex来进行祖先和后代之间的通信
-- 或者避免太深的组件嵌套
-```js
-onHide() {
-  this.init()
-},
-onShow() {
-  this.init()
-}
-```
-
-## 下拉刷新
-不要调用startPullDown，ios下会出现bug
-直接这么写：
-```js
-async onPullDownRefresh () {
-  await this.refreshMyScores()
-  wx.stopPullDownRefresh()
-}
-```
-
-## animation
-
-### scale
-scale(x, y)
-x, y 值的范围是0～2，如果是负值的话，画面会倒置
-
-### 循环
-注意每次循环对上一次的结果进行倒叙
-```js
-initShareIconAnimationAnimate (animation, direction) {
-  const animateGroup = {true: [[-180, 0], [0, 180], [0.5, 1]], false: [[180, 0], [0, -180], [1, 0.5]]}[direction]
-  animation.rotate(animateGroup[0][0], animateGroup[0][1]).scale(animateGroup[2][0]).step()
-  animation.rotate(animateGroup[1][0], animateGroup[1][1]).scale(animateGroup[2][1]).step()
-  this.shareIconAnimation = animation.export()
-},
-initShareIconAnimation (delay) {
-  const animation = wx.createAnimation({
-    duration: delay,
-    timingFunction: 'linear'
-  })
-  let direction = true
-  this.initShareIconAnimationAnimate(animation, direction)
-  setInterval(() => {
-    direction = !direction
-    this.initShareIconAnimationAnimate(animation, direction)
-  }, delay + 100)
-}
-```
-
-### 切换
-只能同时进行一个动画step
-```js
-touchClickShareAnimation (isShareMode) {
-  if (this.animateOn) return
-  this.animateOn = true
-  this.setIsShareMode(isShareMode)
-  const animation = wx.createAnimation({
-    duration: this.setIsShareModeDelay,
-    timingFunction: 'ease'
-  })
-  const animationStep = (opa) => {
-    animation.opacity(opa).step()
-    return animation
-  }
-  if (isShareMode) {
-    this.clickShareAnimation = animationStep(0).export() // 首先执行它
-    setTimeout(() => {
-      this.cancelShareAnimation = animationStep(1).export() // 延迟时间过后再执行这个动画
-    }, this.setIsShareModeDelay / 2) // 可以将这个动画提前一般延迟时间使得后半段动画可以出现
-  } else {
-    this.cancelShareAnimation = animationStep(0).export() // 首先执行它
-    this.clickShareAnimation = animationStep(1).export() // 直接使click透明度变为1，没有过渡过程，因为这个时候cancelShareAnimation还在执行，这个效果看起来还不错，保留了
-  }
-},
-```
-
-### 滑动
-```js
-touchMoveCardAnimation (type) {
-  const animation = wx.createAnimation({
-    duration: 800,
-    timingFunction: 'ease'
-  })
-  console.log(type)
-  if (type) {
-    animation.translateY(52).step()
-    animation.translateY(42).step() // 这个在多个卡片的情况下会出现上下晃动，待解决
-  } else {
-    animation.translateY(0).step()
-    animation.translateY(0).step() // 只使用一个step会上下摇动，原因不明
-  }
-  this.moveCardAnimation = animation.export()
-}
-```
-
-## webview组件
-**每个`pages`都可以有一个`webview`组件，所以一些静态化和用户无关的界面可以使用`html`链接代替。需要企业用户才能使用webview。**
-
 ## 版本更新&兼容
 
 - 判断api是否可用：`wx.canIUse(String)`，根据这个执行相应的兼容策略
@@ -358,7 +248,104 @@ A 或 B |	B |	清空原来的页面栈，打开指定页面（相当于执行 wx
 
 ## 踩坑
 
+### 动画
+
+#### scale
+scale(x, y)
+x, y 值的范围是0～2，如果是负值的话，画面会倒置
+
+#### 循环
+- 注意每次循环对上一次的结果进行倒叙：这里的动画会首先顺时针旋转360度，然后逆时针旋转360度
+- 可以修改为从0开始每次增加360的动画，这里的角度值没有上限
+- 最好使用延时器来实现，定时器会存在锁屏情况下再回来动画多旋转几次的bug，当然，onHide清除定时器，onShow执行动画也可以
+
+```js
+initShareIconAnimationAnimate (animation, direction) {
+  const animateGroup = {true: [[-180, 0], [0, 180], [0.5, 1]], false: [[180, 0], [0, -180], [1, 0.5]]}[direction]
+  animation.rotate(animateGroup[0][0], animateGroup[0][1]).scale(animateGroup[2][0]).step()
+  animation.rotate(animateGroup[1][0], animateGroup[1][1]).scale(animateGroup[2][1]).step()
+  this.shareIconAnimation = animation.export()
+},
+initShareIconAnimation (delay) {
+  const animation = wx.createAnimation({
+    duration: delay,
+    timingFunction: 'linear'
+  })
+  let direction = true
+  this.initShareIconAnimationAnimate(animation, direction)
+  setInterval(() => {
+    direction = !direction
+    this.initShareIconAnimationAnimate(animation, direction)
+  }, delay + 100)
+}
+```
+
+#### 切换
+只能同时进行一个动画step
+```js
+touchClickShareAnimation (isShareMode) {
+  if (this.animateOn) return
+  this.animateOn = true
+  this.setIsShareMode(isShareMode)
+  const animation = wx.createAnimation({
+    duration: this.setIsShareModeDelay,
+    timingFunction: 'ease'
+  })
+  const animationStep = (opa) => {
+    animation.opacity(opa).step()
+    return animation
+  }
+  if (isShareMode) {
+    this.clickShareAnimation = animationStep(0).export() // 首先执行它
+    setTimeout(() => {
+      this.cancelShareAnimation = animationStep(1).export() // 延迟时间过后再执行这个动画
+    }, this.setIsShareModeDelay / 2) // 可以将这个动画提前一般延迟时间使得后半段动画可以出现
+  } else {
+    this.cancelShareAnimation = animationStep(0).export() // 首先执行它
+    this.clickShareAnimation = animationStep(1).export() // 直接使click透明度变为1，没有过渡过程，因为这个时候cancelShareAnimation还在执行，这个效果看起来还不错，保留了
+  }
+},
+```
+
+#### 滑动
+```js
+touchMoveCardAnimation (type) {
+  const animation = wx.createAnimation({
+    duration: 800,
+    timingFunction: 'ease'
+  })
+  console.log(type)
+  if (type) {
+    animation.translateY(52).step()
+    animation.translateY(42).step() // 这个在多个卡片的情况下会出现上下晃动，待解决
+  } else {
+    animation.translateY(0).step()
+    animation.translateY(0).step() // 只使用一个step会上下摇动，原因不明
+  }
+  this.moveCardAnimation = animation.export()
+}
+```
+
 ### 通用
+
+#### webview组件
+**每个`pages`都可以有一个`webview`组件，所以一些静态化和用户无关的界面可以使用`html`链接代替。需要企业用户才能使用webview。**
+
+#### 下拉刷新
+不要调用startPullDown，ios下会出现bug
+直接这么写：
+```js
+async onPullDownRefresh () {
+  await this.refreshMyScores()
+  wx.stopPullDownRefresh()
+}
+```
+
+#### 实现到底了效果
+- 不能使用relative，使用fixed：在根元素上使用relative会导致ios页面乱滑
+- 使用长度为二的数组监听scroll方向，保存触发时间戳，第一项是前一个时间，后一项是当前时间戳，对比两个数组的scrollleft，如果小于0代表向左滑动，否则向右滑动
+- 注意最好提前触发到底动作，这样滑到底的时候刚好可以看到提示
+
 #### access_token的保存
 - 建议公众号开发者使用中控服务器统一获取和刷新Access_token，其他业务逻辑服务器所使用的access_token均来自于该中控服务器，不应该各自去刷新，否则容易造成冲突，导致access_token覆盖而影响业务；
 - 目前Access_token的有效期通过返回的expire_in来传达，目前是7200秒之内的值。中控服务器需要根据这个有效时间提前去刷新新access_token。在刷新过程中，中控服务器可对外继续输出的老access_token，此时公众平台后台会保证在5分钟内，新老access_token都可用，这保证了第三方业务的平滑过渡；
@@ -498,6 +485,19 @@ export default {
 ```
 
 ### mpVue
+#### 状态不更新
+- 针对很深层级的子组件：可以初始化子组件，设置onHide事件
+- 估计原因是computed属性监听不到对象的值发生变化了
+- 使用vuex来进行祖先和后代之间的通信
+- 或者避免太深的组件嵌套
+```js
+onHide() {
+  this.init()
+},
+onShow() {
+  this.init()
+}
+```
 
 #### $emit 失效
 
