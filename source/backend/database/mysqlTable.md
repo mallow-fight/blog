@@ -256,6 +256,10 @@ select o.orderID, c.CustomerName, o.OrderDate from Orders as o inner join Custom
 
 ### 区别
 
+- 也就是说，innerjoin是左右两张表都有的，结果中没有空值
+- leftjoin一定会返回左表中的所有值，如果记录匹配不到右表，右表中的相应字段出现空值
+- rightjoin一定会返回右表中的所有值，如果记录匹配不到左表，左边中的相应字段出现空值
+
 ![img_innerjoin](../../images/img_innerjoin.gif)
 ---
 ![img_leftjoin](../../images/img_leftjoin.gif)
