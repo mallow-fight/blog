@@ -55,6 +55,26 @@ makeLocalPath (cb, imgHttpUrl) {
   }
   ```
 
+- 多个分包
+目前全部写在pages，正好可以很方便的公用资源
+```js
+"subPackages": [
+  {
+    "root": "pages/countModel",
+    "pages": [
+      "counter/main",
+      "test/main"
+    ]
+  },
+  {
+    "root": "pages/rankModel",
+    "pages": [
+      "rank/main"
+    ]
+  }
+],
+```
+
 ## 版本更新&兼容
 
 - 判断api是否可用：`wx.canIUse(String)`，根据这个执行相应的兼容策略

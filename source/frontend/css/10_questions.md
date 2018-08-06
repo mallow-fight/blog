@@ -3,6 +3,11 @@ title: 问题
 order: 10
 type: css
 ---
+
+> [其它问题1](https://segmentfault.com/a/1190000009429179)
+
+> [其它问题2](https://segmentfault.com/a/1190000002528855)
+
 ## 高度塌陷 - 使用float的元素高度会塌陷，造成接下来的元素不能在它下方显示
 解决方案：
 给这个元素的接下来的元素设置样式
@@ -327,6 +332,31 @@ table { border-collapse:collapse; border-spacing:0; }
 **W3C CSS 2.1 规范中的一个概念,它是一个独立容器，决定了元素如何对其内容进行定位,以及与其他元素的关系和相互作用。**
    - 一个页面是由很多个 Box 组成的,元素的类型和 display 属性,决定了这个 Box 的类型。
    - 不同类型的 Box,会参与不同的 Formatting Context（决定如何渲染文档的容器）,因此Box内的元素会以不同的方式渲染,也就是说BFC内部的元素和外部的元素不会互相影响
+  想要理解BFC与IFC，首先要理解FC，即 formatting context，它是W3C CSS2.1规范中的一个概念，定义的是页面中的一块渲染区域，并且有一套渲染规则，它决定了其子元素将如何定位，以及和其他元素的关系和相互作用。
+
+常见的Formatting Context 有：Block Formatting Context（BFC | 块级格式化上下文） 和 Inline Formatting Context（IFC |行内格式化上下文）。
+
+一个页面是由很多个 Box 组成的，元素的类型和 display 属性决定了这个 Box 的类型。不同类型的 Box，会参与不同的 Formatting Context。
+
+Block level的box会参与形成BFC，比如display值为block，list-item，table的元素。
+
+Inline level的box会参与形成IFC，比如display值为inline，inline-table，inline-block的元素。
+
+- IFC布局规则：
+在行内格式化上下文中，框(boxes)一个接一个地水平排列，起点是包含块的顶部。水平方向上的 margin，border 和 padding在框之间得到保留。框在垂直方向上可以以不同的方式对齐：它们的顶部或底部对齐，或根据其中文字的基线对齐。包含那些框的长方形区域，会形成一行，叫做行框。
+
+- BFC布局规则：
+内部的Box会在垂直方向，一个接一个地放置。
+
+Box垂直方向的距离由margin决定。属于同一个BFC的两个相邻Box的margin会发生重叠
+
+每个元素的左外边缘（margin-left)， 与包含块的左边（border-left）相接触(对于从左往右的格式化，否则相反)。即使存在浮动也是如此。除非这个元素自己形成了一个新的BFC。
+
+BFC的区域不会与float box重叠。
+
+BFC就是页面上的一个隔离的独立容器，容器里面的子元素不会影响到外面的元素。反之也如此。
+
+计算BFC的高度时，浮动元素也参与计算
 
 ## 请解释一下为什么需要清除浮动？清除浮动的方式
 
@@ -363,7 +393,8 @@ table { border-collapse:collapse; border-spacing:0; }
 **样式系统从关键选择器开始匹配，然后左移查找规则选择器的祖先元素。只要选择器的子树一直在工作，样式系统就会持续左移，直到和规则匹配，或者是因为不匹配而放弃该规则。**
 
 ## 在网页中的应该使用奇数还是偶数的字体？
-todo
+
+> [知乎](https://www.zhihu.com/question/20440679)
 
 ## margin和padding分别适合什么场景使用？
 - margin是用来隔开元素与元素的间距；padding是用来隔开元素与内容的间隔。
@@ -371,19 +402,15 @@ todo
 - padding用于元素与内容之间的间隔，让内容（文字）与（包裹）元素之间有一段
 
 ## 抽离样式模块怎么写，说出思路，有无实践经验？
-todo
+> [博客](http://nec.netease.com/standard/css-sort.html)
 
-## 元素竖向的百分比设定是相对于容器的高度吗？
-todo
-
-## 全屏滚动的原理是什么？用到了CSS的那些属性？
-todo
+## 介绍一下标准的CSS的盒子模型？低版本IE的盒子模型有什么不同的？
+（1）有两种， IE 盒子模型（相当于box-sizing: border-box;）、W3C 盒子模型（box-sizing: content-box;）；
+（2）盒模型： 内容(content)、填充(padding)、边界(margin)、 边框(border)；
+（3）区 别： IE的content部分把 border 和 padding计算了进去;
 
 ## 什么是响应式设计？响应式设计的基本原理是什么？如何兼容低版本的IE？
-todo
-
-## 视差滚动效果，如何给每页做不同的动画？（回到顶部，向下滑动要再次出现，和只出现一次分别怎么做？）
-todo
+> [思否](https://segmentfault.com/a/1190000009189966)
 
 ## ::before 和 :after中双冒号和单冒号 有什么区别？解释一下这2个伪元素的作用。
 
@@ -405,7 +432,7 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
 ```
 
 ## 你对line-height是如何理解的？
-todo
+> [博客](https://www.zhangxinxu.com/wordpress/2009/11/css%E8%A1%8C%E9%AB%98line-height%E7%9A%84%E4%B8%80%E4%BA%9B%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E5%8F%8A%E5%BA%94%E7%94%A8/)
 
 ## 设置元素浮动后，该元素的display值是多少？
 **自动变成了 display:block**
@@ -436,12 +463,15 @@ fixed的元素是相对整个页面固定位置的，你在屏幕上滑动只是
 **移除空格、使用margin负值、使用font-size:0、letter-spacing、word-spacing**
 
 ## overflow: scroll时不能平滑滚动的问题怎么处理？
-todo
+> [简书](https://www.jianshu.com/p/1f4693d0ad2d)
 
 ## 有一个高度自适应的div，里面有两个div，一个高度100px，希望另一个填满剩下的高度。
+> [segmentfault](https://segmentfault.com/q/1010000000762512)
 
 ## png、jpg、gif 这些图片格式解释一下，分别什么时候用。有没有了解过webp？
-todo
+> [知乎](https://www.zhihu.com/question/20028452)
+
+> [webp](https://github.com/IvyLian/test/wiki/%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95%E9%A2%98%EF%BC%8D%EF%BC%8D%E7%AD%94%E6%A1%88%E8%A1%A5%E5%85%85)
 
 ## 什么是Cookie 隔离？（或者说：请求资源的时候不要让它带cookie怎么做）
 如果静态文件都放在主域名下，那静态文件请求的时候都带有的cookie的数据提交给server的，非常浪费流量，
@@ -454,7 +484,7 @@ todo
 提高了webserver的http请求的解析速度。
 
 ## style标签写在body后与body前有什么区别？
-todo
+> [知乎](https://www.zhihu.com/question/39840003)
 
 ## 什么是CSS 预处理器 / 后处理器？
 - 预处理器例如：LESS、Sass、Stylus，用来预编译,Sass或less，增强了css代码的复用性，还有层级、mixin、变量、循环、函数等，具有很方便的UI组件模块化开发能力，极大的提高工作效率。
@@ -462,4 +492,7 @@ todo
 - 后处理器例如：PostCSS，通常被视为在完成的样式表中根据CSS规范处理CSS，让其更有效；目前最常做的是给CSS属性添加浏览器私有前缀，实现跨浏览器兼容性的问题。
 
 ## rem布局的优缺点
-todo
+
+> [布局](https://segmentfault.com/a/1190000010211016)
+
+> [优缺点](https://www.cnblogs.com/qieguo/p/5386565.html)
