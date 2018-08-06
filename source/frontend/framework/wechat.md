@@ -3,6 +3,57 @@ title: 小程序
 type: framework
 order: 5
 ---
+## navigator 组件
+- 如果使用extra-data，需要使用v-if控制组件的显示和隐藏，在获取数据之后更新extra-data对象，且这个东西初始化必须是一个对象
+
+- 也可以直接拼接path，这种方式比较简单，path初始化为空字符串
+
+## canvas绘制图片
+
+### 如何绘制网络图片
+获取网络图片的本地缓存路径，使用这个缓存路径绘制图片就行了
+```js
+makeLocalPath (cb, imgHttpUrl) {
+  wx.getImageInfo({
+    src: imgHttpUrl,
+    success: function (res) {
+      cb(res.path)
+    }
+  })
+}
+```
+
+## 分包机制
+
+- 更新package.json
+```js
+"mpvue-loader": "^1.1.2-rc.5"
+"webpack-mpvue-asset-plugin": "^0.1.1"
+```
+
+-  修改相应文件
+
+> [根据这个地址修改](https://github.com/mpvue/mpvue-quickstart/pull/39/files)
+
+- 注意事项
+  - src之外不能放置其它的静态资源文件夹
+  - 注意package.json的更新，一定要是最新版本
+  - 图片统一import进来，不要用dist路径
+  - pages新增main.json
+  ```js
+    {
+      "navigationBarTextStyle": "white",
+      "navigationBarTitleText": "我看涨"
+    }
+  ```
+  - 如何定向
+  ```js
+  lead2test () {
+    wx.navigateTo({
+      url: '/pages/test/counter/main'
+    })
+  }
+  ```
 
 ## 版本更新&兼容
 
