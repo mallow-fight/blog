@@ -3,6 +3,89 @@ title: 小程序
 type: framework
 order: 5
 ---
+## 分包目录结构
+
+|-- pages
+  |-- subpages # 所有分包放在这里
+    |-- model1 # 模块1
+      |-- assets # model1的静态资源
+      |-- components # model1的组件
+        |-- child1
+        |-- child2
+      |-- pages # model1的pages
+        |-- page1
+        |-- page2
+      |-- utils # 公用的js文件
+        |-- index.js # 统一从这里导出
+        |-- fn.js
+    |-- model2 # 模块2
+      ...
+
+## 路由封装
+- 如果需要使用新的路由，首先在pathMap中注册一下
+
+- 使用方式(已经在Vue的原型上注册了)
+```js
+// you can choose what arguments you pass as you need.
+this.$goto('your pathName')
+```
+
+- 实现原理
+```js
+/**
+ * 所有页面路由封装
+ * pathName: 路径名，在pathMap中注册就行了
+ * payload: 路径携带的query
+ * type: 跳转方式，默认navigateTo
+*/
+export const goto = (pathName = '', payload = {}, type = 'navigateTo') => {
+  const pathMap = {
+    pages: {
+      main: '/pages/',
+      kids: [
+        'bulls',
+        'lastBet',
+        'optionals',
+        'recommend',
+        'score',
+        'search',
+        'shareFeedback',
+        'shareIndex',
+        'stock'
+      ]
+    },
+    subpages: {
+      main: '/pages/subpages/',
+      kids: [
+        'rank/pages/rank'
+      ]
+    }
+  }
+  const makePath = () => {
+    let finallyPath = ''
+    const query = querify(payload)
+    const findPath = (kind) => {
+      const kidsMap = pathMap[kind].kids
+      for (let i = 0; i < kidsMap.length; i++) {
+        if (kidsMap[i] === pathName) {
+          return pathMap[kind].main + pathName + '/main' + query
+        }
+      }
+    }
+    if (pathName.indexOf('/') > -1) {
+      finallyPath = findPath('subpages')
+    } else {
+      finallyPath = findPath('pages')
+    }
+    if (!finallyPath) return console.error('you have not register ' + pathName + ' in `pathMap`, please register it.')
+    return finallyPath
+  }
+  wx[type]({
+    url: makePath()
+  })
+}
+```
+
 ## navigator 组件
 - 如果使用extra-data，需要使用v-if控制组件的显示和隐藏，在获取数据之后更新extra-data对象，且这个东西初始化必须是一个对象
 
