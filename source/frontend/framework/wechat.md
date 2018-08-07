@@ -4,22 +4,23 @@ type: framework
 order: 5
 ---
 ## 分包目录结构
-
-|-- pages
-  |-- subpages # 所有分包放在这里
-    |-- model1 # 模块1
-      |-- assets # model1的静态资源
-      |-- components # model1的组件
-        |-- child1
-        |-- child2
-      |-- pages # model1的pages
-        |-- page1
-        |-- page2
-      |-- utils # 公用的js文件
-        |-- index.js # 统一从这里导出
-        |-- fn.js
-    |-- model2 # 模块2
+```text
+├── pages
+  └── subpages # 所有分包放在这里
+    └── model1 # 模块1
+      └── assets # model1的静态资源
+      └── components # model1的组件
+        ├── child1
+        └── child2
+      └── pages # model1的pages
+        ├── page1
+        └── page2
+      └── utils # 公用的js文件
+        ├── index.js # 统一从这里导出
+        └── fn.js
+    └── model2 # 模块2
       ...
+```
 
 ## 路由封装
 - 如果需要使用新的路由，首先在pathMap中注册一下
