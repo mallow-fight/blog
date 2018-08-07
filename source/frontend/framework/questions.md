@@ -5,10 +5,11 @@ type: framework
 ---
 
 ## vue和react 虚拟dom更新机制差异
-todo
+
+> [腾讯博客](https://cloud.tencent.com/developer/article/1006029)
 
 ## 为什么vue不需要使用shouldComponentUpdate
-todo
+已经有依赖收集了
 
 ## 脚手架
 - 页面空白但是没有报错，可能是因为函数名和关键字冲突
@@ -18,7 +19,13 @@ todo
 - export default Abc 导入单个class组件不能带{}
 
 ## 小程序是怎么渲染原生组件的
-todo
+
+> [知乎专栏](https://zhuanlan.zhihu.com/p/36997098)
+
+> [知乎专栏](https://zhuanlan.zhihu.com/p/22607204)
 
 ## webview的通信
-todo
+
+> [安卓](https://blog.csdn.net/Jason847/article/details/78616086)
+
+> [ios](https://imnerd.org/ios-webview-and-js.html)
