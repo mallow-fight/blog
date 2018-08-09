@@ -98,3 +98,67 @@ const kthLargestElement = function (n, nums) {
   return nums[n - 1]
 }
 ```
+
+## 最长回文子串
+
+给定一个字符串，求它的最长回文子串的长度。
+
+```js
+function isPalindrome (str) {
+let s = 1, i = 0, j = 2, p = null, temp = ''
+while(s < str.length - 2) {
+    if (str[i] !== str[j] || i < 0 || j > str.length - 1) {
+    if (p) {
+        temp.length < p.length && (temp = p)
+        p = null
+    }
+    s++
+    i = s - 1
+    j = s + 1
+    } else {
+    if (!p) { p = str[s] }
+    p = str[i] + p + str[i]
+    i--
+    j++
+    }
+}
+console.log(temp)
+}
+isPalindrome('abcccbaaaaggggggggggfsdfa')
+```
+
+## 字符串的全排列
+输入一个字符串，打印出该字符串中字符的所有排列。
+
+例如输入字符串abc，则输出由字符a、b、c 所能排列出来的所有字符串
+
+abc、acb、bac、bca、cab 和 cba。
+
+```js
+function stringQueue (str) {
+    const res = []
+    for(let i = 0; i < str.length; i++) {
+    const s = str.charAt(i)
+    for(let j = i + 1; j < str.length; j++) {
+        const copyStr = str.split('')
+        copyStr[i] = copyStr[j]
+        copyStr[j] = s
+        res.push(copyStr.join(''))
+    }
+    }
+    console.log(res)
+}
+stringQueue('hkgahsfasd')
+```
+
+## 利用缓存实现fabonacci数列
+
+```js
+const cache = [0, 1]
+function fabonacci(n) {
+return typeof cache[n] === 'number'
+        ? cache[n]
+        : cache[n] = fabonacci(n - 1) + fabonacci(n - 2);
+}
+console.log(fabonacci(40))
+```

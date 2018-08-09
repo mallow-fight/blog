@@ -9,6 +9,8 @@ order: 1
 - [ ] 每日任务
   - [ ] 阅读英语(找一个合适的公众号或者阅读英文资料) > 1h
   - [ ] 练习算法(github星标) > 1h
+    - [ ] [github](https://github.com/julycoding/The-Art-Of-Programming-By-July/blob/master/ebook/zh/01.01.md)
+    - [ ] [知否](https://segmentfault.com/a/1190000015849882)
   - [ ] 整理博客(复习 + 整理 + 增加新内容) > 1h
   - [ ] 练习sql(Sequel Pro) > 0.5h
 - [x] 对公司产生较大效益的工作
@@ -114,4 +116,5 @@ order: 1
 2018-08-05 |  |   |   |  |
 2018-08-06 |  |   | ✅ |  |
 2018-08-07 |  |   | ✅ |  |
-2018-08-08 |  |   |   |  |
+2018-08-08 |  | ✅ [readAt](https://github.com/julycoding/The-Art-Of-Programming-By-July/blob/master/ebook/zh/02.05.md)  | ✅ |  |
+2018-08-09 |  | ✅ 图、树、动态规划以及机器学习还得深入学习，直接读《算法导论》| ✅ |   |
