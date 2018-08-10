@@ -117,4 +117,4 @@ order: 1
 2018-08-06 |  |   | ✅ |  |
 2018-08-07 |  |   | ✅ |  |
 2018-08-08 |  | ✅ [readAt](https://github.com/julycoding/The-Art-Of-Programming-By-July/blob/master/ebook/zh/02.05.md)  | ✅ |  |
-2018-08-09 |  | ✅ 图、树、动态规划以及机器学习还得深入学习，直接读《算法导论》| ✅ |   |
+2018-08-09 | ✅ | ✅ 图、树、动态规划以及机器学习还得深入学习，直接读《算法导论》| ✅ |   | ✅ readAt《高性能web》第二章
