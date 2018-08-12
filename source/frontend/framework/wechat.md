@@ -3,6 +3,9 @@ title: 小程序
 type: framework
 order: 5
 ---
+## block的使用
+可以使用block元素来包含html块而不产生新的view
+
 ## 分包目录结构
 ```text
 ├── pages

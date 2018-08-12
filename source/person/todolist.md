@@ -1,18 +1,37 @@
 ---
 title: todolist
-type: todolist
-order: 1
+type: person
+order: 4
 ---
+## 每日任务
+
+- [ ] 6:30起床，洗漱+吃早点半个小时
+- [ ] 看书到8:45
+- [ ] 9:30～11:30，工作或者学习
+- [ ] 午睡到13:00
+- [ ] 13:00~18:30，工作或者学习
+- [ ] 18:30~20:30，吃饭或者自由活动
+- [ ] 20:30~23:30，看一些历史或者经济类书籍
+- [ ] 23:30~6:30，碎觉zzz
 
 ## 第一象限（紧急也很重要）
 
+- [ ] 读书(注意做好笔记，在这里记录进度)
+  - [ ] 记忆宫殿
+  - [ ] 资治通鉴
+  - [ ] 国富论
+  - [ ] 代码大全
+  - [ ] 构建高性能web站点
+  - [ ] css揭秘
+  - [ ] 图解http
 - [ ] 每日任务
   - [ ] 阅读英语(找一个合适的公众号或者阅读英文资料) > 1h
-  - [ ] 练习算法(github星标) > 1h
-    - [ ] [github](https://github.com/julycoding/The-Art-Of-Programming-By-July/blob/master/ebook/zh/01.01.md)
-    - [ ] [知否](https://segmentfault.com/a/1190000015849882)
   - [ ] 整理博客(复习 + 整理 + 增加新内容) > 1h
   - [ ] 练习sql(Sequel Pro) > 0.5h
+  - [x] 练习算法(github星标) > 1h
+    - [x] [github](https://github.com/julycoding/The-Art-Of-Programming-By-July/blob/master/ebook/zh/01.01.md)
+    - [x] [知否](https://segmentfault.com/a/1190000015849882)
+    - [x] 目前熟练掌握排序就可以了，多余的去看算法导论
 - [x] 对公司产生较大效益的工作
 - [x] 管理能力
 - [x] 高效学习
@@ -21,6 +40,7 @@ order: 1
 ## 第二象限（不紧急但很重要）
 
 - [ ] 优化博客结构、内容以及排版
+  - [ ] 记忆方法
   - [x] 整理todo项
   - [x] 微信小程序的浏览器内核
     - [x] 兼容性
@@ -104,17 +124,3 @@ order: 1
 - [x] 无计划\无目的 的coding
 - [x] 工作时做一些漫无目的的事
 - [x] 研究对自身没有好处的东西
-
-## 每日任务打卡
-
-日期 | 阅读英语 | 练习算法 | 整理博客 | 练习sql | 阅读专业书籍
---- | --- | --- | --- | ---
-2018-08-01 |  | ✅ | ✅ |   |
-2018-08-02 |  | ✅ [readAt](https://github.com/julycoding/The-Art-Of-Programming-By-July/blob/master/ebook/zh/01.01.md) | ✅ | ✅ |
-2018-08-03 |  |   | ✅ |  |
-2018-08-04 |  |   |   |  |
-2018-08-05 |  |   |   |  |
-2018-08-06 |  |   | ✅ |  |
-2018-08-07 |  |   | ✅ |  |
-2018-08-08 |  | ✅ [readAt](https://github.com/julycoding/The-Art-Of-Programming-By-July/blob/master/ebook/zh/02.05.md)  | ✅ |  |
-2018-08-09 | ✅ | ✅ 图、树、动态规划以及机器学习还得深入学习，直接读《算法导论》| ✅ |   | ✅ readAt《高性能web》第二章
