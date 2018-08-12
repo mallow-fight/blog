@@ -3,7 +3,10 @@
   <ul class="nav-dropdown">
     <li><a href="<%- url_for("/backend/node/note.html") %>" class="nav-link">node</a></li>
     <li><a href="<%- url_for("/backend/http/http.html") %>" class="nav-link">http</a></li>
-    <li><a href="<%- url_for("/backend/java/java.html") %>" class="nav-link">java</a></li>
+	<a class="nav-link">java</a><span class="arrow"></span>    
+ 	<ul class="nav-dropdown">
+		<li><a href="<%- url_for("/backend/java/java.html") %>" class="nav-link">JDK环境配置</a></li>
+	</ul>	
     <li><a href="<%- url_for("/backend/database/mysql.html") %>" class="nav-link">database</a></li>
   </ul>
 </li>
