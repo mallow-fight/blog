@@ -112,4 +112,3 @@ deploy:
   type: git
   repository: git@github.com:mallow-fight/mallow-fight.github.io.git
   branch: master
-

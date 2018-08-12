@@ -1,6 +1,6 @@
 ---
 title: 笔记
-order: 1
+order: 6
 type: js
 ---
 
@@ -87,8 +87,8 @@ adaptIframeHeight() {
 - `every`
 
 不会中断循环的有：
-- `forEach`
-- `map`
+- `forEach`： 结束循环后，返回undefined
+- `map`：结束循环后，返回相同大小长度的数组，如果回调函数没有返回值，返回的数组值是undefined
 
 ### 闭包
 模块
@@ -104,3 +104,166 @@ adaptIframeHeight() {
 1. every - 检测所有数组元素是否符合条件
 1. some - 检测某些数组元素是否符合条件
 1. filter - 筛选某些数组元素
+
+### Math.max使用方法
+必须将所有数组项解构成一个个参数
+```js
+const arr = [1, 2, 3, 4, 5]
+Math.max.apply(null, arr)
+// or
+Math.max(...arr)
+```
+
+### 函数参数
+```js
+// 如果参数o是一个对象或者数组，那么在函数体里面的修改会导致函数外面o的修改，这里的o是对象的应用，共享同一个o对象
+// o对象里面的对象作为参数传入同样会使得o对象发生改变
+// 如果对这个参数对象进行重新赋值，那么会新创建一个o类型的值，这个值的改变不会影响外面的o
+function foo(o) {
+  o.a = 1 // o: { a: 1 }
+  o = 1
+  console.log(o) // 1
+}
+const o = {} // []
+foo(o)
+```
+
+### Debounce
+如何用js实现防抖
+[参考资料](https://github.com/lishengzxc/bblog/issues/7)
+
+```js
+/**
+ *
+ * @param fn {Function}   实际要执行的函数
+ * @param delay {Number}  延迟时间，单位是毫秒（ms）
+ *
+ * @return {Function}     返回一个“防反跳”了的函数
+ */
+
+function debounce(fn, delay) {
+
+  // 定时器，用来 setTimeout
+  var timer
+
+  // 返回一个函数，这个函数会在一个时间区间结束后的 delay 毫秒时执行 fn 函数
+  return function () {
+
+    // 保存函数调用时的上下文和参数，传递给 fn
+    var context = this
+    var args = arguments
+
+    // 每次这个返回的函数被调用，就清除定时器，以保证不执行 fn
+    clearTimeout(timer)
+
+    // 当返回的函数被最后一次调用后（也就是用户停止了某个连续的操作），
+    // 再过 delay 毫秒就执行 fn
+    timer = setTimeout(function () {
+      fn.apply(context, args)
+    }, delay)
+  }
+}
+```
+
+### 不正确的数组下标问题
+```js
+// 这里的i会在外层作用域声明
+for(var i = 0; i < 10; i++) {
+  console.log(i) // 9
+}
+console.log(i) // 10
+```
+同：
+```js
+// 原因，触发点击事件的时候，i已经是循环之后的i了，导致重复的i值
+var pAry = document.getElementsByTagName("p");   
+for( var i = 0; i < pAry.length; i++ ) {   
+    pAry[i].onclick = function() {   
+        console.log(i);
+    }
+}
+```
+
+### 如何更好的mock前端数据
+构建一套`mock-server`，供前端使用，只需要简单返回拼接的数据
+
+### 变量声明
+```js
+var a = 1
+function foo() {
+  console.log(a) 
+  console.log(a())
+  var a = 2
+  console.log(a)
+  function bar() {
+
+  }
+  function a() {
+    console.log('a1')
+  }
+  function a() {
+    console.log('a2')
+  }
+}
+foo()
+```
+函数里面的变量和自有函数也是会提升的
+上面等价于：
+```js
+var a = 1 // 其实这一行并没有触发
+function foo() {
+  function bar() { // 函数优先提升
+
+  }
+  function a() {
+    console.log('a1')
+  }
+  function a() {
+    console.log('a2')
+  }
+  var a // 这里的a是undefined
+  console.log(a) // Function a：如果a只是声明了，但是没有赋值，那么取最后声明的函数值
+  console.log(a()) // a2
+  a = 2
+  console.log(a) // 2
+}
+```
+### 正则表达式
+[参考资料](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Regular_Expressions)
+- 注意自带方法的使用（一般使用`replace`替换字符）
+- 注意标志的使用（如`/g`全局搜索）
+
+### 手写ajax请求
+`httpRequest.readyState`状态值：
+0 (未初始化) or (请求还未初始化)
+1 (正在加载) or (已建立服务器链接)
+2 (加载成功) or (请求已接受)
+3 (交互) or (正在处理请求)
+4 (完成) or (请求已完成并且响应已准备好)
+```js
+// Old compatibility code, no longer needed.
+if (window.XMLHttpRequest) { // Mozilla, Safari, IE7+ ...
+    httpRequest = new XMLHttpRequest();
+} else if (window.ActiveXObject) { // IE 6 and older
+    httpRequest = new ActiveXObject("Microsoft.XMLHTTP");
+}
+httpRequest.onreadystatechange = function(){
+    // Process the server response here.
+    if (httpRequest.readyState === XMLHttpRequest.DONE) {
+      if (httpRequest.status === 200) {
+        alert(httpRequest.responseText);
+        // httpRequest.responseText – 服务器以文本字符的形式返回
+        // httpRequest.responseXML – 以 XMLDocument 对象方式返回，之后就可以使用JavaScript来处理
+      } else {
+        alert('There was a problem with the request.');
+      }
+    }
+}
+// httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded'); // only POST method
+httpRequest.open('GET', 'http://www.example.org/some.file', true);
+httpRequest.send(); // if POST, 参数："name=value&anothername="+encodeURIComponent(myVar)+"&so=on"
+
+```
+
+### `var a = a || b`这样写有什么问题
+如果a是false类型的值，则会丢失该类型的值，取b值

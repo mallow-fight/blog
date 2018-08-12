@@ -4,32 +4,67 @@ type: todolist
 order: 1
 ---
 
-## 第一象限
+## 第一象限（紧急也很重要）
 
-- [ ] 对公司产生较大效益的工作
-- [ ] 管理能力
-- [ ] 高效学习
+- [ ] 每日任务
+  - [ ] 阅读英语(找一个合适的公众号或者阅读英文资料) > 1h
+  - [ ] 练习算法(github星标) > 1h
+    - [ ] [github](https://github.com/julycoding/The-Art-Of-Programming-By-July/blob/master/ebook/zh/01.01.md)
+    - [ ] [知否](https://segmentfault.com/a/1190000015849882)
+  - [ ] 整理博客(复习 + 整理 + 增加新内容) > 1h
+  - [ ] 练习sql(Sequel Pro) > 0.5h
+- [x] 对公司产生较大效益的工作
+- [x] 管理能力
+- [x] 高效学习
   - [x] [高效学习方法](https://www.zhihu.com/question/35103080)
 
-## 第二象限(优先级按顺序)
+## 第二象限（不紧急但很重要）
 
-- [ ] 软件工程化思想
-  - [x] 导论
-- [ ] 熟练掌握mysql
-- [ ] 弄清vue源码（分解源码结构，逐步击破）
-- [ ] 提升EQ以及心理素质
-  - [ ] [整理必看书籍](https://www.zhihu.com/question/22794831)
-- [ ] JS设计模式
-- [ ] 单元测试
-- [ ] 前端架构
-- [ ] 后端语言深入了解
-- [ ] 算法
-  - [ ] 算法导论
-  - [ ] [一天两道 - 中等等级](https://www.lintcode.com/problem/?level=2)
-  - [x] [在线刷算法](https://www.zhihu.com/question/36488823)
-- [ ] 优化博客结构、内容以及排版（持续迭代，下方记录完成工作）
-  - [ ] 分类questions
-  - [ ] 将未掌握的重点放在questions重点栏目中
+- [ ] 优化博客结构、内容以及排版
+  - [x] 整理todo项
+  - [x] 微信小程序的浏览器内核
+    - [x] 兼容性
+    - [x] 如何通信
+    - [x] 如何渲染原生元素
+  - [x] 查看meer的日历组件是怎么实现的
+  - [x] js补充，不够详细
+  - [x] 整理前端骨架的衍生知识点
+  - [x] 移动端屏幕大小自适应
+  - [x] node原理
+    - [x] [参考](https://www.cnblogs.com/bingooo/p/6720540.html)
+    - [x] [参考](https://blog.csdn.net/xiangzhihong8/article/details/53954600)
+    - [x] [参考](http://taobaofed.org/blog/2015/10/29/deep-into-node-1)
+  - [x] [整理面试题](https://github.com/markyun/My-blog/tree/master/Front-end-Developer-Questions)
+  - [x] 浏览器输入URL到显示整个页面
+    - [x] 大致流程
+    - [x] 细节整理
+    - [x] [浏览器进程机制整理](https://segmentfault.com/a/1190000012925872)
+  - [x] css
+    - [x] 样式继承
+    - [x] 和qustions中的布局整合
+  - [x] 将未掌握的重点放在questions重点栏目中
+  - [x] 整理questions
+    - [x] 将第三方链接内容提炼出来
+    - [x] 合并问题到对应的模块下
+  - [x] JS设计模式
+  - [x] vue、react、angular差异性调研记录
+    - [x] vue
+    - [x] react
+    - [x] angular
+  - [x] 算法
+    - [x] 排序
+  - [x] webpack原理
+  - [x] fastclick原理
+  - [x] 修改自我介绍
+  - [x] 工作中遇到的问题，分不同客户端以及前后端
+  - [x] 为何引入vuex
+  - [x] react.md
+  - [x] css垂直水平居中测试整理
+  - [x] 外边距塌陷
+  - [x] inline-block元素对齐
+  - [x] 小程序和web的不同
+  - [x] 优化software
+  - [x] 分类questions
   - [x] 博客内容改为懒加载
   - [x] 补充js.md的 你不知道的js部分
   - [x] 整理 questions 中的 平时遇到的坑
@@ -40,19 +75,46 @@ order: 1
   - [x] 优化css.md
   - [x] 优化js.md
 - [x] 敏捷开发
+- [x] 单元测试
+- [x] 前端架构
+- [x] 软件工程化思想
+  - [x] 导论
+- [x] 弄清vue源码（分解源码结构，逐步击破）
+  - [x] 暂时从宏观角度弄清，细节不用考虑，也不值得花太多时间弄清
 
-## 第三象限
+## 第三象限（紧急但不重要）
 
+- [ ] 代码大全
+- [ ] 算法导论
+- [ ] 考研
+- [ ] 选一门后端语言（node也行）深入了解
+- [ ] [整理提升EQ以及心理素质书籍 + 必看书籍](https://www.zhihu.com/question/22794831)
 - [ ] PWA
 - [ ] web assembly
 - [ ] typescript
 - [ ] flow
 
-## 第四象限
+## 第四象限（不紧急也不重要）
 
-- [ ] 无意义的记录
-- [ ] 无意义的浏览
-- [ ] 对工作无帮助的交流
-- [ ] 无计划\无目的 的coding
-- [ ] 工作时做一些漫无目的的事
-- [ ] 研究对自身没有好处的东西
+- [x] 过度娱乐
+  - [x] 每次娱乐时间不超过2h
+- [x] 无意义的记录
+- [x] 无意义的浏览
+- [x] 对工作无帮助的交流
+- [x] 无计划\无目的 的coding
+- [x] 工作时做一些漫无目的的事
+- [x] 研究对自身没有好处的东西
+
+## 每日任务打卡
+
+日期 | 阅读英语 | 练习算法 | 整理博客 | 练习sql | 阅读专业书籍
+--- | --- | --- | --- | ---
+2018-08-01 |  | ✅ | ✅ |   |
+2018-08-02 |  | ✅ [readAt](https://github.com/julycoding/The-Art-Of-Programming-By-July/blob/master/ebook/zh/01.01.md) | ✅ | ✅ |
+2018-08-03 |  |   | ✅ |  |
+2018-08-04 |  |   |   |  |
+2018-08-05 |  |   |   |  |
+2018-08-06 |  |   | ✅ |  |
+2018-08-07 |  |   | ✅ |  |
+2018-08-08 |  | ✅ [readAt](https://github.com/julycoding/The-Art-Of-Programming-By-July/blob/master/ebook/zh/02.05.md)  | ✅ |  |
+2018-08-09 | ✅ | ✅ 图、树、动态规划以及机器学习还得深入学习，直接读《算法导论》| ✅ |   | ✅ readAt《高性能web》第二章

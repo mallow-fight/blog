@@ -4,10 +4,37 @@ order: 1
 type: index
 ---
 
-**本博客主要展示`前端知识`以及发展，同时也`涉及到后端`相关知识。**
+## 前端传送门
 
-- **`pc端用户`请选择`左边导航栏`或者`右上角感兴趣的栏目`查看更多内容**
+- [html](/frontend/html/define.html)
+- [css](/frontend/css/1_define.html)
+- [js](/frontend/js/note.html)
+- [framework](/frontend/framework/vue.html)
 
-- **`移动端用户`请点击`左上角图标`展开更多内容**
+## 后端传送门
 
-***`enjoy it!`***
+- [node](/backend/node/express.html)
+- [http](/backend/http/http.html)
+- [java](/backend/java/java.html)
+- [database](/backend/database/mysql.html)
+
+## 软件工程化
+
+- [概念&实践](/software/engineering.html)
+
+## 算法
+
+- [概念&实践](/arithmetic/lintcode.html)
+
+## 关于我
+
+- [介绍](/person/introduction.html)
+- [灵感](/person/ideas/ideas.html)
+- [任务列表](/person/todolist.html)
+- [任务管理](/person/manage.html)
+
+## 请作者喝杯咖啡
+
+### 微信
+
+![wechatPay](../images/wechatPay.png)

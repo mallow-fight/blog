@@ -1,6 +1,6 @@
 ---
 title: 异步和性能
-order: 6
+order: 5
 type: js
 ---
 

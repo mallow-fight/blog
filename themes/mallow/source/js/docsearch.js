@@ -3,7 +3,6 @@ function mallowFormatHits(hits) {
   let time = (new Date()).getTime()
   return hits.map(hit => {
     const _highlightResult = hit._highlightResult
-    const {title} = hit
     const hierarchy = {
       lvl0: hit.title,
       lvl1: null,
