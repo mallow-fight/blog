@@ -1,7 +1,7 @@
 ---
 title: 构建高性能web网站
 order: 1
-type: books
+type: computer
 ---
 
 ## 分布式缓存
