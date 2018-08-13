@@ -346,8 +346,11 @@ v-if 也是惰性的：如果在初始渲染时条件为假，则什么也不做
 ### 进入/离开 & 列表过渡
 
 - 在 CSS 过渡和动画中自动应用 class
+
 - 可以配合使用第三方 CSS 动画库，如 Animate.css
+
 - 在过渡钩子函数中使用 JavaScript 直接操作 DOM
+
 - 可以配合使用第三方 JavaScript 动画库，如 Velocity.js
 
 - Vue 提供了 transition 的封装组件，在下列情形中，可以给任何元素和组件添加进入/离开过渡

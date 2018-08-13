@@ -8,18 +8,23 @@ type: skeleton
 > [参考资料 - 偏硬件](http://fex.baidu.com/blog/2014/05/what-happen/)
 
 ## 大纲
-- 从浏览器接受URL到开启网络请求线程
+- 接受URL～开启网络请求线程
     - 多进程的浏览器
+        - [有哪些进程](acceptUrl.html#浏览器是多进程的)
+        - [进程机制](acceptUrl.html#浏览器进程机制)
+    
     - 多线程的浏览器内核
+        - [每个tab页（浏览器内核进程）的子线程](acceptUrl.html#多线程的浏览器内核)
+    
     - 解析URL
-    - 网络请求都是单独的线程
+        - [url组成](acceptUrl.html#解析URL)
 
-- 开启网络线程到发出一个完整的http请求
+- 开启网络请求线程～发出一个完整的http请求
     - DNS查询得到IP
     - TCP/IP请求
     - 五层因特网协议栈
   
-- 从服务器接收到请求到对应后台接受到请求
+- 服务器接收到完整的http请求～对应后台接受到请求
     - 负载均衡
     - 后台处理
 
@@ -31,7 +36,7 @@ type: skeleton
     - http2.0
     - https
 
-- 单独拎出来的缓存问题，http的缓存
+- http的缓存
     - 强缓存和弱缓存
     - 缓存头部简述
     - 头部的区别
