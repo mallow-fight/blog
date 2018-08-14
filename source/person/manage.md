@@ -1,7 +1,7 @@
 ---
 title: team-manage
-type: manage
-order: 1
+type: person
+order: 3
 ---
 # 团队管理
 
