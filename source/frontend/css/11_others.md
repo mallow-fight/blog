@@ -4,6 +4,10 @@ order: 11
 type: css
 ---
 
+## 动画
+
+> [animation](http://www.ruanyifeng.com/blog/2014/02/css_transition_and_animation.html)
+
 ## 语法
 
 ### 内容组合

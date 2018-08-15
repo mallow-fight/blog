@@ -877,6 +877,9 @@ document.registerElement('x-search', {prototype: proto});
 ## 高阶组件
 - 高阶组件（HOC）是react中对组件逻辑进行重用的高级技术。但高阶组件本身并不是React API。它只是一种模式，这种模式是由react自身的组合性质必然产生的。
 - 对比组件将props属性转变成UI，高阶组件则是将一个组件转换成另一个新组件。
+- Vue通常使用mixin来模拟高阶组件
+
+> [Vue高阶组件](https://juejin.im/entry/5a524420f265da3e2e6252c5)
 
 ## Render Props
 术语 “render prop” 是指一种在 React 组件之间使用一个值为函数的 prop 在 React 组件间共享代码的简单技术。
