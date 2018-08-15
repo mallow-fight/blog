@@ -4,6 +4,8 @@ order: 7
 type: js
 ---
 
+> [正则表达式](http://www.runoob.com/regexp/regexp-syntax.html)
+
 > [其它问题1](http://www.imooc.com/article/14292)
 
 ## 箭头函数和普通函数的区别
