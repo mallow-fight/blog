@@ -33,4 +33,4 @@ type: java
 
 ---
 
->注意：此处使用CMD进行编译和运行，之后代码将使用IntelliJ IDEA开发工具进行
+>注意：此处使用CMD进行编译和运行，之后代码将使用IntelliJ IDEA开发工具进行。
