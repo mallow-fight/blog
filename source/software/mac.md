@@ -3,6 +3,10 @@ title: mac相关
 type: software
 order: 5
 ---
+## vscode输入法中英文不能顺利切换
+
+- 今天竟然发现是主题的原因，额
+
 ## makefile注意事项
 
 - 不能随便使用`tab`，要使用`enter`进行换行

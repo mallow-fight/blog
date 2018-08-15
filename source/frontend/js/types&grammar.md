@@ -15,9 +15,12 @@ type: js
   - `string`
   - `null`（和`typeof`操作符组合时是有`bug`的，例：`typeof null ==== 'object'; // true`，因为有太多的已经存在的web内容依存着这个`bug`的行为，修复这个bug会制造更多的bug并毁掉许多web软件，所以这个原有的bug应该永远不会被修复了，其实null才是它自己的基本类型）
 
-- 非基本类型
+- 非基本类型(引用类型)
   - `object`
-  - `function`(这是`typeof`可以返回的第七种字符串值，它是`object`的子类型，一个函数被称为可调用对象，一个拥有内部属性、允许被调用的对象，它可以拥有属性)
+    - [MDN](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/assign)
+    - [defineProperty](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty)
+
+  - `function`(这是`typeof`可以返回的第七种字符串值，它是`object`的子类型，一个函数被称为可调用对象，一个拥有内部属性、允许被调用的对象，它可以拥有属性)    - [MDN](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Function/bind)
 
 > - function 是对象的一种子类型（技术上讲，叫做“可调用对象”）。函数在 JS 中被称为“头等（first class）”类型，是因为它们基本上就是普通的对象（附带有可调用的行为语义），而且它们可以像其他普通的对象那样被处理。
 > - 数组也是一种形式的对象，带有特别的行为。数组在内容的组织上要稍稍比一般的对象更加结构化。
@@ -39,6 +42,229 @@ type: js
 
 - 它也是对象，可以在它上面添加属性，但是这些属性不会更新`length`属性，注意不要使用字符串数字，会被强制转换为数组项
 
+#### 方法
+
+> [MDN](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array/toLocaleString)
+
+- from（Array属性）: (伪数组对象或可迭代对象，每个元素的回调函数，执行回调函数时的上下文对象)
+```js
+const a = 'test'
+const b = [1, 2, 3]
+const c = {0: 'a', 1: 'b', length: 2}
+// 也可以是可迭代对象，如Map和Set等
+Array.from(a | b | c, function (x) {
+    return this.name + x
+}, {name: 'mallow'})
+
+// 如果制定了上下文，那么回调函数不能为箭头函数
+```
+
+- isArray（Array属性）: 判断一个对象是不是数组
+```js
+Array.isArray({0: 'a', 1: 'b', length: 2}) // false
+```
+
+- of（Array属性）: 创建一个具有可变数量参数的新数组实例，而不考虑参数的数量和类型，不同于Array(7)，后者会创建一个长度为7的空数组
+```js
+Array.of(7) // [7]
+Array.of(1, 2, 3, 4) // [1, 2, 3, 4]
+```
+
+- concat: 将数组或值连接成新的数组
+```js
+const newArray = [1, 2, 3].concat(1, [5], [3, 4])
+// [1, 2, 3, 1, 5, 3, 4]
+```
+
+- entries: 返回一个新的Array Iterator对象，包含数组中每个索引的键/值对
+```js
+const arr = ['a', 'b', 'c']
+const iterator = arr.entries()
+iterator.next() // {value: [0, 'a'], done: false}
+iterator.next() // {value: [1, 'b'], done: false}
+iterator.next() // {value: [2, 'c'], done: false}
+iterator.next() // {value: undefined, done: true}
+```
+
+- every: 测试数组中的所有元素是否都通过了指定函数的测试，参数（回调函数，传入的上下文）
+
+```js
+const arr = [1, 2, 3, 100]
+arr.every(function(v) {
+    return v < 10
+})
+// false
+arr.every(function(v) {
+    return v < 1000
+})
+// true
+```
+
+- fill：用一个固定值填充一个数组中从起始索引到终止索引内的全部元素，不包括终止索引，参数（用来填充数组元素的值，起始索引=0，终止索引=this.length）
+```js
+const arr = [1, 2, 3, 4]
+// fill with 0 from position 2 until position 4
+console.log(array1.fill(0, 2, 4));
+// expected output: [1, 2, 0, 0]
+
+// fill with 5 from position 1
+console.log(array1.fill(5, 1));
+// expected output: [1, 5, 5, 5]
+
+console.log(array1.fill(6));
+// expected output: [6, 6, 6, 6]
+```
+
+- filter: 创建一个新的数组，包含通过所提供函数实现的测试的所有元素，参数（callback（element，index，调用数组），callback执行上下文）
+
+- find: 返回数组中满足提供的测试函数的第一个元素的值，否则返回undefined
+```js
+const arr1 = [5, 12, 8, 130, 44]
+const found = arr1.find(function(element) {
+    return element > 10
+})
+console.log(found) // 12
+```
+
+- findIndex: 返回数组中满足提供的测试函数的第一个元素的索引
+
+- flat: 递归到指定深度将所有子数组连接，并返回一个新数组
+```js
+// 扁平化嵌套数组
+var arr1 = [1, 2, [3, 4]];
+arr1.flat(); 
+// [1, 2, 3, 4]
+
+var arr2 = [1, 2, [3, 4, [5, 6]]];
+arr2.flat();
+// [1, 2, 3, 4, [5, 6]]
+
+var arr3 = [1, 2, [3, 4, [5, 6]]];
+arr3.flat(2);
+// [1, 2, 3, 4, 5, 6]
+
+// 扁平化和空项
+var arr4 = [1, 2, , 4, 5];
+arr4.flat();
+// [1, 2, 4, 5]
+```
+
+- forEach: 对数组的每个元素执行一次提供的函数，总是返回undefined，回调函数有返回值也是返回undefineds，第二个参数是回调函数执行上下文
+```js
+const arr = ['a', 'b', 'c']
+arr.forEach(function(v) {
+    console.log(v) // a b c
+})
+```
+
+- includes: 判断一个数组是否包含一个制定的值，如果有返回true，否则返回false，第二个参数是fromIndex，从哪个索引开始查找
+```js
+const arr = [1, 2, 3]
+arr.includes(2) // true
+```
+
+- indexOf: 返回在数组中找到一个给定元素的第一个索引，如果不存在，则返回-1，第二个参数是fromIndex，从哪个索引开始查找
+
+- join: 将一个数组（或一个类数组对象）的所有元素连接成一个字符串并返回这个字符串，默认是`,`
+
+- keys: 返回一个包含数组中每个索引键的Array Iterator对象
+
+- lastIndexOf: 返回指定元素在数组中的最后一个索引，如果不存在则返回-1，从数组的后面向前查找，第二个参数fromIndex
+
+- map: 创建一个新数组，结果是该数组中的每个元素都调用一个提供的函数的返回结果，参数（callback（currentValue，index，array），callback执行上下文）
+
+- pop: 从数组中删除最后一个元素，并返回该元素的值，这个方法会更改数组的长度
+
+- push: 将一个或多个元素添加到数组的末尾，并返回新数组的长度
+
+- reduce: 对累加器和数组中的每个元素（从左到右）应用一个函数，将其减少为单个值，不仅仅适用于加法，同时适用于其它运算，不过回调函数需要有一个返回值，第二个参数作为初始值
+```js
+const array1 = [1, 2, 3, 4];
+const reducer = (accumulator, currentValue) => accumulator + currentValue;
+
+// 1 + 2 + 3 + 4
+console.log(array1.reduce(reducer));
+// expected output: 10
+
+// 5 + 1 + 2 + 3 + 4
+console.log(array1.reduce(reducer, 5));
+// expected output: 15
+```
+
+- reduceRight: 跟reduce执行方向相反，reduce从左到右，这个从右到左
+
+- reverse: 将数组中的元素位置颠倒，返回颠倒后的数组
+
+- shift: 从数组中删除第一个元素，返回该元素的值，这个方法会更改数组的长度，如果数组为空则返回undefined
+
+- slice: 返回一个从开始到结束（不包括结束）选择的数组的一部分浅拷贝到一个新数组对象，原始数组不会被修改，这个参数下标从零开始，相当于在每个数组项之间打桩，这个桩就是下标，桩和桩之间的数组项就是slice的结果，两个参数，如果不传，默认0～length，如果第二个参数不传，默认值是length
+
+- some: 测试数组中的某些元素是否通过提供的函数实现的测试，参数（callback（currentValue，index，array），回调函数执行上下文），对于放在空数组上的任何条件，此方法返回false，它不会改变数组，遍历范围终止于满足条件时，第二个参数，上下文
+```js
+var array = [1, 2, 3, 4, 5];
+
+var even = function(element) {
+  // checks whether an element is even
+  return element % 2 === 0;
+};
+
+console.log(array.some(even));
+// expected output: true
+```
+
+- sort: 使用in-place算法对数组的元素进行排序，并返回数组。排序不一定是稳定的。默认排序顺序是根据字符串Unicode码点，由于取决于具体实现，无法保证排序的时间和空间复杂度，参数（compareFunction（a，b））如果对比函数结果返回a-b，升序排列，否则，降序排列
+```js
+var months = ['March', 'Jan', 'Feb', 'Dec'];
+months.sort();
+console.log(months);
+// expected output: Array ["Dec", "Feb", "Jan", "March"]
+
+var array1 = [1, 30, 4, 21];
+array1.sort();
+console.log(array1);
+// expected output: Array [1, 21, 30, 4]
+```
+
+- splice: 
+    - start：指定修改的开始位置，从0开始），如果超出了数组的长度，则从数组末尾开始添加内容，如果是负值，则表示从数组末位开始的第几位（从-1计数）；如果负数的绝对值大于数组的长度，则表示开始位置为第0位。
+    - deleteCount 可选
+    整数，表示要移除的数组元素的个数。如果 deleteCount 是 0，则不移除元素。这种情况下，至少应添加一个新元素。如果 deleteCount 大于start 之后的元素的总数，则从 start 后面的元素都将被删除（含第 start 位）。
+    如果deleteCount被省略，则其相当于(arr.length - start)。
+    - item1, item2, ... 可选
+    要添加进数组的元素,从start 位置开始。如果不指定，则 splice() 将只删除数组元素。
+    - 返回值是由被删除的元素组成的一个数组。如果只删除了一个元素，则返回只包含一个元素的数组。如果没有删除元素，则返回空数组。
+
+- toLocaleString: 返回一个字符串表示数组中的元素。数组中的元素将使用各自的 toLocaleString 方法转成字符串，这些字符串将使用一个特定语言环境的字符串（例如一个逗号 ","）隔开。
+```js
+var array1 = [1, 'a', new Date('21 Dec 1997 14:12:00 UTC')];
+var localeString = array1.toLocaleString('en', {timeZone: "UTC"});
+
+console.log(localeString);
+// expected output: "1,a,12/21/1997, 2:12:00 PM",
+// This assumes "en" locale and UTC timezone - your results may vary
+```
+
+- toString: 返回一个字符串，表示指定的数组及其元素
+```js
+var array1 = [1, 2, 'a', '1a'];
+
+console.log(array1.toString());
+// expected output: "1,2,a,1a"
+```
+
+- unshift: 将一个或多个元素添加到数组的开头，并返回新数组的长度
+```js
+var array1 = [1, 2, 3];
+
+console.log(array1.unshift(4, 5));
+// expected output: 5
+
+console.log(array1);
+// expected output: Array [4, 5, 1, 2, 3]
+```
+
+- values: 返回值的Array Iterator 对象
+
 ### 类Array
 **将类似数组的对象转化为数组**
 ```js
@@ -57,7 +283,78 @@ foo('bar', 'baz'); // ['bar', 'baz', 'bam']
 
 - 是不可变的，但是`array`时可变的，`string`上没有一个方法时可以原地修改它的内容的，而是创建并返回一个新的`string`，所以在变异一个`string`很困难时，试试看使用数组方法变异它，或者首先使用`split`方法将它切分成一个字符的数组，一顿操作后，使用`join`方法转化为字符串（怀疑是不是因为这个原因导致每次对字符串操作都会返回新的字符串）
 
+#### 方法
+
+> [MDN](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String/indexOf)
+
+- length: 字符串长度
+
+- fromCharCode: 返回指定的Unicode值序列创建的字符串
+```js
+console.log(String.fromCharCode(65, 66, 67))
+// ABC
+```
+
+- fromCodePoint: 静态方法返回使用指定的代码点序列创建的字符串。
+
+- charAt: 从一个字符串中返回指定的字符，参数index，一个介于0和字符串长度减1之间的整数，如果没有提供索引，默认值是0
+
+- charCodeAt: 方法返回0到65535之间的整数，表示给定索引处的UTF-16代码单元 (在 Unicode 编码单元表示一个单一的 UTF-16 编码单元的情况下，UTF-16 编码单元匹配 Unicode 编码单元。但在——例如 Unicode 编码单元 > 0x10000 的这种——不能被一个 UTF-16 编码单元单独表示的情况下，只能匹配 Unicode 代理对的第一个编码单元) 。如果你想要整个代码点的值，使用 codePointAt()。
+
+- codePointAt: 返回 一个 Unicode 编码点值的非负整数
+
+- concat: 不推荐使用，性能比直接使用`+`或者`+=`差
+
+- endsWith: 用来判断当前字符串是否是以另外一个给定的子字符串结尾的，返回true或false，参数（要搜索的字符串，作为str的长度（默认str.length））
+
+- includes: 方法用于判断一个字符串是否包含在另一个字符串中，根据情况返回 true 或 false。第二个参数position可选。从当前字符串的哪个索引位置开始搜寻子字符串，默认值为0。
+
+- indexOf: 方法返回调用  String 对象中第一次出现的指定值的索引，开始在 fromIndex进行搜索。
+
+- lastIndexOf: 方法返回指定值在调用该方法的字符串中最后出现的位置，如果没找到则返回 -1。从该字符串的后面向前查找，从 fromIndex 处开始。
+
+- match: 当一个字符串和一个正则表达式匹配时，match方法检索匹配项
+
+- normalize: 方法会按照指定的一种 Unicode 正规形式将当前字符串正规化.
+
+- padEnd: 方法会用一个字符串填充当前字符串（如果需要的话则重复填充），返回填充后达到指定长度的字符串。从当前字符串的末尾（右侧）开始填充。
+
+- padStart: 方法用另一个字符串填充当前字符串(重复，如果需要的话)，以便产生的字符串达到给定的长度。填充从当前字符串的开始(左侧)应用的。
+
+- repeat: 构造并返回一个新字符串，该字符串包含被连接在一起的指定数量的字符串的副本。
+
+- replace: 方法返回一个由替换值替换一些或所有匹配的模式后的新字符串。模式可以是一个字符串或者一个正则表达式, 替换值可以是一个字符串或者一个每次匹配都要调用的函数。
+
+- search: 方法执行正则表达式和 String对象之间的一个搜索匹配。
+
+- slice: 方法提取一个字符串的一部分，并返回一新的字符串。
+
+- split: 方法使用指定的分隔符字符串将一个String对象分割成字符串数组，以将字符串分隔为子字符串，以确定每个拆分的位置。 
+
+- startsWith()方法用来判断当前字符串是否是以另外一个给定的子字符串“开头”的，根据判断结果返回 true 或 false。
+
+- substr() 方法返回一个字符串中从指定位置开始到指定字符数的字符。
+
+- substring() 方法返回一个字符串在开始索引到结束索引之间的一个子集, 或从开始索引直到字符串的末尾的一个子集。
+
+- toLocaleLowerCase()方法根据任何特定于语言环境的案例映射，返回调用字符串值转换为小写的值。
+
+- toLocaleUpperCase() 使用本地化（locale-specific）的大小写映射规则将输入的字符串转化成大写形式并返回结果字符串。
+
+- toLowerCase() 会将调用该方法的字符串值转为小写形式，并返回。
+
+- toString() 方法返回指定字符串对象的字符串形式。
+
+- toUpperCase() 将调用该方法的字符串值转换为大写形式，并返回。
+
+- trim() 方法会从一个字符串的两端删除空白字符。在这个上下文中的空白字符是所有的空白字符 (space, tab, no-break space 等) 以及所有行终止符字符（如 LF，CR）。
+
+- valueOf() 方法返回一个String对象的原始值（primitive value）。
+
 ### Number
+
+> [MDN](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Number/NaN)
+
 - 只有一种数字类型：number，包含`整数`值和小数值，但是`js`没有真正的整数，一个整树只是没有小数部分的小数值（`42.0 === 42`)，实现基于`IEEE 754`标准
 
 - 小数的整数部分如果是`0`，或者小数部分是`0`，可以选择不写：`0.42 === .42`，`42.0 === 42 === 42.`
