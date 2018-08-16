@@ -1,7 +1,7 @@
 ---
 title: 其它
 type: important
-order: 3
+order: 2
 ---
 
 ## 原来公司工作流程是怎么样的，如何与其他人协作的？如何跨部门合作的？
