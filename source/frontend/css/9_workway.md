@@ -3,6 +3,9 @@ title: 可视化格式模型
 order: 9
 type: css
 ---
+
+> [掘金](https://juejin.im/entry/5a123c55f265da432240cc90)
+
 **规定了用户端在媒介中如何处理文档树：**
 
 - 用户端：一般指浏览器
@@ -37,12 +40,16 @@ type: css
 
 ### position
 
-如果元素没有声明position，默认值是：static。
+**如果元素没有声明position，默认值是：static**
 
 - static & relative：它的包含块由它最近的块级、单元格或行内块祖先元素的内容框创建。
+
   - static不可设置四个方向的位移
+
   - relative可以设置四个方向的位移
+
     - 如果relative只设置一个bottom，那么box会被上移bottom个单位
+    
     - 最好不要使用bottom，会导致各种难以预见的布局问题
 
 - fixed：包含块是当前可视窗口。

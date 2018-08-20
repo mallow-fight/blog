@@ -102,7 +102,7 @@ If-None-Match | ETag
 
   - 请求头部和实体消息之间有一个CRLF分隔，响应头部和响应实体之间用一个CRLF分隔
 
-> [详细的状态码](../../backend/http/http.html#状态码)
+> [详细的状态码](../../backend/http/1_http.html#状态码)
 
 
 ## cookie及优化
