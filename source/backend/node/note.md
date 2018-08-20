@@ -13,7 +13,7 @@ type: node
 
 示意图：
 ![node](../../images/node.png)
-- 最底层是Node.jd依赖的各种库，有V8、libuv等
+- 最底层是Node.js依赖的各种库，有V8、libuv等
 - 中间层是各种Binding，也就是胶水代码
 - 最上层是应用代码，可使用Node.js的各种API
 

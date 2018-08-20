@@ -227,42 +227,6 @@ function foo() {
   console.log(a) // 2
 }
 ```
-### 正则表达式
-[参考资料](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Regular_Expressions)
-- 注意自带方法的使用（一般使用`replace`替换字符）
-- 注意标志的使用（如`/g`全局搜索）
-
-### 手写ajax请求
-`httpRequest.readyState`状态值：
-0 (未初始化) or (请求还未初始化)
-1 (正在加载) or (已建立服务器链接)
-2 (加载成功) or (请求已接受)
-3 (交互) or (正在处理请求)
-4 (完成) or (请求已完成并且响应已准备好)
-```js
-// Old compatibility code, no longer needed.
-if (window.XMLHttpRequest) { // Mozilla, Safari, IE7+ ...
-    httpRequest = new XMLHttpRequest();
-} else if (window.ActiveXObject) { // IE 6 and older
-    httpRequest = new ActiveXObject("Microsoft.XMLHTTP");
-}
-httpRequest.onreadystatechange = function(){
-    // Process the server response here.
-    if (httpRequest.readyState === XMLHttpRequest.DONE) {
-      if (httpRequest.status === 200) {
-        alert(httpRequest.responseText);
-        // httpRequest.responseText – 服务器以文本字符的形式返回
-        // httpRequest.responseXML – 以 XMLDocument 对象方式返回，之后就可以使用JavaScript来处理
-      } else {
-        alert('There was a problem with the request.');
-      }
-    }
-}
-// httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded'); // only POST method
-httpRequest.open('GET', 'http://www.example.org/some.file', true);
-httpRequest.send(); // if POST, 参数："name=value&anothername="+encodeURIComponent(myVar)+"&so=on"
-
-```
 
 ### `var a = a || b`这样写有什么问题
 如果a是false类型的值，则会丢失该类型的值，取b值

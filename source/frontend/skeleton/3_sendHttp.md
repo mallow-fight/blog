@@ -40,7 +40,7 @@ type: skeleton
     - get请求时，浏览器会把headers和data一起发送出去，服务器响应200（返回数据）
     - post请求时，浏览器先发送headers，服务器响应100 continue，浏览器再发送data，服务器响应200（返回数据）
   
-> [请求类型](../../backend/http/http.html#类型)
+> [请求类型](../../backend/http/1_http.html#类型)
 
 ## 五层因特网协议栈
 - 从客户端发出http请求到服务器接受，中间会经过一系列流程

@@ -67,7 +67,7 @@ type: js
 **将类似数组的对象转化为数组**
 
 ```js
-function foo{
+function foo(){
   var arr = Array.prototype.slice.call(arguments)
   // es6
   // var arr = Array.from(arguments)
@@ -411,3 +411,17 @@ b;
 
 - 使用`var a = b = 42`时，需要注意提前声明b，不然会创建一个全部变量b
 
+## 正则表达式
+
+> [参考资料](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Regular_Expressions)
+
+- 注意自带方法的使用（一般使用`replace`替换字符）
+- 注意标志的使用（如`/g`全局搜索）
+
+### 手机号码中间替换成星号
+
+```js
+function formatPhone(phone) {
+  return phone.replace(/(\d{3})\d{4}(\d{4})/, "$1****$2");
+}
+```

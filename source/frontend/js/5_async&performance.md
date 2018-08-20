@@ -10,6 +10,38 @@ type: js
 
 **永远不要发起同步Ajax请求，它将锁定浏览器的UI而且阻止用户与任何东西互动。**
 
+### 手写ajax请求
+`httpRequest.readyState`状态值：
+0 (未初始化) or (请求还未初始化)
+1 (正在加载) or (已建立服务器链接)
+2 (加载成功) or (请求已接受)
+3 (交互) or (正在处理请求)
+4 (完成) or (请求已完成并且响应已准备好)
+```js
+// Old compatibility code, no longer needed.
+if (window.XMLHttpRequest) { // Mozilla, Safari, IE7+ ...
+    httpRequest = new XMLHttpRequest();
+} else if (window.ActiveXObject) { // IE 6 and older
+    httpRequest = new ActiveXObject("Microsoft.XMLHTTP");
+}
+httpRequest.onreadystatechange = function(){
+    // Process the server response here.
+    if (httpRequest.readyState === XMLHttpRequest.DONE) {
+      if (httpRequest.status === 200) {
+        alert(httpRequest.responseText);
+        // httpRequest.responseText – 服务器以文本字符的形式返回
+        // httpRequest.responseXML – 以 XMLDocument 对象方式返回，之后就可以使用JavaScript来处理
+      } else {
+        alert('There was a problem with the request.');
+      }
+    }
+}
+// httpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded'); // only POST method
+httpRequest.open('GET', 'http://www.example.org/some.file', true);
+httpRequest.send(); // if POST, 参数："name=value&anothername="+encodeURIComponent(myVar)+"&so=on"
+
+```
+
 ### 调试
 
 **因为不同浏览器的`console`触发机制有可能不同，所以最好采用断点调试（debugger）或者使用`JSON.stringify`**
