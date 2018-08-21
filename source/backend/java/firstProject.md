@@ -63,4 +63,4 @@ type: java
 	图1.6 创建新的package
 </center>
 
->说明：此处创建新的package，命名为basic-java，之后进行代码测试
+>说明：此处创建新的package，命名为basic_java，之后进行代码测试
