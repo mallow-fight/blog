@@ -10,7 +10,7 @@ type: java
 	JDK是Java Development Kit的缩写，包含JRE(Java Runtime Environment,即Java运行时环境)以及一些必要的Jar包。
 
 #### 注意
- *  需要的时JDK而不是JRE
+ *  需要的是JDK而不是JRE
  *  Windows或Linux: 32位选择x86，64位选择x64
  *  Linux:选择.tar.gz版本
  *  接收许可协议，然后下载文件
