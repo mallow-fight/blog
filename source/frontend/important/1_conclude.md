@@ -81,3 +81,56 @@ order: 1
 - 浮动元素：怎么使用它们、它们有什么问题以及怎么解决这些问题。
 - HTML和XHTML：二者有什么区别，你觉得应该使用哪一个并说明理由。
 - JSON：作用、用途、设计结构。
+
+## questions
+
+### 函数判断变量的所有类型
+
+```js
+const a_string = 'i am a string'
+const a_number = 1111
+const a_null = null
+const a_undefined = undefined
+const a_boolean = false
+const a_symbol = Symbol()
+const a_regxp = /abc/
+const a_object = {a: 1}
+const a_array = [1, 2, 3]
+const a_function = function () {
+}
+
+function whichType(vars) {
+  let type = typeof vars
+  if(type === 'object') {
+    type = Object.prototype.toString.call(vars)
+    type = type.slice(8, type.length - 1).toLowerCase()
+  }
+  console.log(type)
+}
+
+whichType(a_string)
+whichType(a_number)
+whichType(a_null)
+whichType(a_undefined)
+whichType(a_boolean)
+whichType(a_symbol)
+whichType(a_regxp)
+whichType(a_object)
+whichType(a_array)
+whichType(a_function)
+```
+
+### 绑定上下文
+
+- bind
+- prototype
+- call || apply
+
+### 导航栏布局
+
+- 左边使用`position: absolute; left: 0; top: 0; width: 200px`
+- 右边使用`margin-left: 200px`
+
+### 实现响应式布局
+
+> [参考](../browser/4_compatibility.html#自适应所有手机和电脑浏览器大小)
