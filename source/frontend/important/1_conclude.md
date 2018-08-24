@@ -104,6 +104,7 @@ function whichType(vars) {
   if(type === 'object') {
     type = Object.prototype.toString.call(vars)
     type = type.slice(8, type.length - 1).toLowerCase()
+    // or: type = type.replace(/\[(\w+)\s(\w+)\]/, '$2')
   }
   console.log(type)
 }
