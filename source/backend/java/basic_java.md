@@ -164,3 +164,169 @@ public class Var {
 }
 
 ```
+
+## 4、扫描器 -- Scanner
+
+### 简要说明
+1. Java5的新特性，可以简化文本扫描
+2. 最实用的地方表现在获取控制台输入
+
+### 练习
+````java
+package basic_java;
+
+import java.util.Scanner;
+
+/**
+ * Scanner类的演示 -- 读取控制台输入内容
+ */
+public class ScannerDemo {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("请输入年龄：");
+        //扫描内容，并返回int类型的值
+        int age = scanner.nextInt();
+        System.out.println("请输入价格：");
+        //扫描内容，并返回double类型的值
+        double price = scanner.nextDouble();
+        System.out.println("年龄：" + age);
+        System.out.println("价格：" + price);
+    }
+}
+
+````
+
+## 5、运算符
+
+### 简要说明
+1. 算术运算符：+、-、*、/、%、++、--
+    * % ： 取余/取模，余数为0即为整除
+    * ++/-- ：自增1/自减1，可在变量前，也可在变量后
+        * 单独使用时，在前在后无差别
+        * 被使用时，在前在后由差别
+            a++的值为a
+            ++a的值为a+1
+
+2. 关系运算符
+    *  \>（大于），<（小于），\>=（大于或等于），<=（小于或等于），==（等于），!=（不等于）
+    * 关系运算的结果为boolean型。
+      关系成立则为true，关系不成立则为false
+    
+
+3. 逻辑运算符
+    * &&：短路与（并且），两边都为真则为真，见false则false。若第一个数为false，则发生短路（后边的不执行了）
+    * ||：短路或（或者），由一边为真则为真，见true则true。若第一个数为true，则发生短路（后边的不执行了）
+    * ! ：逻辑非（取反），非真则假，非假则真
+    * 逻辑运算是建立在关系运算的基础之上的，
+    逻辑运算的结果也是boolean型
+
+4. 赋值运算符
+    * 简单赋值：=
+    * 扩展赋值：+=、-=、*=、/=、%=
+        * a += b <=> a = a + b
+        * a -= b <=> a = a - b
+        * a *= b <=> a = a * b
+        * a /= b <=> a = a / b
+        * a %= b <=> a = a % b
+
+5. 字符串连接运算符：+
+    * 两种用法
+        * 若两边都是数字，则做加法运算
+        * 若有一边为字符串，则做字符串连接
+
+6. 三目/条件运算符
+    * 语法
+        boolean ? 数1 : 数2
+    * 执行过程
+        * 计算Boolean的值
+            * 若为true，则整个表达式的结果为数1
+            * 若为false，则整个表达式的结果为数2
+
+
+### 练习
+````java
+package basic_java;
+
+/**
+ * 运算符测试
+ */
+public class OperationDemo {
+    public static void main(String[] args) {
+        //算术运算符：+、-、*、/、%、++、--
+        int a = 5, b = 5;
+        System.out.println(a--); //~5
+        System.out.println(a); //~4
+        System.out.println(--b); //~4
+        System.out.println(b); //4
+
+        int c = 5, d = 5;
+        int e = c++; //c++ 的值为c(5)
+        int f = ++d; //++d的值为d+1(6)
+        System.out.println(c); //~6
+        System.out.println(d); //~6
+        System.out.println(e); //~5
+        System.out.println(f); //~6
+
+        System.out.println(5 % 2); //1，商2余1
+        System.out.println(6 % 2); //0，商3余0
+        System.out.println(2 % 5); //2，商0余2
+
+        //关系运算符：>、<、>=、<=、==、!=
+        int g = 5, h = 10, i = 5;
+        boolean bool = g > h;
+        System.out.println(bool); //~false
+        System.out.println(i < h); //~true
+        System.out.println(h >= g); //~true
+        System.out.println(g <= i); //~true
+        System.out.println(g == i); //~true
+        System.out.println(g != i); //~false
+
+        //逻辑运算符：&&、||、!
+        int j = 5, k = 10, l = 5;
+        boolean bool2 = j < k || l++ > 2;
+        System.out.println(bool2); //~true
+        System.out.println(l); //~5，发生短路了
+        boolean bool3 = j > k || l++ > 2;
+        System.out.println(bool3); //~false
+        System.out.println(l);  //~5，发生短路了
+        boolean bool4 = !(j > k);
+        System.out.println(bool4); //~ true,!false = true
+        System.out.println(!(j < k)); //~ false,!true = false
+        System.out.println(j > k || l <= k); //~true,false || true = true
+        System.out.println(j == l || k < j); //~true,true || false  = true
+        System.out.println(k >= j || l < k); //~true,true || true = true
+        System.out.println(j > k || j != l); //~false,false || false = false
+        boolean bool5 = j > k && l <= k;
+        System.out.println(bool5); //~false,false && true = false
+        System.out.println(j == l && k < j); //~true,true && false  = false
+        System.out.println(j > k && j != l ); //~false,false && false = false
+        System.out.println(k >= j && j < k); //~true,true && true
+
+        //赋值运算符：=、+=、-=、*=、/=
+        int m = 5;
+        m += 10; //相当于m = m + 10
+        System.out.println(m); //~15
+        m *= 2; //相当于 m = m * 2
+        System.out.println(m); //~30
+        m /= 5; //相当于  m = m / 5
+        System.out.println(m); //~6
+
+        //字符串连接运算符：+
+        int age = 25;
+        System.out.println("age="); //~age=
+        System.out.println(age); //~25
+        System.out.println("age=" + age); //~age=25
+        System.out.println("我的年龄是:" + age);
+        System.out.println("我今年" + age + "岁了");
+        System.out.println(10 + 20 + 30 + ""); //~"60"
+        System.out.println(10 + 20 + "" + 30); //~"3030"
+        System.out.println("" + 10 + 20 + 30); //~"102030"
+
+        //三目 or 条件 运算符
+        int n = 55, o = 8;
+        int max = n > o ? n : o;
+        System.out.println("max=" + max);
+    }
+}
+
+````
