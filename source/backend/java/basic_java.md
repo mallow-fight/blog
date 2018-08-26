@@ -330,3 +330,141 @@ public class OperationDemo {
 }
 
 ````
+
+## 6、控制流程
+
+### 简要说明
+> 与任何程序设计语言一样，Java使用条件语句和循环结构确定控制流程
+
+1. 条件语句
+    * 格式1：
+    ````java
+         if(condition) statement1;
+    ````
+     这里的condition必须要用括号括起来，执行块只有一条语句时，可以省略大括号，但不建议。
+    * 格式2：
+    ````java
+        if(condition) {
+            statement1;
+            statement2;
+        }
+    ````
+    * 格式3：
+    ````java
+        if(condition) {
+            statement1;
+            statement2;
+        } else {
+            statement3;
+            statement4;
+        }
+    ````
+    * 格式4：
+    ````java
+        if(condition1) {
+            statement1;
+        } else if(condition2) {
+            statement2;
+        } ...
+    ````   
+2. 循环结构
+    * while循环：
+    ````java
+        while(condition) {
+            statement
+        }
+    ````
+        当条件为true时，while循环执行一条语句（也可以是一个语句块）；当开始循环条件的值就为false，则while循环体依次也不执行。
+    * do...while循环：
+    ````java
+        do statement while (condition)
+    ````
+    * for循环语句
+    ````java
+        for(int i = 0;i <= 10; i++) {
+            System.out.println(i);
+        }
+    ````
+        for循环语句是支持迭代的一种通用结构，利用每次迭代之后更新的计数器或类似的变量来控制迭代次数。for语句的第1部分通常用于对计数器初始化；第2部分给出每次新一轮循环执行前要检测的循环条件；第3部分指示如何更新计数器。
+3. 多重选择--switch语句
+
+    ````java
+        switch(condition) {
+            case condition1:
+                statement1;
+                break;
+            case condition2:
+                statement2;
+                break;
+            ...
+        }
+    ````
+    switch语句将从与选项值相匹配的case标签处开始执行直到遇到break语句，或者执行到switch语句的结束处为止。如果没有相匹配的case标签，而有default子句，就执行这个子句。
+    
+4. 中断控制流程语句
+    * goto关键字 -- 尽管Java的设计者将goto作为保留字，但实际上并没有打算在语言中使用它。通常使用goto语句被认为是一种拙劣的程序设计风格。当然，也有一部分程序员认为反对goto的呼声似乎有些过分。例如，Donald Knuth就曾编著过一篇名为《Structured Programming with goto statements》的著名文章，这篇文章说：无限制地使用goto语句确实是导致错误的根源，但在有些情况下，偶尔使用goto跳出循环还是有益处的。
+    * break关键字 -- 用于跳出多重嵌套的循环语句。
+    * continue -- 将控制转移到最内层循环的首部。
+
+### 练习
+````java
+package basic_java;
+
+public class Demo {
+    public static void main(String[] args) {
+        //简单的if结构
+        int num = 5;
+        if(num % 2 == 0){
+            System.out.println(num + "是个偶数");
+        } else {
+            System.out.println(num + "是个奇数");
+        }
+
+        //while循环结构
+        int index = 1; // 1.循环变量的初始化
+        while(index <= 9){ // 2.循环的条件
+            System.out.println(index + "*9 = " + num * 9);
+            index++; // 3.循环变量的改变
+        }
+        System.out.println("over~");
+
+        //do - while 循环结构
+        index = 1; // 1.循环变量的初始化
+        do{
+            System.out.println(index + "*9 = " + num * 9);
+            index++; // 3.循环变量的改变
+        }while(index <= 9);// 2.循环的条件
+        System.out.println("over~");
+
+        //for循环结构
+        int sum = 0 ;
+        for(int i = 1; i <= 100; i++){
+            if(i % 10 != 3){
+                sum = sum + num;
+            }
+        }
+        System.out.println("sum = " + sum);
+
+        //continue
+        sum = 0; // 重新赋初值
+        for(int j = 0; j <= 100; j++){
+            if(j % 10 == 3){
+                continue; // 跳过循环体中剩余语句而进入下一次循环
+            }
+            sum = sum + j;
+        }
+        System.out.println("sum = " + sum);
+
+        //break
+        sum = 0; //重新赋初值
+        for(int k = 0; k <= 100; k++) {
+            if(k % 10 == 0){
+                break; // 跳出循环
+            }
+            sum = sum + k;
+        }
+        System.out.println("sum = " + sum);
+    }
+}
+
+````
