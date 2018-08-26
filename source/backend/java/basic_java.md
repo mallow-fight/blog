@@ -164,3 +164,307 @@ public class Var {
 }
 
 ```
+
+## 4、扫描器 -- Scanner
+
+### 简要说明
+1. Java5的新特性，可以简化文本扫描
+2. 最实用的地方表现在获取控制台输入
+
+### 练习
+````java
+package basic_java;
+
+import java.util.Scanner;
+
+/**
+ * Scanner类的演示 -- 读取控制台输入内容
+ */
+public class ScannerDemo {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("请输入年龄：");
+        //扫描内容，并返回int类型的值
+        int age = scanner.nextInt();
+        System.out.println("请输入价格：");
+        //扫描内容，并返回double类型的值
+        double price = scanner.nextDouble();
+        System.out.println("年龄：" + age);
+        System.out.println("价格：" + price);
+    }
+}
+
+````
+
+## 5、运算符
+
+### 简要说明
+1. 算术运算符：+、-、*、/、%、++、--
+    * % ： 取余/取模，余数为0即为整除
+    * ++/-- ：自增1/自减1，可在变量前，也可在变量后
+        * 单独使用时，在前在后无差别
+        * 被使用时，在前在后由差别
+            a++的值为a
+            ++a的值为a+1
+
+2. 关系运算符
+    *  \>（大于），<（小于），\>=（大于或等于），<=（小于或等于），==（等于），!=（不等于）
+    * 关系运算的结果为boolean型。
+      关系成立则为true，关系不成立则为false
+    
+
+3. 逻辑运算符
+    * &&：短路与（并且），两边都为真则为真，见false则false。若第一个数为false，则发生短路（后边的不执行了）
+    * ||：短路或（或者），由一边为真则为真，见true则true。若第一个数为true，则发生短路（后边的不执行了）
+    * ! ：逻辑非（取反），非真则假，非假则真
+    * 逻辑运算是建立在关系运算的基础之上的，
+    逻辑运算的结果也是boolean型
+
+4. 赋值运算符
+    * 简单赋值：=
+    * 扩展赋值：+=、-=、*=、/=、%=
+        * a += b <=> a = a + b
+        * a -= b <=> a = a - b
+        * a *= b <=> a = a * b
+        * a /= b <=> a = a / b
+        * a %= b <=> a = a % b
+
+5. 字符串连接运算符：+
+    * 两种用法
+        * 若两边都是数字，则做加法运算
+        * 若有一边为字符串，则做字符串连接
+
+6. 三目/条件运算符
+    * 语法
+        boolean ? 数1 : 数2
+    * 执行过程
+        * 计算Boolean的值
+            * 若为true，则整个表达式的结果为数1
+            * 若为false，则整个表达式的结果为数2
+
+
+### 练习
+````java
+package basic_java;
+
+/**
+ * 运算符测试
+ */
+public class OperationDemo {
+    public static void main(String[] args) {
+        //算术运算符：+、-、*、/、%、++、--
+        int a = 5, b = 5;
+        System.out.println(a--); //~5
+        System.out.println(a); //~4
+        System.out.println(--b); //~4
+        System.out.println(b); //4
+
+        int c = 5, d = 5;
+        int e = c++; //c++ 的值为c(5)
+        int f = ++d; //++d的值为d+1(6)
+        System.out.println(c); //~6
+        System.out.println(d); //~6
+        System.out.println(e); //~5
+        System.out.println(f); //~6
+
+        System.out.println(5 % 2); //1，商2余1
+        System.out.println(6 % 2); //0，商3余0
+        System.out.println(2 % 5); //2，商0余2
+
+        //关系运算符：>、<、>=、<=、==、!=
+        int g = 5, h = 10, i = 5;
+        boolean bool = g > h;
+        System.out.println(bool); //~false
+        System.out.println(i < h); //~true
+        System.out.println(h >= g); //~true
+        System.out.println(g <= i); //~true
+        System.out.println(g == i); //~true
+        System.out.println(g != i); //~false
+
+        //逻辑运算符：&&、||、!
+        int j = 5, k = 10, l = 5;
+        boolean bool2 = j < k || l++ > 2;
+        System.out.println(bool2); //~true
+        System.out.println(l); //~5，发生短路了
+        boolean bool3 = j > k || l++ > 2;
+        System.out.println(bool3); //~false
+        System.out.println(l);  //~5，发生短路了
+        boolean bool4 = !(j > k);
+        System.out.println(bool4); //~ true,!false = true
+        System.out.println(!(j < k)); //~ false,!true = false
+        System.out.println(j > k || l <= k); //~true,false || true = true
+        System.out.println(j == l || k < j); //~true,true || false  = true
+        System.out.println(k >= j || l < k); //~true,true || true = true
+        System.out.println(j > k || j != l); //~false,false || false = false
+        boolean bool5 = j > k && l <= k;
+        System.out.println(bool5); //~false,false && true = false
+        System.out.println(j == l && k < j); //~true,true && false  = false
+        System.out.println(j > k && j != l ); //~false,false && false = false
+        System.out.println(k >= j && j < k); //~true,true && true
+
+        //赋值运算符：=、+=、-=、*=、/=
+        int m = 5;
+        m += 10; //相当于m = m + 10
+        System.out.println(m); //~15
+        m *= 2; //相当于 m = m * 2
+        System.out.println(m); //~30
+        m /= 5; //相当于  m = m / 5
+        System.out.println(m); //~6
+
+        //字符串连接运算符：+
+        int age = 25;
+        System.out.println("age="); //~age=
+        System.out.println(age); //~25
+        System.out.println("age=" + age); //~age=25
+        System.out.println("我的年龄是:" + age);
+        System.out.println("我今年" + age + "岁了");
+        System.out.println(10 + 20 + 30 + ""); //~"60"
+        System.out.println(10 + 20 + "" + 30); //~"3030"
+        System.out.println("" + 10 + 20 + 30); //~"102030"
+
+        //三目 or 条件 运算符
+        int n = 55, o = 8;
+        int max = n > o ? n : o;
+        System.out.println("max=" + max);
+    }
+}
+
+````
+
+## 6、控制流程
+
+### 简要说明
+> 与任何程序设计语言一样，Java使用条件语句和循环结构确定控制流程
+
+1. 条件语句
+    * 格式1：
+    ````java
+         if(condition) statement1;
+    ````
+     这里的condition必须要用括号括起来，执行块只有一条语句时，可以省略大括号，但不建议。
+    * 格式2：
+    ````java
+        if(condition) {
+            statement1;
+            statement2;
+        }
+    ````
+    * 格式3：
+    ````java
+        if(condition) {
+            statement1;
+            statement2;
+        } else {
+            statement3;
+            statement4;
+        }
+    ````
+    * 格式4：
+    ````java
+        if(condition1) {
+            statement1;
+        } else if(condition2) {
+            statement2;
+        } ...
+    ````   
+2. 循环结构
+    * while循环：
+    ````java
+        while(condition) {
+            statement
+        }
+    ````
+        当条件为true时，while循环执行一条语句（也可以是一个语句块）；当开始循环条件的值就为false，则while循环体依次也不执行。
+    * do...while循环：
+    ````java
+        do statement while (condition)
+    ````
+    * for循环语句
+    ````java
+        for(int i = 0;i <= 10; i++) {
+            System.out.println(i);
+        }
+    ````
+        for循环语句是支持迭代的一种通用结构，利用每次迭代之后更新的计数器或类似的变量来控制迭代次数。for语句的第1部分通常用于对计数器初始化；第2部分给出每次新一轮循环执行前要检测的循环条件；第3部分指示如何更新计数器。
+3. 多重选择--switch语句
+
+    ````java
+        switch(condition) {
+            case condition1:
+                statement1;
+                break;
+            case condition2:
+                statement2;
+                break;
+            ...
+        }
+    ````
+    switch语句将从与选项值相匹配的case标签处开始执行直到遇到break语句，或者执行到switch语句的结束处为止。如果没有相匹配的case标签，而有default子句，就执行这个子句。
+    
+4. 中断控制流程语句
+    * goto关键字 -- 尽管Java的设计者将goto作为保留字，但实际上并没有打算在语言中使用它。通常使用goto语句被认为是一种拙劣的程序设计风格。当然，也有一部分程序员认为反对goto的呼声似乎有些过分。例如，Donald Knuth就曾编著过一篇名为《Structured Programming with goto statements》的著名文章，这篇文章说：无限制地使用goto语句确实是导致错误的根源，但在有些情况下，偶尔使用goto跳出循环还是有益处的。
+    * break关键字 -- 用于跳出多重嵌套的循环语句。
+    * continue -- 将控制转移到最内层循环的首部。
+
+### 练习
+````java
+package basic_java;
+
+public class Demo {
+    public static void main(String[] args) {
+        //简单的if结构
+        int num = 5;
+        if(num % 2 == 0){
+            System.out.println(num + "是个偶数");
+        } else {
+            System.out.println(num + "是个奇数");
+        }
+
+        //while循环结构
+        int index = 1; // 1.循环变量的初始化
+        while(index <= 9){ // 2.循环的条件
+            System.out.println(index + "*9 = " + num * 9);
+            index++; // 3.循环变量的改变
+        }
+        System.out.println("over~");
+
+        //do - while 循环结构
+        index = 1; // 1.循环变量的初始化
+        do{
+            System.out.println(index + "*9 = " + num * 9);
+            index++; // 3.循环变量的改变
+        }while(index <= 9);// 2.循环的条件
+        System.out.println("over~");
+
+        //for循环结构
+        int sum = 0 ;
+        for(int i = 1; i <= 100; i++){
+            if(i % 10 != 3){
+                sum = sum + num;
+            }
+        }
+        System.out.println("sum = " + sum);
+
+        //continue
+        sum = 0; // 重新赋初值
+        for(int j = 0; j <= 100; j++){
+            if(j % 10 == 3){
+                continue; // 跳过循环体中剩余语句而进入下一次循环
+            }
+            sum = sum + j;
+        }
+        System.out.println("sum = " + sum);
+
+        //break
+        sum = 0; //重新赋初值
+        for(int k = 0; k <= 100; k++) {
+            if(k % 10 == 0){
+                break; // 跳出循环
+            }
+            sum = sum + k;
+        }
+        System.out.println("sum = " + sum);
+    }
+}
+
+````
