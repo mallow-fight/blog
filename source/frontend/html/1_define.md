@@ -118,7 +118,7 @@ type: html
 
 - 拖放：支持在网站内部和网站之间拖放项目，同时也提供了一个更简单的供扩展和基于Mozilla的应用程序使用的API
 
-- 焦点管理：支持`activeElement`和`hasFoces`属性
+- 焦点管理：支持`activeElement`和`hasFocus`属性
 
 - 基于Web的协议处理程序：你现在可以使用`navigator.registerProtocolHandler()`方法把web应用程序注册成一个协议处理程序
 

@@ -75,13 +75,13 @@ function deleteCookie(name) {
 
 ## 注意
 - 不同浏览器无法共享localStorage或sessionStorage中的信息。
-- 相同浏览器的不同页面间可以共享相同的localStorage（**页面属于相同域名和端口**）
+- 相同浏览器且相同域名和端口的不同页面间可以共享相同的localStorage。
 - 不同页面或标签页间无法共享sessionStorage的信息。这里需要注意的是，页面及标签页仅指顶级窗口，如果一个标签页包含多个iframe标签且他们属于同源页面，那么他们之间是可以共享sessionStorage的。
 
 ## sessionstorage
 
 ### 存在时间
-页面会话结束——也就是说当页面被关闭时，数据存储在 `sessionStorage` 会被清除，页面刷新不会被删除。
+页面会话结束——也就是说当页面被关闭时，数据存储在 `sessionStorage` 会被清除，页面刷新不会被删除。不能在不同页面间共享，可以在同一个页面的多个iframe中共享。
 
 ### 大小限制
 一般为5MB
