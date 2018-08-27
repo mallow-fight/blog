@@ -124,6 +124,8 @@ whichType(a_function)
 ### 绑定上下文
 
 - bind
+  - 软绑定
+  - 硬绑定
 - prototype
 - call || apply
 
@@ -135,3 +137,27 @@ whichType(a_function)
 ### 实现响应式布局
 
 > [参考](../browser/4_compatibility.html#自适应所有手机和电脑浏览器大小)
+
+- 如何自适应多倍dpi（如平板）？
+- 什么是设备像素比？
+- 如何适配iphoneX？
+
+### Vue、React的区别
+todo
+
+- Vue的响应式编程和React的函数式编程
+
+### css预编译器怎么使用函数
+todo
+
+### webpack对页面性能的优化
+todo
+
+### fetch、ajax、promise、generator、async的区别
+todo
+
+### vuex的mutations键值的唯一
+todo
+
+### UI库的样式覆盖，怎么保证私有化
+todo
