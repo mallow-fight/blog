@@ -468,3 +468,162 @@ public class Demo {
 }
 
 ````
+
+## 7、数组
+
+### 简要说明
+
+1. 基本概念  
+    * 数组是一个数据结构，用来存储同一类型值得集合。通过一个整型下标可以访问数组中的每一个值。例如，如果a是一个整型数组，a[i]就是数组中下标为i的整数。  
+    * 在声明数组变量时，需要指出数组类型（数组元素类型紧跟[]）和数组变量的名字，如int[] a，不过这条语句只声明了变量a，并没有将a初始化为一个真正的数组。应该使用new运算符创建数组，如 int[] a= new int[100]，这条语句创建了一个可以存储100个整数的数组。数组长度不要求是常量：new int[n]会创建一个长度为n的数组。一旦创建了数组，就可以给数组元素赋值。例如，使用一个循环：
+    ````java
+        int[] a = new int[100];
+        for(int i = 0; i < 100; i++){
+            a[i] = i;
+        }
+    ````
+    * 创建一个数字数组后，所有元素都初始化为0。boolean数组的元素会初始化为false。对象数组的元素则初始化为一个特殊值null，这表示这些元素未存放任何对象。
+    * 一旦创建了数组，就不能再改变它的大小（尽管可以改变每一个数组元素）。如果经常需要在运行过程中扩展数组的大小，就应该使用另一个数据结果 -- 数组列表（ArrayList），之后会提及相关内容。
+
+2. 数组遍历
+    * Java有一种功能很强的循环结构，可以用来依次处理数组中的每个元素（其他类型的元素集合亦可）而不必为指定下标值而分心。
+    * for each 循环  
+    格式：
+    ````java
+        for(variable : collection) statement  
+    ````
+    for each循环语句的循环变量将会遍历数组中的每个元素，而不需要使用下标值。
+    * 数组初始化以及匿名数组  
+    在Java中，提供了一种创建数组对象并同时赋予初始值的简化书写形式。例如：int[] smallPrimes = {2,3,5,7,11,13}，请注意，在使用这种语句时，不需要调用new。甚至还可以初始化一个匿名的数组：
+    new int[]{17,19,23,29,31,37}，这种表示法将创建一个新数组并利用括号中提供的值进行初始化，数组的大小就是初始值的个数。使用这种语法形式可以在不创建新变量的情况下重新初始化一个数组。例如：
+    ````java
+        smallPrimes = new int[]{17,19,23,29,31,37}
+    ````
+    这是下列语句的简写形式：
+    ````java
+        int[] anonymous = {17,19,23,29,31,37};
+        smallPrimes = anonymous;
+    ````
+
+3. 数组拷贝
+    * 在Java中，允许将一个数组变量拷贝给另一个数组变量。这时，两个变量将引用同一个数组：
+    ````java
+        int[] luckyNumbers = smallPrimes;
+        luckyNumbers[5] = 12;
+    ````
+    * 如果希望将一个数组的所有值拷贝到一个新的数组中去，就要使用Arrays类的copyOf方法：
+    ````java
+        int[] copiedLuckyNumbers = Arrays.copyOf(luckyNumbers,luckyNumbers.length);
+    ````
+    第2个参数是新数组的长度。这个方法通常用来增加数组的大小：
+    ````java
+        luckyNumbers = Arrays.copyOf(luckyNumbers,2 * luckyNumbers.length);
+    ````
+    如果数组元素是数值型，那么多余的元素将被赋值为0；如果数组元素是布尔型，则将赋值为false。相反，如果长度小于原始数组的长度，则只拷贝最前面的数据元素。
+
+4. 数组排序  
+    * 要想对数值型数组进行排序，可以使用Arrays类中sort方法：
+    ````java
+        int[] a = new int[10000];
+        ...
+        Arrays.sort(a);
+    ````
+    这个方法使用了优化的快速排序算法。快速排序算法对于大多数数据集合来说都是效率比较高的。
+
+5. 多维数组
+    * 多维数组将使用多个下标访问数组元素，它适用于表示表格或更加复杂的排列形式。
+    * 在Java中，声明一个二维数组相当简单。例如：
+    ````java
+        double[][] balances; 
+    ````
+    与一维数组一样，在调用new对多维数组进行初始化之前不能使用它。在这里可以这样初始化：
+    ````java
+        balances = new double[NYEARS][NRATES];
+    ````
+    另外，如果直到数组元素，就可以不调用new，而直接使用简化的书写形式对多维数组进行初始化。例如：
+    ````java
+        int[][] magicSquare = {
+            {16,3,2,13},
+            {5,10,11,8},
+            {9,6,7,12},
+            {4,15,14,1}
+        }
+    ````
+    一旦数组被初始化，就可以利用两个方括号访问每个元素，例如，balances[i][j].
+    * for each 循环语句不能自动处理二维数组的每一个元素。它是按照行，也就是一维数组处理的。要想访问二维数组a的所有元素，需要使用两个嵌套的循环，如下所示：
+    ````java
+        for(double[] row : a)
+         for(double value : row)
+            do something with value...
+    ````
+    * 要想快速打印一个二维数组的数据元素列表，可以调用：
+    ````java
+        System.out.println(Arrays.deepToString(a));
+    ````
+### 练习
+
+````java
+package basic_java;
+
+import java.sql.SQLOutput;
+import java.util.Arrays;
+
+/**
+ * 数组的练习
+ */
+public class ArrayDemo {
+    public static void main(String[] args) {
+        //1.数组的定义
+        int[] arr = new int[4]; // 声明整型数组arr，包含4个元素，每个元素都是int类型，默认值为0
+
+        //2.数组的初始化
+        int[] arr1 = new int[4]; //0,0,0,0
+        int[] arr2 = {1,4,6,8}; //1,4,6,8
+        int[] arr3 = new int[]{1,4,6,8}; //1,4,6,8
+        int[] arr4;
+        // arr4 = {1,4,6,8}; //编译错误，此方式只能声明同时初始化
+        arr4 = new int[]{1,4,6,8}; // 正确
+
+        //3.数组的访问
+        int[] arr5 = new int[3];
+        System.out.println(arr5.length);
+        System.out.println(arr5[0]);
+        arr5[0] = 100; //给第1个元素赋值为100
+        arr5[1] = 200;
+        arr5[2] = 300;
+        // arr5[3] = 400; //数组下标越界异常
+
+        //4.数组的遍历
+        int[] arr6 = new int[100];
+        //赋值
+        for(int i = 0; i < arr6.length; i++){
+            arr6[i] = (int) (Math.random() * 100);
+        }
+        //输出
+        for(int i = 0; i < arr6.length; i++){
+            System.out.println(arr6[i]);
+        }
+
+        //5.数组的复制
+        //System.arraycopy()...
+        int[] a = {10,20,30,40,50};
+        int[] a1 = new int[6]; //0,0,0,0,0,0
+        //a-源数组，1-源数组的起始下标，a1-目标数组，0-目标数组的起始下标，4-要复制的元素个数
+        System.arraycopy(a,1,a1,0,4);
+        for(int i = 0; i< a1.length; i++){
+            System.out.println(a1[i]);
+        }
+        //Arrays.copyOf()...
+        //数组的扩容，会创建一个新的数组
+        a = Arrays.copyOf(a,a.length+1);
+        for(int i = 0; i < a.length; i++){
+            System.out.println(a[i]);
+        }
+
+    }
+}
+
+````
+
+
+
