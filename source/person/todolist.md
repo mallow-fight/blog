@@ -19,8 +19,8 @@ order: 4
 ## 每日任务
 
 - 2018.08.27
-  - [ ] 完成conclude的todos
-  - [ ] 完成优化博客的todos
+  - [x] 完成conclude的todos
+  - [x] 完成优化博客的todos
 
 ## 第一象限（紧急也很重要）
 
@@ -63,8 +63,8 @@ order: 4
     - [x] 数字原生方法
     - [x] 正则
     - [x] 循环方法区别和应用
-    - [ ] 理清prototype、__proto__、constructor之间的关系
-    - [ ] js继承以及上下文的绑定
+    - [x] 理清prototype、__proto__、constructor之间的关系
+    - [x] js继承以及上下文的绑定
   - [x] 事件
     - [x] 代理
     - [x] 冒泡
