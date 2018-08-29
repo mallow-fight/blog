@@ -18,7 +18,7 @@ body
 #header
   box-shadow: 0 0 1px rgba(0,0,0,.25)
   transition: background-color .3s ease-in-out
-.content, #disqus_thread
+.content
   position: relative
   padding: 2.2em 0
   max-width: 800px
@@ -190,8 +190,19 @@ body
 @media screen and (min-width: 1590px)
   #header
     background-color: rgba(255,255,255,.4)
+  
+  #disqus_thread
+    padding: 2.2em 0
+    max-width: 800px
+    margin: 0 auto
+    padding-left: 200px
 
-@media screen and (max-width: 1300px)
+@media screen and (max-width: 1590px)
+  #disqus_thread
+    padding: 2.2em 0
+    max-width: 800px
+    margin: 0 auto
+    padding-left: 220px
   .content.with-sidebar
     margin-left: 90px
   #ad
@@ -204,6 +215,10 @@ body
     padding: 0 0 20px 30px
 
 @media screen and (max-width: 900px)
+  #disqus_thread
+    padding: 2.2em 0
+    max-width: 800px
+    margin: 0 auto
   body
     -webkit-text-size-adjust: none
     font-size: 14px
