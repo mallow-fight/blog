@@ -51,7 +51,7 @@ public class APIDocDemo {
     * StringBuilder提供了包括增、删、改、插入这些编辑字符串操作的相关方法。
 
 ### 练习
-#### String
+#### String (part2)
 ````java
 package basic_java;
 
@@ -183,6 +183,61 @@ public class StringDemo {
     }
 }
 ````
+#### String (part2)
+````java
+package basic_java;
+
+/**
+ * String的其他内容演示
+ */
+public class StringDemo2 {
+    public static void main(String[] args) {
+        /*
+            字符串支持正则表达式的相关方法之一：
+            boolean matches(String regex)
+            根据给定的正则表达式验证当前字符串是否满足格式要求，
+            满足则返回true。
+            需要注意，该方法是全匹配验证，
+            即：无论正则表达式是否添加边界匹配都做全匹配验证
+         */
+        /*
+            email的正则表达式：
+            [a-zA-Z0-9_]+@[a-zA-Z0-9_]+(\.[a-zA-Z]+)+
+         */
+        String mail = "fancq@tedu.cn";
+        String regex = "[a-zA-Z0-9_]+@[a-zA-Z0-9_]+(\\.[a-zA-Z]+)+";
+        System.out.println(regex);
+        boolean match = mail.matches(regex);
+        if(match){
+            System.out.println("是邮箱"); //~ 是邮箱
+        } else {
+            System.out.println("不是邮箱");
+        }
+
+        /*
+            String[] split(String regex)
+            将当前字符串按照满足正则表达式的部分进行拆分
+            然后将所有拆分后的部分返回。
+         */
+        String str = "abc123def456ghi789jkl";
+        //按照数字部分拆分字符串
+        String[] data = str.split("[0-9]+");
+        System.out.println("len: " + data.length); //~ 4
+        for(int i = 0; i < data.length; i++){
+            System.out.println(data[i]); //~ abc,def,ghi,jkl
+        }
+
+        /*
+            String replaceAll(String regex,String str)
+            将当前字符串中满足正则表达式的部分替换为给定的字符串内容
+         */
+        str = str.replaceAll("[a-z]+","#CHAR#");
+        System.out.println(str); //~ #CHAR#123#CHAR#456#CHAR#789#CHAR#
+    }
+}
+
+````
+
 
 #### StringBuilder
 ````java
@@ -239,5 +294,95 @@ public class StringBuilderDemo {
 
     }
 }
+````
 
+## 包装类
+
+### 简要说明
+
+1. 包装类
+    * 由于基本类型没有面向对象特性，所以不能直接参与面向对象开发，为了解决这个问题，java为8个基本类型提供了包装类，包装类可以以对象的形式表示一个基本类型的值。
+    * 其中六个数字类型的包装类继承自Number，Number定义了数字类型包装类应具有的共同行为：  
+        允许将其表示的基本类型数据在不同的数字类型直接互相转换。
+    
+### 练习
+````java
+package basic_java;
+
+/**
+ * 包装类
+ * 由于基本类型没有面向对象特性，所以不能直接参与
+ * 面向对象开发，为了解决这个问题，java为8个基本类型提供了
+ * 包装类，包装类可以以对象的形式表示一个基本类型的值。
+ * 其中六个数字类型的包装类继承自Number
+ * Number定义了数字类型包装类应该具有的共同行为：
+ * 允许将其表示的基本类型数据在不同的数字类型之间
+ * 互相转换
+ */
+public class IntegerDemo {
+    public static void main(String[] args) {
+        //int --> Integer 基本类型 -> 引用类型
+        /*
+            所有包装支持静态方法valueOf，可以将对应的基本类型转换为包装类
+            推荐使用这种方式，而不是直接new
+         */
+        Integer in1 = Integer.valueOf(128);
+        Integer in2 = Integer.valueOf(128);
+
+        System.out.println(in1 == in2); //~ false
+        System.out.println(in1.equals(in2)); //~ true
+
+        //引用类型转换为基本类型
+        int i = in1.intValue();
+        double d = in1.doubleValue();
+        System.out.println(d); //~ 128.0
+        byte b = in1.byteValue();
+        System.out.println(b); //~ -128
+
+        /*
+            数字类型包装类提供了两个常量，可以查看
+            其表示的基本类型的取值
+         */
+        int imax = Integer.MAX_VALUE;
+        System.out.println("imax: " + imax); //~ imax: 2147483647
+        int imin = Integer.MIN_VALUE;
+        System.out.println("imin: " + imin); //~ imin: -2147483648
+
+        long lmax = Long.MAX_VALUE;
+        System.out.println("lmax: " + lmax); //~ lmax: 9223372036854775807
+
+        /*
+            所有的包装类都提供了一个静态方法:parseXXX()
+            该方法可以将给定的字符串转换为对应的基本类型
+            数字，但是前提是该字符串的内容必须能正确描述
+            该类型可以保存的数据，否则会抛出异常
+         */
+        String str = "123";
+        int inte = Integer.parseInt(str);
+        double db = Double.parseDouble(str);
+        System.out.println(inte + 1);
+        System.out.println(db);
+
+        /*
+            JDK在1.5时推出了一个新的特性：自动拆装箱
+            即：基本类型和引用类型之间可以直接互相赋值，
+            无需再关注之间的转换，而编译器再编译程序时
+            会自动补充代码，完成它们之间的转换工作。
+            所以自动拆装箱是编译器认可，而不是虚拟机认可的
+         */
+
+        /*
+            自动拆箱
+            编译器会补充代码为：
+            int i3 = new Integer(123).intValue()
+         */
+        int i3 = new Integer(123);
+        /*
+            自动装箱
+            编译器会补充代码为
+            Integer i4 = Integer.valueOf(123);
+         */
+        Integer i4 = 123;
+    }
+}
 ````
