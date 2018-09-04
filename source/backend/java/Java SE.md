@@ -51,7 +51,7 @@ public class APIDocDemo {
     * StringBuilder提供了包括增、删、改、插入这些编辑字符串操作的相关方法。
 
 ### 练习
-#### String (part2)
+#### String (part1)
 ````java
 package basic_java;
 
@@ -569,7 +569,6 @@ public class CalendarDemo {
     }
 }
 ````
-
 #### SimpleDateFormat
 ````java
 package basic_java;
@@ -612,10 +611,11 @@ public class SimpleDateFormatDemo {
         System.out.println(date); //~ Fri Aug 08 20:08:08 CST 2008
     }
 }
-```` 
+````
 
 
 ## 5、集合
+
 ### 简要说明
 1. Collection
     * 集合的操作 - 
@@ -1092,7 +1092,8 @@ public class ListDemo {
     }
 }
 ````
-#### Map
+
+####  Map
 ````java
 package basic_java;
 
