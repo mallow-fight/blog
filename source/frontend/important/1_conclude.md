@@ -238,3 +238,60 @@ if (!Function.prototype.bind) {
 ### UI库的样式覆盖，怎么保证私有化
 
 > [csdn](https://blog.csdn.net/weixin_41557291/article/details/80606525)
+
+### 函数柯里化
+
+#### 第一版
+
+- 这一版只支持传入两个参数
+
+```js
+function curry(fn) {
+  const args = Array.prototype.slice.call(arguments, 1)
+  return function () {
+    const wrapArgs = args.concat(Array.prototype.slice.call(arguments))
+    return fn.apply(this, wrapArgs)
+  }
+}
+function add(a, b) {
+  return a + b
+}
+const addCurry1 = curry(add, 1, 2)
+console.log(addCurry1())
+const addCurry2 = curry(add, 1)
+console.log(addCurry2(2))
+const addCurry3 = curry(add)
+console.log(addCurry3(1, 2))
+```
+
+#### 第二版
+
+```js
+function Curry () {
+  function curryAdd () {
+    const slice = Array.prototype.slice
+    const args = slice.call(arguments)
+    curryAdd.trigger(args)
+    return curryAdd
+  }
+  curryAdd.sum = 0
+  curryAdd.trigger = function (nums) {
+    for(let i = 0; i < nums.length; i++) {
+      curryAdd.sum += nums[i]
+    }
+  }
+  curryAdd.init = function () {
+    curryAdd.sum = 0
+  }
+  return curryAdd
+}
+const curryAdd = Curry()
+curryAdd(1, 2, 3)(4)(10)(24)
+console.log(curryAdd.sum)
+curryAdd.init()
+curryAdd(1)(2)(3)(4)
+console.log(curryAdd.sum)
+const curryAdd1 = Curry()
+curryAdd1(1)(2)
+console.log(curryAdd1.sum)
+```
