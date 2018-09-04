@@ -51,7 +51,7 @@ public class APIDocDemo {
     * StringBuilder提供了包括增、删、改、插入这些编辑字符串操作的相关方法。
 
 ### 练习
-#### String (part2)
+#### String (part1)
 ````java
 package basic_java;
 
@@ -296,7 +296,7 @@ public class StringBuilderDemo {
 }
 ````
 
-## 包装类
+## 3、包装类
 
 ### 简要说明
 
@@ -383,6 +383,848 @@ public class IntegerDemo {
             Integer i4 = Integer.valueOf(123);
          */
         Integer i4 = 123;
+    }
+}
+````
+
+## 4、日历类
+
+### 简要说明
+1. Date
+    * 该类的每一个实例用于表示一个具体的时间点，内部维护一个long值，该值位1970年元旦到该Date表示时间之间所经过的毫秒数。
+    * Date 因为设计存在缺陷，所以大部分方法被修饰为过时的，不再建议使用。所以，现在仅用其表示一个时间。
+
+2. Calendar
+    * 通常使用该类对时间进行操作
+    * 提供了获取各个时间分量的方法
+    * 可以设置指定时间
+
+3. SimpleDateFormat
+    * 该类可以根据一个指定的日期格式将Date与String进行转换
+
+### 练习
+#### Date
+````java
+package basic_java;
+
+import java.util.Date;
+
+/**
+ * Date类的每个实例用于表示一个具体的时间点
+ * 内部维护一个long值，该值为1970年元旦到该Date
+ * 表示的时间之间所经过的毫秒。
+ * Date因为设计存在缺陷，所以大部分方法被修饰为过时的，不再建议使用。
+ * 所以，现在仅用其表示一个时间
+ */
+public class DateDemo {
+    public static void main(String[] args) {
+        //表示当前系统时间
+        Date date = new Date();
+        /*
+            Date 重写了toString方法
+            但是显示的日期格式对非英语地区十分友好
+         */
+        System.out.println(date); //~ Mon Sep 03 13:35:52 CST 2018
+        //获取Date内部维护的毫秒值
+        long time = date.getTime();
+        System.out.println(time); //~ 1535952952044
+        time += 1000 * 60 * 60 * 24;
+
+        date.setTime(time);
+        System.out.println(date); //~ Tue Sep 04 13:35:52 CST 2018
+    }
+}
+````
+
+#### Calendar
+````java
+package basic_java;
+
+import sun.awt.geom.AreaOp;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.concurrent.CancellationException;
+
+/**
+ * Calendar
+ * 日历类
+ * 通常使用该类对时间进行操作
+ */
+public class CalendarDemo {
+    public static void main(String[] args) {
+        /*
+            默认创建出来的Calendar的实现类表示当前时间
+         */
+        Calendar calendar = Calendar.getInstance();
+        /*
+            toString重写了，但是不能直观反映其表示的时间
+         */
+        System.out.println(calendar);
+        //~ java.util.GregorianCalendar[time=1535952781831,areFieldsSet=true,
+        //      areAllFieldsSet=true,lenient=true,zone=sun.util.calendar.ZoneInfo[id="Asia/Shanghai",
+        //      offset=28800000,dstSavings=0,useDaylight=false,transitions=19,lastRule=null],firstDayOfWeek=1,minimalDaysInFirstWeek=1,ERA=1,YEAR=2018,MONTH=8,WEEK_OF_YEAR=36,WEEK_OF_MONTH=2,DAY_OF_MONTH=3,DAY_OF_YEAR=246,DAY_OF_WEEK=2,DAY_OF_WEEK_IN_MONTH=1,AM_PM=1,HOUR=1,HOUR_OF_DAY=13,MINUTE=33,SECOND=1,MILLISECOND=831,ZONE_OFFSET=28800000,DST_OFFSET=0]
+        /*
+            Calendar -> Date
+            Calendar提供了方法：
+            Date getTime()
+            该方法会返回一个Date实例，该实例表示的时间
+            就是当前Calendar所表示的时间
+         */
+        Date date = calendar.getTime();
+        System.out.println(date); //~ Mon Sep 03 13:33:01 CST 2018
+
+        /*
+            Date -> Calendar
+            Calendar 提供了方法：
+            void setTime(Date date)
+            该方法可以使当前Calendar表示给定的
+            Date所表示的时间。
+         */
+        calendar.setTime(date);
+
+        /*
+            Calendar提供了获取各个时间分量的值的方法
+         */
+        //获取年
+        int year = calendar.get(Calendar.YEAR);
+        System.out.println("year: " + year); //~ year: 2018
+        //获取月？月从0开始。即0表示1月
+        int month = calendar.get(Calendar.MONTH) + 1;
+        System.out.println("month: " + month); //~ month: 9
+        //获取日
+        /*
+            和天相关的时间分量：
+            DATE,DAY_OF_MONTH是一致的，表示月中的天
+            DAY_OF_YEAR是表示年中的天
+            DAY_OF_WEEK是表示周中的天
+         */
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        System.out.println(year + "-" + month + "-" + day); //~ 2018-9-3
+        int days = calendar.get(Calendar.DAY_OF_MONTH);
+        System.out.println("今天是今年的第：" +days+"天"); //~ 今天是今年的第：3天
+        /*
+            一周的第一天是周日
+         */
+        int dow = calendar.get(Calendar.DAY_OF_WEEK) - 1;
+        String[] data = {"日","一","二","三","四","五","六"};
+        System.out.println("周" + data[dow]); //~ 周一
+        /*
+         *  HOUR,HOUR_OF_DAY
+         */
+        int h = calendar.get(Calendar.HOUR_OF_DAY);
+        int m = calendar.get(Calendar.MINUTE);
+        int s = calendar.get(Calendar.SECOND);
+        System.out.println(h+":"+m+":"+s); //~ 13:48:43
+
+        /*
+            设置时间分量
+            表示2008-08-08 20:08:08
+         */
+        //设置年
+        calendar.set(Calendar.YEAR,2008);
+        //设置月
+        calendar.set(Calendar.MONTH,Calendar.AUGUST);
+        //设置日
+        calendar.set(Calendar.DAY_OF_MONTH,8);
+        calendar.set(Calendar.HOUR_OF_DAY,20);
+        calendar.set(Calendar.MINUTE,8);
+        calendar.set(Calendar.SECOND,8);
+        //超出某个时间分量允许最大值时，会自动进位
+        calendar.set(Calendar.DAY_OF_MONTH,32);
+        System.out.println(calendar.getTime()); //~ Mon Sep 01 20:08:08 CST 2008
+
+        /*
+            获取某一个时间分量所允许的最大值
+         */
+        //查看当月共有多少天
+        int mdays = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+        System.out.println(mdays); //~ 30
+        mdays = calendar.getActualMinimum(Calendar.DAY_OF_YEAR);
+        System.out.println(mdays); //~ 1
+
+        /*
+            查看3年1个月零2天以后那周的周一是哪天
+
+            void add(int field,int value)
+            对指定的时间分量累加指定的值，若value是负数，则减去
+         */
+        calendar.add(Calendar.YEAR,3);
+        calendar.add(Calendar.MONTH,1);
+        calendar.add(Calendar.DAY_OF_YEAR,2);
+        calendar.add(Calendar.DAY_OF_WEEK,2);
+        System.out.println(calendar.getTime()); //~ Wed Oct 05 20:08:08 CST 2011
+
+        /*
+            要求用户输入一个日期，并对该日期进行一系列的计算后，将计算后的日期再
+            以指定的个数输出给用户
+
+            String --> SimpleDateFormat --> Date
+            Date --> Calendar
+            使用Calendar进行相应的计算
+            Calendar --> Date
+            Date --> SimpleDateFormat --> String
+         */
+
+    }
+}
+````
+#### SimpleDateFormat
+````java
+package basic_java;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+/**
+ * SimpleDateFormat类可以根据一个指定的日期格式将Date与String
+ * 之间进行相互转换
+ */
+public class SimpleDateFormatDemo {
+    public static void main(String[] args) throws ParseException {
+        /*
+            Date -> String
+         */
+        Date now = new Date();
+        System.out.println(now); //~ Mon Sep 03 16:56:16 CST 2018
+        /*
+            2016-08-24 09:55:23
+            yyyy-MM-dd HH:mm:ss
+         */
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        /*
+            String format(Date date)
+            将给定的Date所表示的时间按照当前SDF
+            指定的日期格式转换为字符串
+         */
+        String str = sdf.format(now);
+        System.out.println(str); //~ 2018-09-03 16:56:16
+
+        str = "2008-08-08 20:08:08";
+        /*
+            Date parse(String str)
+            将给定的字符串按照SDF指定的日期格式字符串
+            解析为Date
+         */
+        Date date = sdf.parse(str);
+        System.out.println(date); //~ Fri Aug 08 20:08:08 CST 2008
+    }
+}
+````
+
+
+## 5、集合
+
+### 简要说明
+1. Collection
+    * 集合的操作 - 
+    * 遍历集合元素 -
+    * 泛型在集合中的应用 - 
+    * 与数组间的转换
+    * 
+2. List - 可重复集，有序，特点是可以通过下标操作元素
+    * ArrayList - 数组实现，查询性能更好
+    * LinkedList - 链表实现，增删性能更好，尤其首尾增删
+3. Map - 查找表，以key-value对的形式存储数据
+    * key不允许重复
+    * 一个key对应一个value
+    * 常用的Map实现类：HashMap，使用散列算法实现
+    * 遍历Map：
+        * 遍历所有的key
+        * 遍历所有的键值对
+        * 遍历所有的value -- 相对来说不常用
+
+### 练习
+#### Collection
+````java
+package basic_java;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Objects;
+
+/**
+ * 集合-Collection
+ * 该接口是所有集合的父接口，规定了集合应当具有的
+ * 相关方法。
+ * 其派生了两个子接口：
+ * List：可重复集，有序集，可以根据下标操作元素
+ * Set：不可重复集，重复元素的判断标准是依靠元素自身equals比较的结果
+ */
+public class CollectionDemo {
+    public static void main(String[] args) {
+        Collection collection = new ArrayList();
+        /*
+            boolean add(E e)
+            向当前集合中添加元素
+         */
+        ((ArrayList) collection).add("one");
+        ((ArrayList) collection).add("two");
+        ((ArrayList) collection).add("three");
+        ((ArrayList) collection).add("four");
+        ((ArrayList) collection).add("five");
+        System.out.println(collection); //~ [one, two, three, four, five]
+
+        /*
+            int size()
+            返回当前集合的元素个数
+         */
+        System.out.println("size: " + collection.size()); //~ size: 5
+        /*
+            boolean isEmpty()
+            判断当前集合是否不含有任何元素
+         */
+        System.out.println("isEmpty：" + collection.isEmpty()); //~ isEmpty：false
+        /*
+            void clear()
+            清空集合
+         */
+        collection.clear();
+        System.out.println("集合已清空！"); //~ 集合已清空！
+        System.out.println(collection); //~ []
+        System.out.println("size:" + collection.size()); //~ size:0
+        System.out.println("isEmpty:" + collection.isEmpty()); //~ isEmpty:true
+
+        /*
+            判断集合是否包含指定元素
+            boolean contains(E e)
+            判断当前集合是否包含给定的元素
+            是否包含给定元素是依靠该元素雨集合现有元素
+            有没有equals比较为true的，有的话则
+            认为包含该元素
+         */
+        Collection collection1 = new ArrayList();
+        ((ArrayList) collection1).add(new Point(1,2));
+        ((ArrayList) collection1).add(new Point(3,4));
+        ((ArrayList) collection1).add(new Point(5,6));
+        System.out.println(collection1); //~ [(1,2), (3,4), (5,6)]
+
+        Point p = new Point(1,2);
+        if(collection1.contains(p)){ //通过给定元素的equals方法来判断
+            System.out.println("包含"); //~ 包含
+        } else {
+            System.out.println("不包含");
+        }
+        System.out.println(collection1); //~ [(1,2), (3,4), (5,6)]
+
+        /*
+            集合只能保存引用类型元素并且保存的是元素的引用
+         */
+        Collection collection2 = new ArrayList();
+        Point p1 = new Point(1,2);
+        //存入集合
+        ((ArrayList) collection2).add(p1);
+        System.out.println(p1); //~ (1,2)
+        System.out.println(collection2); //~ [(1,2)]
+
+        p1.setX(2);
+        System.out.println(p1); //~ (2,2)
+        System.out.println(collection2); //~ [(2,2)]
+
+        /*
+            从集合删除元素
+         */
+        ((ArrayList) collection1).add(new Point(7,8));
+        System.out.println(collection1); //~ [(1,2), (3,4), (5,6), (7,8)]
+        /*
+            boolean remove(E e)
+            将给定对象从集合中删除
+            只会删除集合中的一个元素，删除的是与
+            给定元素第一个equals比较为true的元素
+         */
+        Point p2 = new Point(1,2);
+        ((ArrayList) collection1).remove(p2);
+        System.out.println(collection1); //~ [(3,4), (5,6), (7,8)]
+        /*
+            集合操作
+         */
+        Collection collection3 = new ArrayList();
+        ((ArrayList) collection3).add("java");
+        ((ArrayList) collection3).add(".net");
+        ((ArrayList) collection3).add("android");
+        ((ArrayList) collection3).add("c");
+        System.out.println(collection3); //~ [java, .net, android, c]
+
+        Collection collection4 = new ArrayList();
+        ((ArrayList) collection4).add("c");
+        ((ArrayList) collection4).add("c++");
+        ((ArrayList) collection4).add("oc"); //objective-c
+        System.out.println(collection4); //~ [c, c++, oc]
+
+        /*
+            boolean addAll(Collection c)
+            将给定集合中的所有元素添加到当前集合中
+            当执行完毕后，当前集合元素数量发生了改变，
+            则返回true
+         */
+        collection4.addAll(collection3);
+        System.out.println(collection4); //~ [c, c++, oc, java, .net, android, c]
+
+        Collection collection5 = new ArrayList();
+        ((ArrayList) collection5).add("java");
+        ((ArrayList) collection5).add("c");
+        ((ArrayList) collection5).add("php");
+
+        /*
+            boolean containsAll(Collection c)
+            判断当前集合是否包含给定集合中的所有元素
+         */
+        boolean containsFlag = collection4.containsAll(collection5);
+        System.out.println(containsFlag); //~ false
+
+        /*
+            boolean removeAll(Collection c)
+            删除当前集合中与给定集合共有的元素
+         */
+        collection4.removeAll(collection5);
+        System.out.println(collection4); //~ [c++, oc, .net, android]
+
+        /*
+            遍历集合元素
+            Collection提供了方法：
+            Iterator iterator()
+            该方法会返回一个可以遍历当前集合的迭代器实例
+
+            java.util.Iterator
+            是迭代器接口，规定了遍历集合的方法，不同的集合
+            实现类都实现了可以遍历自身的迭代器实现类。我们
+            无需记忆每一个具体实现类，只要当作是Iterator看
+            待并可以遍历该集合即可
+
+            迭代器遍历集合遵循：
+            问、取、删
+            其中删除不是必须操作
+         */
+        Collection collection6 = new ArrayList();
+        ((ArrayList) collection6).add("one");
+        ((ArrayList) collection6).add("#");
+        ((ArrayList) collection6).add("two");
+        ((ArrayList) collection6).add("#");
+        ((ArrayList) collection6).add("three");
+        ((ArrayList) collection6).add("#");
+        ((ArrayList) collection6).add("four");
+        ((ArrayList) collection6).add("#");
+        ((ArrayList) collection6).add("five");
+
+        Iterator iterator = collection6.iterator();
+        /*
+            boolean hasNext()
+            判断当前集合是否还有元素可以取出
+         */
+        while (iterator.hasNext()){
+            /*
+                E next()
+                判断当前集合是否还有元素可以取出
+             */
+            String str = (String) iterator.next();
+            if("#".equals(str)){
+                /*
+                    在使用迭代器遍历集合的过程中
+                    是不能通过集合的方法删除元素的，
+                    否则会抛出异常
+                 */
+//                ((ArrayList) collection6).remove(str);
+                /*
+                    通过迭代器的remove可以从集合中删除通过next
+                    遍历出来的元素
+                 */
+                iterator.remove();
+
+            }
+            System.out.println(str);
+            /*~
+                one
+                #
+                two
+                #
+                three
+                #
+                four
+                #
+                five
+             */
+        }
+        System.out.println(collection6);//~ [one, two, three, four, five]
+        /*
+            泛型在集合中的应用
+            泛型在集合中被用来规定集合元素类型
+         */
+        Collection<String> collection7 = new ArrayList<>();
+        //泛型要求只能存入字符串元素
+        ((ArrayList<String>) collection7).add("one");
+        ((ArrayList<String>) collection7).add("two");
+        ((ArrayList<String>) collection7).add("three");
+        ((ArrayList<String>) collection7).add("four");
+
+        /*
+            迭代器的泛型与其遍历的集合泛型一致即可
+         */
+        Iterator<String> iterator1 = collection7.iterator();
+        while(iterator1.hasNext()){
+            String str = iterator1.next();
+            System.out.println(str);
+            /*
+                one
+                two
+                three
+                four
+             */
+        }
+        for(String str : collection7){
+            System.out.println(str);
+            /*
+                one
+                two
+                three
+                four
+             */
+        }
+
+        /*
+            集合转换为数组
+            Collection提供了将集合转换为数组的方法:toArray()
+         */
+        String[] array = collection7.toArray(new String[collection7.size()]);
+        System.out.println("len:" + array.length); //~ len:4
+        for(String str : array){
+            System.out.println(str);
+            /*
+                one
+                two
+                three
+                four
+             */
+        }
+
+    }
+}
+
+class Point {
+    private int x;
+    private int y;
+
+    public Point(){
+
+    }
+
+    public Point(int x,int y){
+        super();
+        this.x = x;
+        this.y = y;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    @Override
+    public String toString() {
+        return "("  + x + "," + y + ")";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) return true;
+        if(o instanceof Point){
+            Point point = (Point) o;
+            return x == point.x &&
+                    y == point.y;
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y);
+    }
+}
+````
+
+#### List
+````java
+package basic_java;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+/**
+ * java.util.list
+ * List集合是可重复集，并且有序
+ * 特点是可以通过下标操作元素
+ * 常用实现类
+ * ArrayList：数组实现，查询性能更好
+ * LinkedList：链表实现，增删性能更好，尤其首尾增删
+ */
+public class ListDemo {
+    public static void main(String[] args) {
+        /*
+            java.util.ArrayList
+            java.util.LinkedList
+         */
+        List<String> list = new ArrayList<>();
+        list.add("one");
+        list.add("two");
+        list.add("three");
+        list.add("four");
+        list.add("five");
+
+        /*
+            E get(int index)
+            获取指定位置的元素
+         */
+        //获取第三个元素
+        String str = list.get(2);
+        System.out.println(str); //~ three
+
+        /*
+            E set(int index,E e)
+            将给定元素设置到指定位置，返回值为
+            原位置对应的元素
+         */
+        //[one,two,three,four,five]
+        System.out.println(list); //~ [one, two, three, four, five]
+        //[one,2,three,four,five]
+        String old = list.set(1,"2");
+        System.out.println(list); //~ [one, 2, three, four, five]
+        System.out.println(old); //~ two
+
+        /*
+            List提供了一对重载的add，remove方法
+         */
+        /*
+            void add(int index,E e)
+            在当前集合指定位置插入指定元素
+         */
+        //[one,2,2,three,four,five]
+        list.add(1,"2");
+        System.out.println(list); //~ [one, 2, 2, three, four, five]
+        /*
+            E remove(int index)
+            删除指定位置上的元素，返回值为被删除的元素
+         */
+        //[one,2,three,four,five]
+        old = list.remove(2);
+        System.out.println(list); //~ [one, 2, three, four, five]
+        System.out.println(old); //~ 2
+
+        /*
+        对List取子集
+         */
+        /*
+            List subList(int start,int end)
+            截取指定范围内的元素
+         */
+        //取3-4
+        List<String> subList = list.subList(3,4);
+        /*
+            对子集元素的修改就是对原集合相应元素的修改！
+         */
+        subList.set(0,"4");
+        System.out.println(list); //~ [one, 2, three, 4, five]
+        /*
+            删除list中3的元素
+         */
+        list.subList(3,4).clear();
+        System.out.println(list); //~ [one, 2, three, five]
+
+        /*
+            数组转换为集合
+            需要注意，转换时依靠数组的工具类Arrays的方法
+            该方法仅能将数组转换为List集合
+         */
+        String[] array = {"one","two","three","four","five"};
+        List<String> strList = Arrays.asList(array);
+        System.out.println(strList); //~ [one, two, three, four, five]
+        /*
+            对转换后的集合元素修改，就是对原数组
+            相应元素的修改！
+         */
+        strList.set(1,"2");
+        System.out.println(list); //~ [one, 2, three, five]
+
+        for(String s : array){
+            System.out.println(s);
+            /*
+                one
+                2
+                three
+                four
+                five
+             */
+        }
+
+        /*
+            从数组转换过来的集合，是不能添加元素的
+            也不能删除元素，因为这会导致数组扩容或缩容，
+            这就无法表示原来的数组
+         */
+        /*
+            若想添加新元素，需要额外创建一个集合
+         */
+        List<String> list1 = new ArrayList<>(list);
+        list1.add("six");
+        System.out.println(list1);//~ [one, 2, three, five, six]
+
+        /*
+            对集合的排序
+            Collections是集合的工具类，提供了而很多操作集合的方法。
+            其中静态方法sort用来对List集合进行自然排序，即：从小到大
+         */
+        Collections.sort(list);
+        System.out.println(list); //~ [2, five, one, three],按照ASCII码进行排序
+    }
+}
+````
+
+####  Map
+````java
+package basic_java;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
+/**
+ * java.util.Map
+ * 查找表，以key-value对的形式存储数据
+ * 在Map中key是不允许重复的（equals比较）
+ * 常用的Map实现类：HashMap，使用散列算法实现
+ */
+public class MapDemo {
+    public static void main(String[] args) {
+        Map<String,Integer> map = new HashMap<>();
+        /*
+            V put(K k,V v)
+            将给定的key-value存入到Map中
+            因为Map不允许有重复的key，所以若给定的
+            key已经存在，这是替换value操作，返回值
+            为被替换的value，若不是重复的key，返回值
+            为null
+         */
+        map.put("语文",99);
+        map.put("数学",98);
+        map.put("英语",97);
+        map.put("物理",96);
+        Integer num = map.put("化学",99);
+        System.out.println(num); //~ null
+        System.out.println(map); //~ {物理=96, 数学=98, 化学=99, 语文=99, 英语=97}
+
+        num = map.put("语文",80);
+        System.out.println("old:" + num); //~ old:99
+        System.out.println(map); //~ {物理=96, 数学=98, 化学=99, 语文=80, 英语=97}
+
+        /*
+            V get(K k)
+            根据给定的key获取对应的value，若给定
+            的key在Map中不存在，则返回值为null
+         */
+        num = map.get("物理");
+        System.out.println("物理:" + num); //~ 物理:96
+        num = map.get("体育");
+        System.out.println("体育:" + num); //~ 体育:null
+
+        /*
+            遍历Map 遍历Map有三种方式：
+            1. 遍历所有的key
+            2. 遍历所有的键值对
+            3. 遍历所有的value（相对不常用）
+         */
+        /*
+            Set<K> keySet()
+            将当前Map中的所有key存入一个Set集合
+            后将其返回。那么遍历这个Set集合就等同于
+            遍历了所有的key
+         */
+        Set<String> keySet = map.keySet();
+        for(String key : keySet){
+            System.out.println("key:" + key);
+        }
+        /*~
+            key:物理
+            key:数学
+            key:化学
+            key:语文
+            key:英语
+         */
+
+        /*
+            遍历每一组键值对
+            在Map中每一组键值对是用一个Map的内部类
+            Entry的实例保存，Entry提供了两个方法getKey，
+            getValue来分别获取其表示的这组键值对的key和value
+
+             Set<Entry> entrySet()
+             该方法会将当前Map中每组键值对（若干的Entry实例）
+             存入到一个Set集合，并将其返回。
+         */
+        Set<Map.Entry<String,Integer>> entrySet = map.entrySet();
+        for(Map.Entry<String,Integer> e : entrySet){
+            String key = e.getKey();
+            Integer value = e.getValue();
+            System.out.println(key + ":" + value);
+        }
+
+        /*~
+            物理:96
+            数学:98
+            化学:99
+            语文:80
+            英语:97
+         */
+
+        /*
+            Collection values()
+            将当前Map中所有的value存入到一个集合中
+            并将其返回
+         */
+
+        Collection<Integer> values = map.values();
+        for(Integer value : values){
+            System.out.println("value:" + value);
+        }
+        /*
+            value:96
+            value:98
+            value:99
+            value:80
+            value:97
+         */
+
+        /*
+            查看Map是否包含给定内容
+         */
+        /*
+            是否包含指定的key
+            boolean containsKey(Object k)
+            判断当前Map是否包含给定的key
+         */
+        boolean containsFlag = map.containsKey("化学");
+        System.out.println("是否包含该key：" + containsFlag); //~ 是否包含该key：true
+
+        /*
+            boolean containsValue(Object v)
+            判断是否包含给定的value
+         */
+        containsFlag = map.containsValue(70);
+        System.out.println("是否包含该value：" + containsFlag); //~ 是否包含该value：false
     }
 }
 ````
