@@ -1228,3 +1228,344 @@ public class MapDemo {
     }
 }
 ````
+##  6、文件处理
+
+### 简要说明
+
+1. File用于描述文件系统中的一个文件或目录
+    * 访问文件或目录的属性信息
+    * 访问一个目录中的所有子项
+    * 操作文件或目录（创建、删除）
+    * 不可以访问文件数据
+2. RandomAccessFile用于读写文件数据。其基于指针对文件进行读写。
+    * 创建RandomAccessFile有两种常用模式：
+        * “r”，即只读模式，仅对文件数据进行读取操作
+        * “rw”，即读写模式，对文件数据可以编辑。
+
+### 练习
+#### File
+````java
+package basic_java;
+
+import java.io.File;
+import java.io.FileFilter;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+/**
+ * java.io.File
+ * 该类用于描述文件系统中的一个文件或目录
+ * File可以：
+ *  1：访问文件或目录的属性信息
+ *  2：访问一个目录中的所有子项
+ *  3：操作文件或目录（创建、删除）
+ *  File不可以：
+ *     File不可以访问文件数据
+ */
+public class FileDemo {
+    public static void main(String[] args) throws IOException {
+        /*
+            路径尽量不写绝对路径
+            常用的是使用相对路径：
+             1.相对于项目目录（当前目录）
+             2.相对于类加载目录（实际开发更常用）
+         */
+        File file = new File("." + File.separator + "test.txt");
+        /*
+            获取当前文件的属性信息
+         */
+        //获取文件或目录名
+        String name = file.getName();
+        System.out.println("name:" + name); //~ name:test.txt
+        //获取文件长度（字节）
+        long length = file.length();
+        System.out.println("length:" + length + "字节"); //~ length:0字节
+        //最后修改时间
+        long time = file.lastModified();
+        System.out.println("最后修改时间:" + time); //~ 最后修改时间:0
+        Date date = new Date(time);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy年M月d日，H:m:s");
+        System.out.println("最后修改时间:" + sdf.format(date)); //~ 最后修改时间:1970年1月1日，8:0:0
+        /*
+            可读、可写、可运行
+         */
+        file.canRead();
+        file.canExecute();
+        boolean canWrite = file.canWrite();
+        System.out.println("只读:" + !canWrite); //~ 只读:true
+        file.isHidden();
+
+        /*
+            使用File创建文件
+            在当前目录下创建demo.txt文件
+            不写"./"默认就是在当前目录下
+         */
+        File demo = new File("demo.txt");
+        /*
+            判断File表示的文件或目录是否真实存在
+         */
+        if(!file.exists()){
+            file.createNewFile();
+            System.out.println("创建完毕");
+        } else {
+            System.out.println("该文件已存在!");
+        }
+
+        /*
+            删除文件
+         */
+        if(file.exists()){
+            file.delete();
+            System.out.println("已删除!");
+        } else {
+            System.out.println("该文件不存在!");
+        }
+        /*
+            创建一个目录
+            在当前目录下创建目录demo
+         */
+        File dir = new File("demo");
+        if(!dir.exists()){
+            dir.mkdir();
+            System.out.println("创建完毕!");
+        } else {
+            System.out.println("该目录已经存在!");
+        }
+        /*
+            创建多级目录
+
+            在当前目录下创建a/b/c/d/e/f目录
+         */
+        dir = new File(
+        "a" + File.separator +
+                "b" + File.separator +
+                "c" + File.separator +
+                "d" + File.separator +
+                "e" + File.separator +
+                "f"
+        );
+        if(!dir.exists()){
+            /*
+                该方法会将所有不存在的父级目录一同
+                创建出来
+             */
+            dir.mkdir();
+            System.out.println("创建完毕!");
+        } else {
+            System.out.println("该目录已经存在!");
+        }
+        /*
+            删除目录
+         */
+        dir = new File("demo");
+        if(dir.exists()){
+            /*
+                删除目录要求该目录必须是一个空目录
+             */
+            dir.delete();
+            System.out.println("删除完毕!");
+        }
+        /*
+            获取一个目录中的所有子项
+         */
+        File curDir = new File(".");
+        /*
+            boolean isFile()
+            判断当前File对象表示的是否为一个吻技安
+
+            boolean isDirectory()
+            判断是否表示的是一个目录
+         */
+        if(curDir.isDirectory()){
+            /*
+                File[] listFiles()
+                查看当前File表示的目录中的所有子项
+                每个子项以一个File对象表示。所有子项
+                存入一个File对象数组返回。
+             */
+            File[] subs = curDir.listFiles();
+            for(File sub : subs){
+                if(sub.isFile()){
+                    System.out.println("文件:");
+                } else {
+                    System.out.println("目录:");
+                }
+                System.out.println(sub.getName());
+                /*
+                    目录:
+                    .idea
+                    文件:
+                    my-project.iml
+                    目录:
+                    out
+                    目录:
+                    src
+                 */
+            }
+        }
+
+        /*
+            获取一个目录中的部分子项
+            File支持一个重载的listFile方法，要求传入
+            一个文件过滤器，这样只会返回该目录中满足该
+            过滤器要求的子项。
+            仅获取当前目录中的所有文件
+         */
+        MyFilter myFilter = new MyFilter();
+        File[] subs = curDir.listFiles(myFilter);
+        /*
+            正在过滤:.idea
+            正在过滤:my-project.iml
+            正在过滤:out
+            正在过滤:src
+         */
+        for(File sub : subs) {
+            System.out.println(sub.getName()); //~ my-project.iml
+        }
+    }
+}
+
+class MyFilter implements FileFilter {
+    @Override
+    public boolean accept(File file) {
+        System.out.println("正在过滤:" + file.getName());
+        return file.isFile();
+    }
+}
+````
+
+#### RandomAccessFile
+
+````java
+package basic_java;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.RandomAccessFile;
+
+/**
+ * java.io.RandomAccessFile
+ * 用于读写文件数据。其基于指针对文件进行读写。
+ * 创建RandomAccessFile有两种常用模式：
+ *  1：“r”，即只读模式，仅对文件数据进行读取操作
+ *  2：“rw”，即读写模式，对文件数据可以编辑
+ */
+public class RandomAccessFileDemo {
+    public static void main(String[] args) throws IOException {
+        /*
+            RandomAccessFile(File f,String mode)
+            RandomAccessFile(String path,String mode)
+
+            其中mode是操作模式：“r”、“rw”
+         */
+        RandomAccessFile raf = new RandomAccessFile("raf.dat","rw");
+
+        /*
+            void write(int d)
+            写出1个字节，写出的是该整数对应的2进制
+            中的“低八位”
+
+            00000000 00000000 00000000 00000001
+         */
+        raf.write(97); //01100001
+        raf.write(98); //01100010
+        raf.write(99); //01100011
+
+        /*
+            raf.dat 中文件数据有3个字节了，内容
+            为：
+            01100001 01100010 01100011
+         */
+        System.out.println("写出完毕!");
+        /*
+            读写完毕后关闭raf
+         */
+        raf.close();
+
+        /*
+            读取字节
+         */
+        RandomAccessFile raf_r = new RandomAccessFile("raf.dat","r");
+        /*
+            int read()
+            从文件中指针当前位置读取该字节，并以
+            10进制的数字形式返回。
+            若返回值为-1.则表示读取到了文件末尾
+
+            00000000 00000000 00000000 11111111
+         */
+        int d = raf_r.read();
+        System.out.println(d); //~ 97
+
+        d = raf_r.read();
+        System.out.println(d); //~ 98
+
+        d = raf_r.read();
+        System.out.println(d); //~ 99
+
+        d = raf_r.read();
+        System.out.println(d); //~ -1
+        raf_r.close();
+
+    }
+}
+````
+
+#### 文件复制
+
+````java
+package basic_java;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.RandomAccessFile;
+
+/**
+ * 复制文件
+ */
+public class CopyDemo {
+    public static void main(String[] args) throws IOException {
+        RandomAccessFile src = new RandomAccessFile("G:"+ File.separator+"CopyDemo.java","r");
+        RandomAccessFile desc = new RandomAccessFile("G:"+ File.separator+"CopyDemo_cp.java","rw");
+        int d = -1;
+        while((d = src.read()) != -1){
+            desc.write(d);
+        }
+        src.close();
+        desc.close();
+
+        /*
+            若希望提供读写效率，需要提高每次读写的数据量
+            来减少读写次数从而达到提高读写效率的目的
+         */
+        /*
+            int read(byte[] d)
+            一次性读取给定的数组总长度的字节量，
+            并存入到该数组中，返回值为实际读取到
+            的字节量，若返回值为-1.则表示读到了文件
+            末尾
+         */
+        src = new RandomAccessFile("G:"+ File.separator+"CopyDemo.java","r");
+        desc = new RandomAccessFile("G:"+ File.separator+"CopyDemo_cp.java","rw");
+        int len = -1; // 记录每次读到的实际字节量
+        byte[] buf = new byte[1024*10]; //10k
+        while((len = src.read(buf)) != -1){
+            /*
+                void write(byte[] d)
+                将给定的字节数组中的所有字节一次性
+                写入到文件中
+
+                void write(byte[] d,int offset,int len)
+                将给定的字节数组中从下标为offset处的字节开始的
+                连续len个字节一次性写入到文件中
+             */
+            desc.write(buf,0,len);
+        }
+        src.close();
+        desc.close();
+    }
+}
+
+````
