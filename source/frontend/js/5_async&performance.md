@@ -6,6 +6,14 @@ type: js
 
 ## 异步与稍后
 
+### fetch、ajax区别
+
+> [github(https://github.com/camsong/blog/issues/2)
+
+### promise、generator、async的区别
+
+> [你不知道的JS](https://github.com/getify/You-Dont-Know-JS/blob/1ed-zh-CN/async%20&%20performance/README.md)
+
 ### ajax请求
 
 **永远不要发起同步Ajax请求，它将锁定浏览器的UI而且阻止用户与任何东西互动。**

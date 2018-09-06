@@ -36,11 +36,50 @@ type: js
 
     - [MDN](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Function/bind)
 
+> [函数式编程](http://taobaofed.org/blog/2017/03/16/javascript-functional-programing/)
+
 > `function` 是对象的一种子类型（技术上讲，叫做“可调用对象”）。函数在 `JS` 中被称为“头等（`first class`）”类型，是因为它们基本上就是普通的对象（附带有可调用的行为语义），而且它们可以像其他普通的对象那样被处理。
 
 > 数组也是一种形式的对象，带有特别的行为。数组在内容的组织上要稍稍比一般的对象更加结构化。
 
 <p class="tip">简单基本类型自身不是对象（null也不是），一个常见的错误论断：js中一切都是对象，明显不对</p>
+
+### 函数判断变量的所有类型
+
+```js
+const a_string = 'i am a string'
+const a_number = 1111
+const a_null = null
+const a_undefined = undefined
+const a_boolean = false
+const a_symbol = Symbol()
+const a_regxp = /abc/
+const a_object = {a: 1}
+const a_array = [1, 2, 3]
+const a_function = function () {
+}
+
+function whichType(vars) {
+  let type = typeof vars
+  if(type === 'object') {
+    type = Object.prototype.toString.call(vars)
+    type = type.slice(8, type.length - 1).toLowerCase()
+    // or: type = type.replace(/\[(\w+)\s(\w+)\]/, '$2')
+  }
+  console.log(type)
+}
+
+whichType(a_string)
+whichType(a_number)
+whichType(a_null)
+whichType(a_undefined)
+whichType(a_boolean)
+whichType(a_symbol)
+whichType(a_regxp)
+whichType(a_object)
+whichType(a_array)
+whichType(a_function)
+```
 
 ### 值作为类型
 
@@ -424,4 +463,61 @@ b;
 function formatPhone(phone) {
   return phone.replace(/(\d{3})\d{4}(\d{4})/, "$1****$2");
 }
+```
+
+### 函数柯里化
+
+#### 第一版
+
+- 这一版只支持传入两个参数
+
+```js
+function curry(fn) {
+  const args = Array.prototype.slice.call(arguments, 1)
+  return function () {
+    const wrapArgs = args.concat(Array.prototype.slice.call(arguments))
+    return fn.apply(this, wrapArgs)
+  }
+}
+function add(a, b) {
+  return a + b
+}
+const addCurry1 = curry(add, 1, 2)
+console.log(addCurry1())
+const addCurry2 = curry(add, 1)
+console.log(addCurry2(2))
+const addCurry3 = curry(add)
+console.log(addCurry3(1, 2))
+```
+
+#### 第二版
+
+```js
+function Curry () {
+  function curryAdd () {
+    const slice = Array.prototype.slice
+    const args = slice.call(arguments)
+    curryAdd.trigger(args)
+    return curryAdd
+  }
+  curryAdd.sum = 0
+  curryAdd.trigger = function (nums) {
+    for(let i = 0; i < nums.length; i++) {
+      curryAdd.sum += nums[i]
+    }
+  }
+  curryAdd.init = function () {
+    curryAdd.sum = 0
+  }
+  return curryAdd
+}
+const curryAdd = Curry()
+curryAdd(1, 2, 3)(4)(10)(24)
+console.log(curryAdd.sum)
+curryAdd.init()
+curryAdd(1)(2)(3)(4)
+console.log(curryAdd.sum)
+const curryAdd1 = Curry()
+curryAdd1(1)(2)
+console.log(curryAdd1.sum)
 ```

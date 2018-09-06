@@ -35,3 +35,11 @@ Unknown custom element: `<search-form>` - did you register the component correct
 ### 用法
 
 可以使用`postcss`对编译过后的sass、less等进行样式补全，即一行代码适应多个浏览器
+
+## webpack对页面性能的优化
+
+> [segmentfault1](https://segmentfault.com/a/1190000004577578)
+
+> [segmentfault2](https://segmentfault.com/a/1190000007891318)
+
+> [github](https://github.com/hawx1993/tech-blog/issues/3)

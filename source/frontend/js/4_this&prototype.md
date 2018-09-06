@@ -187,6 +187,68 @@ bar.call( window ); // 2
 
 1. 否则，使用默认的`this`。如果在严格模式下，就是`undefined`，否则是`global`对象：`var bar = foo()`
 
+## 绑定上下文
+
+### 硬绑定
+
+- 硬绑定是显式绑定中的一种，通常情况下是通过调用函数的apply()、call()或者ES5里提供的bind()方法来实现硬绑定的。
+
+### 软绑定
+
+```js
+if(!Function.prototype.softBind){
+    Function.prototype.softBind=function(obj){
+        var fn=this;
+        var args=Array.prototype.slice.call(arguments,1);
+        var bound=function(){
+            return fn.apply(
+                (!this||this===(window||global))?obj:this,
+                args.concat.apply(args,arguments)
+            );
+        };
+        bound.prototype=Object.create(fn.prototype);
+        return bound;
+    };
+}
+```
+
+### bind polyfill
+
+```js
+if (!Function.prototype.bind) {
+  Function.prototype.bind = function(oThis) {
+    if (typeof this !== 'function') {
+      // closest thing possible to the ECMAScript 5
+      // internal IsCallable function
+      throw new TypeError('Function.prototype.bind - what is trying to be bound is not callable');
+    }
+
+    var aArgs   = Array.prototype.slice.call(arguments, 1),
+        fToBind = this,
+        fNOP    = function() {},
+        fBound  = function() {
+          // this instanceof fNOP === true时,说明返回的fBound被当做new的构造函数调用
+          return fToBind.apply(this instanceof fNOP
+                 ? this
+                 : oThis,
+                 // 获取调用时(fBound)的传参.bind 返回的函数入参往往是这么传递的
+                 aArgs.concat(Array.prototype.slice.call(arguments)));
+        };
+
+    // 维护原型关系
+    if (this.prototype) {
+      // Function.prototype doesn't have a prototype property
+      fNOP.prototype = this.prototype; 
+    }
+    // 下行的代码使fBound.prototype是fNOP的实例,因此
+    // 返回的fBound若作为new的构造函数,new生成的新对象作为this传入fBound,新对象的__proto__就是fNOP的实例
+    fBound.prototype = new fNOP();
+
+    return fBound;
+  };
+}
+```
+
 ## 箭头函数
 
 ```js
