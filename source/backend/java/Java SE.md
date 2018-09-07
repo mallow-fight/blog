@@ -1228,3 +1228,889 @@ public class MapDemo {
     }
 }
 ````
+##  6、文件处理
+
+### 简要说明
+
+1. File用于描述文件系统中的一个文件或目录
+    * 访问文件或目录的属性信息
+    * 访问一个目录中的所有子项
+    * 操作文件或目录（创建、删除）
+    * 不可以访问文件数据
+2. RandomAccessFile用于读写文件数据。其基于指针对文件进行读写。
+    * 创建RandomAccessFile有两种常用模式：
+        * “r”，即只读模式，仅对文件数据进行读取操作
+        * “rw”，即读写模式，对文件数据可以编辑。
+
+### 练习
+#### File
+````java
+package basic_java;
+
+import java.io.File;
+import java.io.FileFilter;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+/**
+ * java.io.File
+ * 该类用于描述文件系统中的一个文件或目录
+ * File可以：
+ *  1：访问文件或目录的属性信息
+ *  2：访问一个目录中的所有子项
+ *  3：操作文件或目录（创建、删除）
+ *  File不可以：
+ *     File不可以访问文件数据
+ */
+public class FileDemo {
+    public static void main(String[] args) throws IOException {
+        /*
+            路径尽量不写绝对路径
+            常用的是使用相对路径：
+             1.相对于项目目录（当前目录）
+             2.相对于类加载目录（实际开发更常用）
+         */
+        File file = new File("." + File.separator + "test.txt");
+        /*
+            获取当前文件的属性信息
+         */
+        //获取文件或目录名
+        String name = file.getName();
+        System.out.println("name:" + name); //~ name:test.txt
+        //获取文件长度（字节）
+        long length = file.length();
+        System.out.println("length:" + length + "字节"); //~ length:0字节
+        //最后修改时间
+        long time = file.lastModified();
+        System.out.println("最后修改时间:" + time); //~ 最后修改时间:0
+        Date date = new Date(time);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy年M月d日，H:m:s");
+        System.out.println("最后修改时间:" + sdf.format(date)); //~ 最后修改时间:1970年1月1日，8:0:0
+        /*
+            可读、可写、可运行
+         */
+        file.canRead();
+        file.canExecute();
+        boolean canWrite = file.canWrite();
+        System.out.println("只读:" + !canWrite); //~ 只读:true
+        file.isHidden();
+
+        /*
+            使用File创建文件
+            在当前目录下创建demo.txt文件
+            不写"./"默认就是在当前目录下
+         */
+        File demo = new File("demo.txt");
+        /*
+            判断File表示的文件或目录是否真实存在
+         */
+        if(!file.exists()){
+            file.createNewFile();
+            System.out.println("创建完毕");
+        } else {
+            System.out.println("该文件已存在!");
+        }
+
+        /*
+            删除文件
+         */
+        if(file.exists()){
+            file.delete();
+            System.out.println("已删除!");
+        } else {
+            System.out.println("该文件不存在!");
+        }
+        /*
+            创建一个目录
+            在当前目录下创建目录demo
+         */
+        File dir = new File("demo");
+        if(!dir.exists()){
+            dir.mkdir();
+            System.out.println("创建完毕!");
+        } else {
+            System.out.println("该目录已经存在!");
+        }
+        /*
+            创建多级目录
+
+            在当前目录下创建a/b/c/d/e/f目录
+         */
+        dir = new File(
+        "a" + File.separator +
+                "b" + File.separator +
+                "c" + File.separator +
+                "d" + File.separator +
+                "e" + File.separator +
+                "f"
+        );
+        if(!dir.exists()){
+            /*
+                该方法会将所有不存在的父级目录一同
+                创建出来
+             */
+            dir.mkdir();
+            System.out.println("创建完毕!");
+        } else {
+            System.out.println("该目录已经存在!");
+        }
+        /*
+            删除目录
+         */
+        dir = new File("demo");
+        if(dir.exists()){
+            /*
+                删除目录要求该目录必须是一个空目录
+             */
+            dir.delete();
+            System.out.println("删除完毕!");
+        }
+        /*
+            获取一个目录中的所有子项
+         */
+        File curDir = new File(".");
+        /*
+            boolean isFile()
+            判断当前File对象表示的是否为一个吻技安
+
+            boolean isDirectory()
+            判断是否表示的是一个目录
+         */
+        if(curDir.isDirectory()){
+            /*
+                File[] listFiles()
+                查看当前File表示的目录中的所有子项
+                每个子项以一个File对象表示。所有子项
+                存入一个File对象数组返回。
+             */
+            File[] subs = curDir.listFiles();
+            for(File sub : subs){
+                if(sub.isFile()){
+                    System.out.println("文件:");
+                } else {
+                    System.out.println("目录:");
+                }
+                System.out.println(sub.getName());
+                /*
+                    目录:
+                    .idea
+                    文件:
+                    my-project.iml
+                    目录:
+                    out
+                    目录:
+                    src
+                 */
+            }
+        }
+
+        /*
+            获取一个目录中的部分子项
+            File支持一个重载的listFile方法，要求传入
+            一个文件过滤器，这样只会返回该目录中满足该
+            过滤器要求的子项。
+            仅获取当前目录中的所有文件
+         */
+        MyFilter myFilter = new MyFilter();
+        File[] subs = curDir.listFiles(myFilter);
+        /*
+            正在过滤:.idea
+            正在过滤:my-project.iml
+            正在过滤:out
+            正在过滤:src
+         */
+        for(File sub : subs) {
+            System.out.println(sub.getName()); //~ my-project.iml
+        }
+    }
+}
+
+class MyFilter implements FileFilter {
+    @Override
+    public boolean accept(File file) {
+        System.out.println("正在过滤:" + file.getName());
+        return file.isFile();
+    }
+}
+````
+
+#### RandomAccessFile
+
+````java
+package basic_java;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.RandomAccessFile;
+
+/**
+ * java.io.RandomAccessFile
+ * 用于读写文件数据。其基于指针对文件进行读写。
+ * 创建RandomAccessFile有两种常用模式：
+ *  1：“r”，即只读模式，仅对文件数据进行读取操作
+ *  2：“rw”，即读写模式，对文件数据可以编辑
+ */
+public class RandomAccessFileDemo {
+    public static void main(String[] args) throws IOException {
+        /*
+            RandomAccessFile(File f,String mode)
+            RandomAccessFile(String path,String mode)
+
+            其中mode是操作模式：“r”、“rw”
+         */
+        RandomAccessFile raf = new RandomAccessFile("raf.dat","rw");
+
+        /*
+            void write(int d)
+            写出1个字节，写出的是该整数对应的2进制
+            中的“低八位”
+
+            00000000 00000000 00000000 00000001
+         */
+        raf.write(97); //01100001
+        raf.write(98); //01100010
+        raf.write(99); //01100011
+
+        /*
+            raf.dat 中文件数据有3个字节了，内容
+            为：
+            01100001 01100010 01100011
+         */
+        System.out.println("写出完毕!");
+        /*
+            读写完毕后关闭raf
+         */
+        raf.close();
+
+        /*
+            读取字节
+         */
+        RandomAccessFile raf_r = new RandomAccessFile("raf.dat","r");
+        /*
+            int read()
+            从文件中指针当前位置读取该字节，并以
+            10进制的数字形式返回。
+            若返回值为-1.则表示读取到了文件末尾
+
+            00000000 00000000 00000000 11111111
+         */
+        int d = raf_r.read();
+        System.out.println(d); //~ 97
+
+        d = raf_r.read();
+        System.out.println(d); //~ 98
+
+        d = raf_r.read();
+        System.out.println(d); //~ 99
+
+        d = raf_r.read();
+        System.out.println(d); //~ -1
+        raf_r.close();
+
+    }
+}
+````
+
+#### 文件复制
+
+````java
+package basic_java;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.RandomAccessFile;
+
+/**
+ * 复制文件
+ */
+public class CopyDemo {
+    public static void main(String[] args) throws IOException {
+        RandomAccessFile src = new RandomAccessFile("G:"+ File.separator+"CopyDemo.java","r");
+        RandomAccessFile desc = new RandomAccessFile("G:"+ File.separator+"CopyDemo_cp.java","rw");
+        int d = -1;
+        while((d = src.read()) != -1){
+            desc.write(d);
+        }
+        src.close();
+        desc.close();
+
+        /*
+            若希望提供读写效率，需要提高每次读写的数据量
+            来减少读写次数从而达到提高读写效率的目的
+         */
+        /*
+            int read(byte[] d)
+            一次性读取给定的数组总长度的字节量，
+            并存入到该数组中，返回值为实际读取到
+            的字节量，若返回值为-1.则表示读到了文件
+            末尾
+         */
+        src = new RandomAccessFile("G:"+ File.separator+"CopyDemo.java","r");
+        desc = new RandomAccessFile("G:"+ File.separator+"CopyDemo_cp.java","rw");
+        int len = -1; // 记录每次读到的实际字节量
+        byte[] buf = new byte[1024*10]; //10k
+        while((len = src.read(buf)) != -1){
+            /*
+                void write(byte[] d)
+                将给定的字节数组中的所有字节一次性
+                写入到文件中
+
+                void write(byte[] d,int offset,int len)
+                将给定的字节数组中从下标为offset处的字节开始的
+                连续len个字节一次性写入到文件中
+             */
+            desc.write(buf,0,len);
+        }
+        src.close();
+        desc.close();
+    }
+}
+
+````
+
+## 7、文件流
+
+### 简要说明
+1. FIS-FileInputStream
+    * 文件字节输入流，是一个低级流，可以从指定文件中读取字节
+2. FOS-FileOutputStream
+    * 文件字节输出流，是一个低级流，用于向文件中写出字节
+3. BIS-BufferedInputStream
+    * 文件缓冲字节输入流，是一个低级流
+4. BOS-BufferedOutputStream
+    * 文件缓冲字节输出流，是一个低级流
+5. OIS-ObjectInputStream
+    * 对象输入流，是一个高级流
+6. OOS-ObjectOutputStream
+    * 对象输出流，是一个高级流
+7. OSW-OutputStreamWriter
+    * 字符输出流，是一个高级流
+8. ISR-InputStreamReader
+    * 字符输入流，是一个高级流
+9. PW-PrintWriter
+    * 常用的缓冲字符输出流，内部自动处理BufferedWriter来完成缓冲操作，  
+    并且PrintWriter具有自动行刷新功能
+###练习
+
+#### FIS
+````java
+package basic_java;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+
+/**
+ * java.io.FileInputStream
+ * 文件字节输入流，是一个低级流，可以从
+ * 指定文件中读取字节
+ */
+public class FISDemo {
+    public static void main(String[] args) throws IOException {
+        FileInputStream fis = new FileInputStream("G:"+ File.separator +"fos.txt");
+        byte[] data = new byte[50];
+        int len = fis.read(data);
+        String str = new String(data,0,len,"UTF-8");
+        System.out.println(str);
+        fis.close();
+    }
+}
+````
+
+#### FOS
+````java
+package basic_java;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+/**
+ * java.io.FileOutputStream
+ * 文件字节输出流，是一个低级流
+ * 用于向文件中写出字节
+ */
+public class FOSDemo {
+    public static void main(String[] args) throws IOException {
+        /*
+            默认的构造方法是覆盖写操作，即：
+            若要写出的文件已经存在，会先将该文件
+            中的原有数据全部清楚，然后再通过该流
+            写出新得数据。
+         */
+//        FileOutputStream fos = new FileOutputStream("fos.txt");
+        /*
+            追加写操作，该构造方法需要传入第二个参数，
+            该参数为一个boolean值，若该值为true，则具有
+            追加写操作的能力，那么通过该流写出的内容会被追加到该
+            文件的末尾。
+         */
+        FileOutputStream fos = new FileOutputStream("G:" + File.separator + "fos.txt",true);
+        fos.write("简单点，说话的方式简单点".getBytes());
+        System.out.println("写出完毕!");
+        fos.close();
+    }
+}
+````
+
+#### BIS
+````java
+package basic_java;
+
+import java.io.*;
+
+/**
+ * 缓冲输入流读取数据
+ */
+public class BISDemo {
+    public static void main(String[] args) throws IOException {
+        FileInputStream fis = new FileInputStream("G:" +File.separator + "fos.txt");
+        BufferedInputStream bis = new BufferedInputStream(fis);
+        byte[] buf = new byte[100];
+        while (( bis.read(buf)) != -1){
+            System.out.println(new String(buf,"UTF-8"));
+        }
+        bis.close();
+        fis.close();
+    }
+}
+````
+
+#### BOS
+````java
+package basic_java;
+
+import java.io.BufferedOutputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+/**
+ * 缓冲输出流写出数据
+ */
+public class BOSDemo {
+    public static void main(String[] args) throws IOException {
+        FileOutputStream fos = new FileOutputStream("fos.txt");
+        BufferedOutputStream bos = new BufferedOutputStream(fos);
+        /*
+            通过缓冲输出流写出的字节并不会立刻被写入文件，
+            会先存入其内部的字节数组，直到该数组满了，才会一次性写出所有数据。
+            这样做等同于提高了写出数据量减少写出次数提高写出效率。
+         */
+        bos.write("我爱北京天安门".getBytes());
+        System.out.println("写出完毕!");
+        /*
+            flush方法可以强制将缓冲区已有数据一次性写出，
+            这样可以提高及时性，但是频繁操作会导致写出次数提高
+            降低写出效率。
+         */
+        bos.flush();
+        fos.close();
+        bos.close();
+    }
+}
+````
+
+#### OOS
+````java
+
+package basic_java;
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * java.io.ObjectOutputStream
+ * 对象输出流，是一个高级流，作用是可以直接将java中的一个
+ * 对象转换为一组字节后写出。这组字节的格式有OOS维护。
+ */
+public class OOSDemo {
+    public static void main(String[] args) throws IOException {
+        Person p = new Person();
+        p.setName("Zachary");
+        p.setAge(24);
+        p.setGender("女");
+
+        List<String> otherInfo = new ArrayList<>();
+        otherInfo.add("是一名程序员");
+        otherInfo.add("爱好是码代码");
+        otherInfo.add("提升自身技术水平");
+        p.setOtherInfo(otherInfo);
+        System.out.println(p);
+
+        FileOutputStream fos = new FileOutputStream("G:" + File.separator + "person.obj");
+        ObjectOutputStream oos = new ObjectOutputStream(fos);
+        /*
+            OOS的writeObject方法的作用：
+            将给定的java对象转换为一组字节后写出
+            这里由于OOS是装在FOS上的，所以转换的
+            这组字节最终通过FOS写入到了文件person.obj中
+            若希望该对象可以被写出，那么前提是该对象所属的类
+            必须实现Serializable接口
+            该方法涉及到了两个操作
+            1：将对象转换为了一组字节
+                上面的操作称为对象序列化
+            2：将改组字节写入到文件中（硬盘上）
+                上面的操作称为数据持久化
+         */
+        oos.writeObject(p);
+        System.out.println("写出完毕!");
+        fos.close();
+        oos.close();
+
+
+    }
+}
+````
+
+#### OIS
+````java
+package basic_java;
+
+import java.io.*;
+
+/**
+ * java.io.ObjectInputStream
+ * 对象输入流，是一个高级流，作用是可以读取一组字节
+ * 然后将其还原为其描述的对象
+ * 需要注意，读取的这些字节必须是有ObjectOutputStream
+ * 将一个对象转换成的字节，否则会抛出异常
+ */
+public class OISDemo {
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
+        FileInputStream fis = new FileInputStream("G:" + File.separator + "person.obj");
+        ObjectInputStream ois = new ObjectInputStream(fis);
+        /*
+            将一组字节还原为对象的过程称为：
+            对象的反序列化
+         */
+        Person p = (Person) ois.readObject();
+        System.out.println(p);
+        fis.close();
+        ois.close();
+    }
+}
+````
+
+#### Person
+````java
+package basic_java;
+
+import java.io.Serializable;
+import java.util.List;
+
+/**
+ * 该类用于测试作为对象进行对象流的读写操作
+ */
+public class Person implements Serializable {
+    /*
+     *   序列化版本号
+     *   当一个类实现了Serilizable接口后，该类
+     *   会有一个常量表示这个类的版本号，版本号影响了这对对象
+     *   反序列化的结果。
+     *   建议自行维护版本号（自己定义该常量并给定值），若
+     *   不指定，编译器会根据当前类的结构生成一个版本号，
+     *   结构不变版本号不变，但是结构变了（属性类型，名字变化等）
+     *   都会导致版本号改变。
+     *
+     *
+     *   反序列化对象时，会检查该对象的版本号与当前类现在的版本号是否一致，
+     *   一致则可以还原，不一致则反序列化失败。
+     *   版本号一致时，就算反序列化的对象与当前类的结构有出入，也会采取兼容模式，
+     *   即：仍然有的属性就进行还原，没有的属性则被忽略。
+     *
+     */
+    private static final long serialVersionUID = 2589962471761556251L;
+    private String name;
+    private int age;
+    private String gender;
+
+    /*
+        transient关键字的作用是修饰一个属性
+        那么当这个类的某个实例进行序列化时，该属性
+        不会被包含在序列化后的字节中，从而达到了对象
+        “瘦身”的目的。
+     */
+    private transient List<String> otherInfo;
+
+    public Person(){
+
+    }
+
+    public Person(String name, int age, String gender, List<String> otherInfo) {
+        super();
+        this.name = name;
+        this.age = age;
+        this.gender = gender;
+        this.otherInfo = otherInfo;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public List<String> getOtherInfo() {
+        return otherInfo;
+    }
+
+    public void setOtherInfo(List<String> otherInfo) {
+        this.otherInfo = otherInfo;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "name='" + name + '\'' +
+                ", age=" + age +
+                ", gender='" + gender + '\'' +
+                ", otherInfo=" + otherInfo +
+                '}';
+    }
+}
+````
+
+#### OSW
+````java
+package basic_java;
+
+import java.io.*;
+
+/**
+ * java根据读写数据单位不同，将流分为：
+ *  字节流与字符流
+ * 字节流的最小读写单位为1个字节
+ * 字符流的最小读写单位为1个字符
+ *
+ * 字符流虽然是以字符为单位，但是底层实际上还是
+ * 要以字节形式读写，所以字符流天生就具备将字节
+ * 转换为字符或字符转换为字节的能力。所以所有的
+ * 字符流都是高级流。方便我们读写字符数据。无需
+ * 再关心字符与字节的相互转换了。
+ */
+public class OSWDemo {
+    public static void main(String[] args) throws IOException {
+        /*
+         * 向文件osw.txt中写入字符串
+         */
+        FileOutputStream fos = new FileOutputStream("osw.txt");
+        /*
+            OutputStreamWriter的常用构造方法：
+            OutputStreamWriter(OutputStream out)
+
+            OutputStreamWriter(OutputStream out,String csn)
+            将给定的字节输出流转换为字符流的同时，指定
+            通过当前字符输出流写出的字符数据以何种字符集
+            转换为字节。
+         */
+        OutputStreamWriter osw = new OutputStreamWriter(fos,"GBK");
+        osw.write("Zachary想好好做一个程序员");
+        osw.write("那还得好好努力");
+        System.out.println("写出完毕!");
+        osw.close();//注意先后顺序，可能报错
+        fos.close();
+    }
+}
+````
+
+#### ISR
+````java
+package basic_java;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+/**
+ * java.io.InputStreamReader
+ * 字符输入流
+ *
+ * 除了ISR与OSW之外的字符流，大部分都只处理其他字符流。
+ * 但是低级流都是字节流，这时若希望用一个字符流来处理字节
+ * 流时就产生了冲突。
+ *
+ * 所以可以通过创建ISR或OSW来处理字节流，而ISR和OSW本身是字符流，
+ * 所以可以使得其他字符流得以处理该流。
+ * ISR与OSW相当于联系字节流与字符流的纽带，类似于转换器的效果
+ */
+public class ISRDemo {
+    public static void main(String[] args) throws IOException {
+        FileInputStream fis = new FileInputStream("osw.txt");
+        InputStreamReader isr = new InputStreamReader(fis);
+
+        /*
+            int read()
+            一次读取一个字符，若返回值为-1则表示读到末尾
+         */
+        int d = -1;
+        while((d = isr.read()) != -1){
+            System.out.println((char) d);
+        }
+
+        int len = -1;
+        char[] c= new char[100];
+        while((len = isr.read(c)) != -1){
+            System.out.println(String.valueOf(c,0,len));
+        }
+        isr.close();
+    }
+}
+````
+
+####  BW
+````java
+package basic_java;
+
+import java.io.*;
+
+/**
+ * java.io.BufferedWriter
+ * 缓冲字符输出流，特点：按行写出字符串
+ */
+public class BWDemo {
+    public static void main(String[] args) throws IOException {
+        FileOutputStream fos = new FileOutputStream("G:" + File.separator + "BRDemo.java");
+        OutputStreamWriter osw = new OutputStreamWriter(fos);
+        BufferedWriter bw = new BufferedWriter(osw);
+        bw.write("Zachary");
+        bw.flush();
+        bw.close();
+    }
+}
+````
+
+#### BR
+````java
+package basic_java;
+
+import java.io.*;
+
+/**
+ * java.io.BufferedReader
+ * 缓冲字符输入流，特点：按行读取字符串
+ */
+public class BRDemo {
+    public static void main(String[] args) throws IOException {
+        FileInputStream fis = new FileInputStream("G:" + File.separator + "BRDemo.java");
+        InputStreamReader isr = new InputStreamReader(fis);
+        BufferedReader br = new BufferedReader(isr);
+
+        /*
+            String readLine()
+            连续读取若干字符，直到读取到换行符为止
+            将换行符之前的所有字符以一个字符串返回
+            若该方法返回值为null，则表示读取到了
+            末尾。注意，返回的字符串中不含有读取该
+            行内容时最后的换行符。
+         */
+        String line = null;
+        while((line = br.readLine()) != null){
+            System.out.println(line);
+        }
+        br.close();
+    }
+}
+````
+
+#### PW
+````java
+package basic_java;
+
+import java.io.*;
+import java.util.Scanner;
+
+/**
+ * 缓冲字符串
+ * 内部维护缓冲区（字符数组），读写字符效率高
+ * 并且可以按行读写字符串
+ * BufferedWriter,BufferedReader
+ *
+ * java.io.PrintWriter
+ * 常用的缓冲字符输出流，内部自动处理BufferedWriter
+ * 来完成缓冲操作，并且PrintWriter具有自动刷新功能
+ *
+ */
+public class PWDemo {
+    public static void main(String[] args) throws FileNotFoundException, UnsupportedEncodingException {
+        /*
+            PrintWriter提供了丰富的构造方法
+            其中提供了可以针对文件写出操作的
+            构造方法：
+                PrintWriter(String path)
+                PrintWriter(File file)
+         */
+        PrintWriter pw = new PrintWriter("pw.txt","GBK");
+        pw.println("锄禾日当午");
+        pw.println("汗滴禾下土");
+        pw.println("谁知盘中餐");
+        pw.println("粒粒皆辛苦");
+        System.out.println("写出完毕!");
+        pw.close();
+
+        /*
+            PW处理其他流
+
+            向pw1.txt中写出内容
+         */
+        FileOutputStream fos = new FileOutputStream("pw1.txt");
+        /*
+            PrintWriter构造方法传入字节流的话
+            不能指定字符集
+
+            若希望指定字符集，需要在中间使用
+            OutputStreamWriter
+         */
+        OutputStreamWriter osw = new OutputStreamWriter(fos,"GBK");
+        pw = new PrintWriter(osw);
+        pw.println("啦啦啦");
+        pw.println("哈哈哈");
+        System.out.println("写出完毕!");
+        pw.close();
+
+        /*
+            自动行刷新
+            当PW处理的是一个流时，构造方法允许传入第二个
+            参数，该参数为一个boolean值，当该值为true时
+            则具有自动行刷新功能，即：每当使用println方法
+            写出一行字符串时会自动flush
+         */
+        Scanner scanner = new Scanner(System.in);
+        pw = new PrintWriter(new FileOutputStream("note.txt"));
+        System.out.println("请开始输入内容：");
+        while(true){
+            String line = scanner.nextLine();
+            if("exit".equals(line)){
+                System.out.println("再见！");
+                break;
+            }
+            /*
+                具有自动行刷新的pw在使用println
+                方法时会自动刷新
+             */
+            pw.println(line);
+        }
+        pw.close();
+    }
+}
+````

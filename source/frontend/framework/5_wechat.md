@@ -745,6 +745,58 @@ this.$sa('whichEvent', {eventName: 'event description'})
 - `sa`守卫
 可以在`resource.js`中加上事件的守卫，来监听事件有没有注册
 
+### wepy
+
+#### 编译工具报错
+
+> [参考](https://github.com/Tencent/wepy/issues/917)
+
+问题：出现脚本错误或者未正确调用 Page()
+解决方法：`.wpy`和`.js`不能重名
+
+#### 编译的dist文件出错
+删掉重新编译
+
+## 我看涨技术文档
+
+### fly的封装
+
+```js
+// cached ssoToken to rise get ssoToken speed.
+// use closure to prevent vars pollute space.
+function cachedSpace () {
+  let $ssoToken = null
+  return function cachedSsoToken () {
+    !$ssoToken && ($ssoToken = store.state.userInfo.token)
+    return $ssoToken
+  }
+}
+
+const $ssoToken = cachedSpace()
+export const fly = new Fly()
+
+// 添加请求拦截器
+fly.interceptors.request.use(config => {
+  // 给所有请求添加自定义header
+  // 开发环境默认token
+  function initHeader (token) {
+    // 如果已经设置了就不用重复设置了
+    if (config.headers['token'] && config.headers['authorization']) return
+    config.headers['token'] = config.headers['authorization'] = token
+  }
+  initHeader($ssoToken())
+  return config
+})
+```
+
+- 这个是用来初始化headers里面的token和authorization的
+- token有一个缓存区，不用每次都从store里面去取token，也不用每次都要设置token和authorization
+- response拦截器用来在网络请求出错的情况下打点
+- $init用来设置发出这份请求时候的请求路径
+- $config用来获取config，这个可以不挂载在这里
+
+### config
+
 #### 使用process.env区分不同环境
 - 首先安装`cross-env`: `cnpm i cross-env -D`
 - 修改`config/dev.env.js`为：
@@ -771,14 +823,157 @@ module.exports = merge(prodEnv, {
 }
 ```
 
-### wepy
+### resource.js
 
-#### 编译工具报错
+```js
+/**
+ * 所有页面路由封装
+ * pathName: 路径名，在pathMap中注册就行了
+ * payload: 路径携带的query
+ * type: 跳转方式，默认navigateTo
+*/
+export const goto = (pathName = '', payload = {}, type = 'navigateTo') => {
+  const pathMap = {
+    pages: {
+      main: '/pages/',
+      kids: [
+        'bulls',
+        'lastBet',
+        'optionals',
+        'recommend',
+        'shareFeedback',
+        'shareIndex',
+        'stock'
+      ]
+    },
+    subpages: {
+      main: '/pages/subpages/',
+      kids: [
+        'rank/pages/rank',
+        'rank/pages/score',
+        'rank/pages/description',
+        'score/pages/score',
+        'search/pages/search',
+        'recommend/pages/recommend',
+        'shareFeedback/pages/shareFeedback',
+        'activity/pages/entry',
+        'activity/pages/result'
+      ]
+    }
+  }
+  const makePath = () => {
+    let finallyPath = null
+    const query = querify(payload)
+    const findPath = (kind) => {
+      const kidsMap = pathMap[kind].kids
+      for (let i = 0; i < kidsMap.length; i++) {
+        if (kidsMap[i] === pathName) {
+          return pathMap[kind].main + pathName + '/main' + query
+        }
+      }
+    }
+    if (pathName.indexOf('/') > -1) {
+      finallyPath = findPath('subpages')
+    } else {
+      finallyPath = findPath('pages')
+    }
+    if (!finallyPath) return console.error('you have not register ' + pathName + ' in `pathMap`, please register it.')
+    !isProd && console.log('now we will go to: ' + finallyPath)
+    return finallyPath
+  }
+  wx[type]({
+    url: makePath()
+  })
+}
+```
 
-> [参考](https://github.com/Tencent/wepy/issues/917)
+- 首先有一个pathMap，里面包含pages和subpages，都包含了main和kids，根据你传入的pathName进行判断，如果包含'/'说明是subpages，否则是pages，根据main和pathName以及传入的query生成最终要跳转的路径，需要在数组中注册的目的是方便查看所有路径和重用路径，不会由于意外的路径导致跳转出错，还有一个好处是可以在所有路径跳转前进行预处理
 
-问题：出现脚本错误或者未正确调用 Page()
-解决方法：`.wpy`和`.js`不能重名
+### main.js
 
-#### 编译的dist文件出错
-删掉重新编译
+```js
+// 不支持自定义指令
+
+// 注册原型上的方法
+Vue.prototype = Object.assign(Vue.prototype, {
+  // 三方类
+  $store: store, // 挂载vuex
+  $sa: sa, // 挂载神策
+  // 自定义类
+  $now: getNow, // 获取当前时间戳
+  $Share: ShareConfig, // 分享配置，这是一个构造函数
+  $goto: goto, // 对跳转api的封装
+  $loger: loger, // 打印日志的封装
+  $showLoad: showLoadView, // 显示loading
+  $hideLoad: hideLoadView, // 隐藏loading
+  $isProd: isProd,
+  $stay: function (begin) { // 获取页面停留时间，参数：开始时间
+    return parseFloat(((getNow() - begin) / 1000).toFixed(2))
+  },
+  $query: function () { // 获取当前页面的query对象，通过this.$query绑定this就不用传递this了
+    return this.$root.$mp.query
+  }
+})
+
+// 注册公共组件
+Vue.component('default-list', defaultList) // 注册无网络状态下的默认页面
+Vue.component('common-back', commonBackground)
+Vue.component('user-lead', userLead)
+
+// 混合生命周期和方法以及计算属性等
+Vue.mixin({
+  onShow () {
+    if (this.sa_pageName) {
+      this.enterTime = this.$now()
+    }
+  },
+  onHide () {
+    this.stayTime()
+  },
+  onUnload () {
+    this.stayTime()
+  },
+  computed: {
+    netWorkIsConnected () { // 网络是否连接
+      return this.$store.state.netWorkStatus.isConnected
+    },
+    isIos () { // 是否是IOS系统
+      return this.$store.getters['isIos']
+    },
+    isDevTool () { // 是否是开发者工具
+      return this.$store.getters['isDevTool']
+    }
+  },
+  methods: {
+    // 收集页面打点次数
+    collectClickNums () {
+      this.$sa('click_total_num', {page: this.sa_pageName})
+    },
+    // 统计页面停留时间
+    stayTime () {
+      if (this.sa_pageName) {
+        // 打点 自选页停留时间
+        this.$sa(`${this.sa_pageName}_stay`, {stayTime: this.$stay(this.enterTime)})
+      }
+    },
+    $loading () { // 2秒钟的loading
+      this.$showLoad()
+      setTimeout(() => {
+        this.$hideLoad()
+      }, 2000)
+    }
+  }
+})
+```
+
+### App.vue
+
+```js
+onLaunch (option) {
+  this.shouldUpdateApp()
+  this.registerSa()
+  this.getCacheSrcs()
+  this.listenNetWork()
+  this.cacheSystemInfo()
+}
+```

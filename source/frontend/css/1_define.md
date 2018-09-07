@@ -37,3 +37,9 @@ type: css
 > 实验性特性以浏览器引擎为前缀（`vendor-prefixed`），应避免在生产环境中使用，或极其谨慎地使用，因为将来它们的语法和语义都有可能被更改。
 
 >[参考资料](https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS3)
+
+## css预编译器怎么使用函数
+
+> [stylus](http://stylus-lang.com/docs/functions.html)
+
+> [less](http://lesscss.org/functions/)

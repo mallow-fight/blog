@@ -557,3 +557,21 @@ clear: left;
 overflow: hidden;
 }
 ```
+
+## 导航栏布局
+
+- 左边使用`position: absolute; left: 0; top: 0; width: 200px`
+- 右边使用`margin-left: 200px`
+
+## 实现响应式布局
+
+> [参考](../browser/4_compatibility.html#自适应所有手机和电脑浏览器大小)
+
+- 如何自适应多倍dpi（如平板）？
+  - [blog](http://blog.codingplayboy.com/2018/01/06/responsive-web-design/)
+
+- 什么是设备像素比？
+  - [github](https://github.com/jawil/blog/issues/21)
+
+- 如何适配iphoneX？
+  - [凹凸](https://aotu.io/notes/2017/11/27/iphonex/index.html)
