@@ -2114,3 +2114,434 @@ public class PWDemo {
     }
 }
 ````
+
+##  8、异常处理
+
+### 简要说明
+1. try-catch块
+    * java异常捕获机制中的代码块，try块用来包含可能出错的代码片段，catch用来捕获try块中的代码出现的错误并解决
+2. finally块
+    * 只能定义在异常捕获机制的最后；可以直接跟在try后面，或者最后一个catch之后。
+    * 可以保证其中的代码无论try中的代码是否抛出异常都一定被执行
+    * 通常会用来诸如做释放资源等操作。
+3. finalize
+    * 是Object中定义的方法，当一个对象即将被GC释放时，GC会调用该方法，则意味着该方法被执行完毕后，该对象即被释放。
+4. 子类覆盖父类含有throws异常抛出声明的方法时，子类对该方法throws定义原则如下：
+        * 可以一样
+        * 不再抛出任何异常
+        * 仅抛出父类方法抛出的部分异常
+        * 抛出父类方法抛出的异常的子类异常
+        * 不可以抛出额外异常
+        * 不可以抛出父类方法抛出异常的父类异常
+
+### 练习
+#### 异常处理机制
+````java
+package basic_java;
+
+import java.awt.*;
+import java.io.IOException;
+
+/**
+ * java异常捕获机制
+ */
+public class ExceptionDemo {
+    public static void main(String[] args) {
+        /*
+            try-catch
+            try块用来包含可能出错的代码片段
+            catch用来捕获try块中的代码出现的错误并解决
+         */
+        try{
+            String str = "a";
+            /*
+                当JVM运行某句代码发现了一个异常时，
+                就会实例化该异常的一个实例，并将程序执行过程的完成
+                报告设置进去，然后将该异常抛出。
+             */
+            System.out.println(str.length());
+            System.out.println(str.charAt(0));
+            System.out.println(Integer.parseInt(str));
+            /*
+                try块中的代码出现异常后就会跳出try块，所以
+                try块中出现异常的代码行一下的代码都不会再被
+                运行。
+             */
+            /*
+                针对try代码中出现的异常有不同解决手段
+                的，可以单独取捕获这些异常，并解决。
+                但需要注意，有集成关系的异常，一定是子类
+                异常在上，父类异常在下。
+             */
+        }catch (NullPointerException e){
+            System.out.println("空指针异常");
+        }catch (StringIndexOutOfBoundsException e){
+            System.out.println("字符串下标越界异常");
+        }catch (Exception e){
+            //最终应当捕获Exception，避免程序因额外异常闪退
+            System.out.println("异常");
+        }finally {
+            /*
+                finally块
+                只能定义在异常捕捉机制的最后。
+                可以直接跟在try后面，或者最后一个catch之后
+                finally块可以保证其中的代码无论try中的代码
+                是否抛出异常都一定被执行
+                finally块中通常会用来诸如做释放资源等操作
+             */
+            System.out.println("finally语句块");
+        }
+    }
+
+    public void doSome() throws IOException,AWTException {}
+}
+
+class SubExceptionDemo extends ExceptionDemo{
+    /*
+        子类覆盖父类含有throws异常抛出声明的方法时，
+        子类对该方法throws定义原则如下：
+        1.可以一样
+        2.不再抛出任何异常
+        3.仅抛出父类方法抛出的部分异常
+        4.抛出父类方法抛出的异常的子类异常
+        5.不可以抛出额外异常
+        6.不可以抛出父类方法抛出异常的父类异常
+     */
+    @Override
+    public void doSome() throws IOException, AWTException {
+        super.doSome();
+    }
+}
+````
+
+## 9、线程基础
+### 简要说明
+1. 线程的创建方式
+    * 继承Thread并重写run方法来定义线程任务，此方法有不足之处如下：
+        * 由于java是单继承的，这就导致了当前类若继承了Thread就不能再继承其他类，这在实际开发中会出现继承冲突，因为经常会为了复用一个类的方法而去继承该类，但是由于已经继承线程，导致出现问题。
+        * 线程内部重写run方法定义了线程任务，导致当前线程与执行的任务有一个耦合关系，这就导致线程的重用性变得很差。
+    * 实现Runnable接口单独定义线程任务
+
+### 练习
+#### Thread(part1)
+````java
+package basic_java;
+
+/**
+ * 线程基础
+ */
+public class ThreadDemo {
+    public static void main(String[] args) {
+        //方式一创建线程
+        Thread t1 = new MyThread1();
+        Thread t2 = new MyThread2();
+        /*
+            启动线程要调用start方法，而不要直接
+            调用run方法。
+            start方法会很快执行完毕，作用是将线程
+            纳入到线程调度，使得当前线程进入runnable
+            状态，并发运行。当该线程第一次获取CPU时间后，
+            会自动调用run方法开始工作。
+         */
+        t1.start();
+        t2.start();
+        //方式二创建线程
+        Runnable r1 = new MyRunnable1();
+        Runnable r2 = new MyRunnable2();
+        Thread t3 = new Thread(r1);
+        Thread t4 = new Thread(r2);
+        t3.start();
+        t4.start();
+        //方式一的匿名内部类形式创建
+        new Thread(){
+            @Override
+            public void run() {
+                for(int i = 0; i < 10; i++){
+                    System.out.println("方式一的匿名内部类线程创建");
+                }
+            }
+        }.start();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 0; i < 10 ; i++){
+                    System.out.println("方式二的匿名内部类线程创建");
+                }
+            }
+        }).start();
+        /*
+            线程常用的API
+
+            static Thread currentThread
+            获取运行当前方法的线程
+
+            java中所有代码都是靠线程运行的，main方法也是
+            当启动程序时，OS会创建一个进程运行虚拟器，进程
+            启动起来会自动创建一个线程来运行main方法。
+         */
+        /*
+            获取运行main方法的线程
+         */
+        Thread main = Thread.currentThread();
+        System.out.println("运行main方法的线程是：" + main);
+        doSome();
+        Thread t = new Thread(){
+            @Override
+            public void run() {
+                Thread t = Thread.currentThread();
+                System.out.println("自定义线程：" + t);
+                doSome();
+            }
+        };
+        t.start();
+    }
+
+    public static void doSome(){
+        Thread t = Thread.currentThread();
+        System.out.println("运行doSome方法的线程是：" + t);
+    }
+}
+/*
+    线程的创建方式一：
+        继承Thread并重写run方法来定义线程任务
+ */
+class MyThread1 extends Thread {
+    @Override
+    public void run() {
+        for(int i = 0; i < 10; i++){
+            System.out.println("你是谁啊？");
+        }
+    }
+}
+
+class MyThread2 extends Thread {
+    @Override
+    public void run() {
+        for(int i = 0; i < 10; i++){
+            System.out.println("我是查水表的！");
+        }
+    }
+}
+
+/*
+    创建线程的方式二：
+    实现runnable接口单独定义线程任务
+ */
+class MyRunnable1 implements Runnable {
+
+    @Override
+    public void run() {
+        for(int i = 0; i < 10; i++){
+            System.out.println("任务一：~");
+        }
+    }
+}
+
+class MyRunnable2 implements Runnable {
+
+    @Override
+    public void run() {
+        for(int i = 0; i < 10; i++){
+            System.out.println("任务二：~");
+        }
+    }
+}
+````
+
+#### Thread(part2)
+````java
+package basic_java;
+
+/**
+ * 查看线程信息的相关方法
+ */
+public class ThreadDemo2 {
+    public static void main(String[] args) {
+        //获取运行main方法的线程
+        Thread t = Thread.currentThread();
+        //查看线程名
+        String name = t.getName();
+        System.out.println("name:" + name); //~ name:main
+        //查看唯一标识
+        long id = t.getId();
+        System.out.println("id:" + id); //~ id:1
+        //查看优先级
+        int priority = t.getPriority();
+        System.out.println("priority:" + priority); //~ priority:5
+        //是否处于活跃状态
+        boolean isAlive = t.isAlive();
+        System.out.println("isAlive:" + isAlive); //~ isAlive:true
+        //是否为守护线程
+        boolean isDaemon = t.isDaemon();
+        System.out.println("isDaemon:" + isDaemon); //~ isDaemon:false
+        //是否被中断了
+        boolean isInterrupted = t.isInterrupted();
+        System.out.println("isInterrupted:" + isInterrupted); //~ isInterrupted:false
+
+        /*
+            线程的优先级
+            线程对于线程调度的工作是不可控的。线程只能被动
+            的被分配时间片，不能主动获取。线程调度也尽可能
+            的将时间片的次数均匀的分配给所有并发运行的线程。
+            但是不保证“一人一次”。
+            线程可以通过改变线程的优先级来改变获取CPU时间片
+            的次数。
+            理论上，线程优先级越高的线程，获取时间片的次数就越多。
+            线程优先级有10个等级分别用整数1-10表示，1最小，10最大，
+            5为默认值
+            Thread提供了常量表示最大优先级，最小优先级与默认优先级，
+            分别是：MAX_PRIORITY，MIN_PRIOTIRY，NORM_PRIORITY
+         */
+        Thread max = new Thread(){
+            @Override
+            public void run() {
+                for(int i = 0;i < 10; i++){
+                    System.out.println("max");
+                }
+            }
+        };
+        Thread normal = new Thread(){
+            @Override
+            public void run() {
+                for(int i = 0;i < 10; i++){
+                    System.out.println("normal");
+                }
+            }
+        };
+        Thread min = new Thread(){
+            @Override
+            public void run() {
+                for(int i = 0; i < 10 ; i++){
+                    System.out.println("min");
+                }
+            }
+        };
+        max.setPriority(Thread.MAX_PRIORITY);
+        normal.setPriority(Thread.NORM_PRIORITY);
+        min.setPriority(Thread.MIN_PRIORITY);
+
+        min.start();
+        normal.start();
+        max.start();
+
+        /*
+            线程提供了一个静态方法
+            static void sleep(long ms)
+            使运行当前方法的线程进入阻塞状态指定毫秒数，当
+            超时后线程回到runnable状态等待再次分配时间片继续运行。
+            通常使用sleep做周期性循环操作的间隔时间使用。
+         */
+        System.out.println("开始");
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("结束");
+
+        /*
+            守护线程，又称为后台线程
+            使用上与前台线程一致。但是在结束时机上，有一个
+            例外，即：进程结束时，会强制将运行的后台线程停止
+            进程结束：当一个进程中的所有前台进程都结束了，那么
+                进程就会结束。
+            默认创建的线程都是前台线程，后台线程需要单独进行设置，
+            线程提供了方法：
+            void setDaemon(boolean tf)
+            若参数为true，则该线程为守护线程（后台线程）
+         */
+
+        /*
+            角色扮演小游戏：
+                rose：前台线程
+                jack；后台线程
+         */
+        Thread rose = new Thread(){
+            @Override
+            public void run() {
+                for(int i = 0; i< 5; i++){
+                    System.out.println("rose:let me go !");
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                System.out.println("rose: a a a a a a ah");
+                System.out.println("sound:putong.....！");
+            }
+        };
+        Thread jack = new Thread(){
+            @Override
+            public void run() {
+                while(true){
+                    System.out.println("jack:you jump! I jump!");
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+        //在启动线程前设置
+        jack.setDaemon(true);
+        rose.start();
+        jack.start();
+
+        /*
+            线程提供了一个方法
+            void join()
+            该方法允许一个线程调用另一个线程的join方法，使得
+            调用方法的线程进入阻塞状态，直到join方法所属对象结束
+            后才接触阻塞继续执行。
+            例如A线程调用了B线程的join方法
+            那么A线程进入阻塞状态，直到B线程结束，A才会解除阻塞继续
+            运行。
+         */
+        //示例：图片下载
+
+        //下载线程
+        Thread download = new Thread(){
+            @Override
+            public void run() {
+                System.out.println("down:开始下载图片...");
+                for(int i = 1; i<= 10 ; i++){
+                    System.out.println("down:已完成" + (i*10) + "%");
+                    try {
+                        Thread.sleep(50);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                System.out.println("down:图片下载完毕！");
+                isFinish = true;
+            }
+        };
+
+        //显示图片的线程
+        Thread show = new Thread(){
+            @Override
+            public void run() {
+                System.out.println("show:开始显示图片...");
+                /*
+                    先等待下载线程将图片下载完毕
+                 */
+                try {
+                    download.join();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                if(!isFinish){
+                    throw new RuntimeException("图片没有下载完毕!");
+                }
+                System.out.println("show:显示图片完毕!");
+            }
+        };
+        download.start();
+        show.start();
+    }
+    //表示图片是否下载完毕
+    public static boolean isFinish = false;
+}
+````
