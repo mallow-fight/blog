@@ -2545,3 +2545,232 @@ public class ThreadDemo2 {
     public static boolean isFinish = false;
 }
 ````
+
+## 10、线程同步
+
+### 简要说明
+1. 当多线程操作同一资源时，就会形成“抢”的现象，这会导致程序出现逻辑混乱，严重时会导致系统瘫痪。出现的原因在于，线程切换的时机不可控。这就是所谓的多线程并发安全问题。解决的办法是将“各干各的”变为“排队干”。
+2. 有效的缩小同步范围可以在保证并发安全的前提下提高并发效率。
+3. 静态方法上使用synchronized后，该方法为同步方法。静态方法由于所属类，所以一定具有同步效果。
+4. 互斥锁：synchronized修饰不同的代码，但是只要同步监视器对象相同，那么这些代码之间就具有了互斥效果。
+
+### 练习
+#### Synchronized(part1)
+````java
+package basic_java;
+
+/**
+ * 多线程同步问题
+ */
+public class SyncDemo {
+    public static void main(String[] args) {
+        /*
+            当多线程操作同一资源时，就会形成“抢”的现象，
+            这会导致程序出现逻辑混乱，严重时会导致系统瘫痪。
+            出现的原因在于，线程切换的时机不可控。
+            这就是所谓的多线程并发安全问题。
+            解决的办法是将“各干各的”变为“排队干”
+         */
+        final Table table = new Table();
+        Thread t1 = new Thread(){
+            @Override
+            public void run() {
+                while(true){
+                    int bean = table.getBean();
+                    Thread.yield();
+                    System.out.println(getName() + ":" + bean);
+                }
+            }
+        };
+        Thread t2 = new Thread(){
+            @Override
+            public void run() {
+                while(true){
+                    int bean = table.getBean();
+                    Thread.yield();
+                    System.out.println(getName() + ":" + bean);
+                }
+            }
+        };
+        t1.start();
+        t2.start();
+    }
+}
+
+class Table {
+    private int beans = 20;
+    /*
+        从桌子上取一个豆子
+
+        当一个方法被synchronized修饰后，该方法称为同步方法，
+        即：多个线程不可能在同一时间内访问内部，必须按顺序一个一个
+        访问。相当于排队执行方法，则就不会出现“抢”而导致的混乱问题。
+        在成员方法上使用synchronized修饰后，那么同步监视器对象就是
+        当前方法所属对象，即：方法中看到的this。
+     */
+    public synchronized int getBean(){
+        if(beans == 0){
+            throw new RuntimeException("没有豆子了！");
+        }
+        Thread.yield(); //模拟到这里发生线程切换
+        return beans--;
+    }
+}
+````
+
+#### synchronized(part2)
+````java
+package basic_java;
+
+/**
+ * 有效的缩小同步范围可以在保证并发安全的前提下
+ */
+public class SyncDemo2 {
+    public static void main(String[] args) {
+        final Shop shop = new Shop();
+        Thread t1 = new Thread(){
+            @Override
+            public void run() {
+                shop.buy();
+            }
+        };
+        Thread t2 = new Thread(){
+            @Override
+            public void run() {
+                shop.buy();
+            }
+        };
+        t1.start();
+        t2.start();
+    }
+}
+
+class Shop{
+    public void buy(){
+        try{
+            Thread t = Thread.currentThread();
+            System.out.println(t + "正在挑选衣服...");
+            Thread.sleep(5000);
+            /*
+                同步块
+                synchronized(同步监视器){
+                    需要同步的代码片段...
+                }
+                同步块可以更精确地控制同步的范围
+                但是若希望保证多个线程不能同时执行
+                需要同步的代码片段，就要求多个线程看到的
+                同步监视器（即：一个上锁的对象）必须是同一个！
+
+                对于成员方法而言，通常使用this作为同步监视器
+                对象即可。
+             */
+            synchronized (this){
+                System.out.println(t + "正在试衣服...");
+                Thread.sleep(5000);
+            }
+            System.out.println(t + "结账离开");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+    }
+}
+````
+
+#### synchronized(part3)
+````java
+package basic_java;
+
+/**
+ * 静态方法上使用synchronized后，该方法为同步方法。
+ * 静态方法由于所属类，所以一定具有同步效果
+ */
+public class SyncDemo3 {
+    public static void main(String[] args) {
+        final Bcc b1 = new Bcc();
+        final Bcc b2 = new Bcc();
+        Thread t1 = new Thread(){
+            @Override
+            public void run() {
+                b1.dosome();
+            }
+        };
+        Thread t2 = new Thread(){
+            @Override
+            public void run() {
+                b2.dosome();
+            }
+        };
+        t1.start();
+        t2.start();
+    }
+}
+
+class Bcc{
+    public synchronized static void dosome(){
+        Thread t = Thread.currentThread();
+        System.out.println(t + "正在执行dosome方法");
+        try{
+            Thread.sleep(5000);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        System.out.println(t + "执行dosome方法完毕");
+    }
+}
+````
+
+#### synchronized(part4)
+````java
+package basic_java;
+
+/**
+ * 互斥锁
+ * synchronized修饰不同的代码，但是只要同步监视器对象相同，
+ * 那么这些代码之间就具有了互斥效果。
+ * 即：多个线程不能同时访问这些代码
+ */
+public class SyncDemo4 {
+    public static void main(String[] args) {
+        final Dbb dbb = new Dbb();
+        Thread t1 = new Thread(){
+            @Override
+            public void run() {
+                dbb.methodA();
+            }
+        };
+        Thread t2 = new Thread(){
+            @Override
+            public void run() {
+                dbb.methodB();
+            }
+        };
+        t1.start();
+        t2.start();
+    }
+}
+
+class Dbb{
+    public synchronized void methodA(){
+        Thread t = Thread.currentThread();
+        System.out.println(t + "正在执行A方法");
+        try{
+            Thread.sleep(5000);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        System.out.println(t + "执行A方法完毕");
+    }
+
+    public synchronized void methodB(){
+        Thread t = Thread.currentThread();
+        System.out.println(t + "正在执行B方法");
+        try{
+            Thread.sleep(5000);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        System.out.println(t + "执行B方法完毕");
+    }
+}
+````
