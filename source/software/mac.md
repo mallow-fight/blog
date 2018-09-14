@@ -3,6 +3,15 @@ title: mac相关
 type: software
 order: 5
 ---
+## 更新npm和node版本
+
+- 更新npm的方法是：npm update -g
+
+- 更新node需要两步：
+  - 1 -> `sudo npm install -g n`
+  - 2 -> `sudo n latest`
+
+
 ## vscode输入法中英文不能顺利切换
 
 - 今天竟然发现是主题的原因，额
