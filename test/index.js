@@ -1,12 +1,6 @@
 function code() {
-  const path = require('path')
-  console.log(path.resolve(__dirname))
-  console.log(__dirname)
-  console.log(!function test(a) {
-    console.log(a)
-    return true
-  }('test'))
-  require('./models/autoFn')
+  let {x: y = 3} = {x: 4}
+  console.log(y)
 }
 
 const http = require('http');
