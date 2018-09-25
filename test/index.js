@@ -1,8 +1,10 @@
 function code() {
-  function foo(...rest) {
-    console.log(rest)
+  const source = {
+    set foo(value) {
+      console.log(value)
+    }
   }
-  foo(1, 2, 3)
+  console.log(Object.getOwnPropertyDescriptor(source, 'foo'))
 }
 
 const http = require('http');
