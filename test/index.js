@@ -1,10 +1,16 @@
 function code() {
-  const source = {
-    set foo(value) {
-      console.log(value)
+  const obj = new Proxy({}, {
+    get: function (target, key, receiver) {
+      console.log(`getting ${key}!`)
+      return Reflect.get(target, key, receiver)
+    },
+    set: function (target, key, value, receiver) {
+      console.log(`setting ${key}!`)
+      return Reflect.set(target, key, value, receiver)
     }
-  }
-  console.log(Object.getOwnPropertyDescriptor(source, 'foo'))
+  })
+  obj.test // getting test!
+  obj.test = 1 // setting test!
 }
 
 const http = require('http');
