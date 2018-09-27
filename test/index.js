@@ -1,16 +1,10 @@
 function code() {
-  const obj = new Proxy({}, {
-    get: function (target, key, receiver) {
-      console.log(`getting ${key}!`)
-      return Reflect.get(target, key, receiver)
-    },
-    set: function (target, key, value, receiver) {
-      console.log(`setting ${key}!`)
-      return Reflect.set(target, key, value, receiver)
+  const proxy = new Proxy({}, {
+    get: function() {
+      return 35
     }
   })
-  obj.test // getting test!
-  obj.test = 1 // setting test!
+  console.log(proxy.time)
 }
 
 const http = require('http');
