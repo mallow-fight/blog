@@ -1,13 +1,5 @@
 function code() {
-  const handler = {
-    defineProperty(target, key, descriptor) {
-      return true
-    }
-  }
-  const target = {}
-  const proxy = new Proxy(target, handler)
-  proxy.foo = 'bar'
-  console.log(proxy, proxy.foo)
+  
 }
 
 const http = require('http');
