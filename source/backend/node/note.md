@@ -161,3 +161,24 @@ I/O操作完之后呢？Node.js的I/O 处理完之后会有一个回调事件，
     - cookie（可以对外）
     - 携带token的请求头（可以对外）
     - 如果是单页应用可以放在state中
+
+## exports的用法
+
+### 当成一个对象使用
+
+```js
+// test.js
+exports.test1 = 'i am test1'
+exports.test2 = () => exports.test3 = 'i am test3'
+```
+
+```js
+const test = require('test.js')
+console.log(test) // {test1: 'i am test1', test2: [function]}
+console.log(test.test2()) // i am test3
+console.log(test) // {test1: 'i am test1', test2: [function], test3: 'i am test3'}
+```
+
+## 如何使用node注册终端指令
+
+- [阮一峰](https://www.npmjs.com/package/v8-compile-cache)
