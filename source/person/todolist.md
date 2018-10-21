@@ -28,6 +28,8 @@ order: 4
 
 - [ ] 迭代阶段性目标：p6～p7 !!!
   - [ ] 深入学习es6
+    - [ ] 理清prototype、__proto__、constructor之间的关系
+    - [ ] 何为编译时，何为运行时
     - [ ] [阅读阮老师的网站](http://es6.ruanyifeng.com/)
       - [x] 搭建node环境测试，除了async、await以及修饰器等语法糖其他的都支持
       - [x] 阅读文章并做笔记
@@ -78,7 +80,6 @@ order: 4
     - [x] 数字原生方法
     - [x] 正则
     - [x] 循环方法区别和应用
-    - [x] 理清prototype、__proto__、constructor之间的关系
     - [x] js继承以及上下文的绑定
   - [x] 事件
     - [x] 代理

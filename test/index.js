@@ -1,13 +1,6 @@
 function code() {
-  function Point() {
-    console.log(this.x)
-  }
-  Point.prototype = {
-    constructor(x) {this.x = x},
-    test() {}
-  }
-  const p = new Point(1);
-  console.log(p);
+  const foo = {0: 1, 1: 2, length: 2}
+  console.log(Array.from(foo));
 }
 
 const http = require('http');
