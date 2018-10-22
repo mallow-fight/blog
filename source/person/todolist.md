@@ -3,6 +3,14 @@ title: todolist
 type: person
 order: 4
 ---
+## 常用网站
+- [MDN](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Statements/import)
+- [简书](https://www.jianshu.com/p/2d49168e9ef4)
+- [掘金](https://juejin.im/welcome/frontend)
+- [segmentfault](https://segmentfault.com/a/1190000004910910)
+- [知乎](https://www.zhihu.com/people/pamikel/following)
+- [stackoverflow](https://stackoverflow.com/?utm_source=bigezhang.com)
+
 ## 每日作息
 
 - 6:30起床，洗漱+吃早点半个小时
@@ -19,6 +27,21 @@ order: 4
 ## 第一象限（紧急也很重要）
 
 - [ ] 迭代阶段性目标：p6～p7 !!!
+  - [ ] 深入学习es6
+    - [ ] 理清prototype、__proto__、constructor之间的关系
+    - [ ] 何为编译时，何为运行时
+    - [ ] [阅读阮老师的网站](http://es6.ruanyifeng.com/)
+      - [x] 搭建node环境测试，除了async、await以及修饰器等语法糖其他的都支持
+      - [x] 阅读文章并做笔记
+        - [x] 注意：只对常用的重点内容做笔记，其他生僻的内容浏览一下就可以了
+  - [ ] webpack底层原理
+    - [ ] 阅读官网概念中的资料链接
+    - [x] 阅读仓库：仓库过于复杂，暂时不考虑
+    - [ ] 尝试写loader和plugins
+  - [ ] 你不懂的js
+    - [ ] 异步部分
+    - [ ] 展望部分
+  - [ ] [面试指南](https://juejin.im/post/5ba34e54e51d450e5162789b)
 - [x] 读书(注意做好笔记，在这里记录进度)
   - [x] 记忆方法
     - [x] 《利玛窦的记忆宫殿》总结的不够好
@@ -57,7 +80,6 @@ order: 4
     - [x] 数字原生方法
     - [x] 正则
     - [x] 循环方法区别和应用
-    - [x] 理清prototype、__proto__、constructor之间的关系
     - [x] js继承以及上下文的绑定
   - [x] 事件
     - [x] 代理

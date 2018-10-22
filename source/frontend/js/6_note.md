@@ -230,3 +230,12 @@ function foo() {
 
 ### `var a = a || b`这样写有什么问题
 如果a是false类型的值，则会丢失该类型的值，取b值
+
+### Object.assgin
+```js
+const a = {name: 'a'}
+const b = {gender: 1}
+console.log(Object.assign(a, b) === a); // true
+console.log(a); // {name: 'a', gender: 1}
+console.log(b); // {gender: 1}
+```
