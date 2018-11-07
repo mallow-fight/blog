@@ -29,8 +29,9 @@ order: 4
 - [ ] 迭代阶段性目标：p6～p7 !!!
   - [ ] 深入学习es6
     - [ ] 理清prototype、__proto__、constructor之间的关系
+      - [ ] [参考](https://alexzhong22c.github.io/2017/08/12/js-new-happen/)
     - [ ] 何为编译时，何为运行时
-    - [ ] [阅读阮老师的网站](http://es6.ruanyifeng.com/)
+    - [x] [阅读阮老师的网站](http://es6.ruanyifeng.com/)
       - [x] 搭建node环境测试，除了async、await以及修饰器等语法糖其他的都支持
       - [x] 阅读文章并做笔记
         - [x] 注意：只对常用的重点内容做笔记，其他生僻的内容浏览一下就可以了

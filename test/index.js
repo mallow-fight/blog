@@ -1,6 +1,9 @@
 function code() {
-  const foo = {0: 1, 1: 2, length: 2}
-  console.log(Array.from(foo));
+  const t = [{a: 1, b: 2}, {a: 1, b: 3}, {a: 2, b: 2}]
+  const o = t.find(_ => {
+    return _.a === 1
+  })
+  console.log(o);
 }
 
 const http = require('http');
