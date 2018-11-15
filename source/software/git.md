@@ -130,7 +130,11 @@ git push -u origin master
 
 ### 打tag
 
-git tag -a v1.4 -m 'my version 1.4'
+```bash
+git tag -a v1.4 -m 'my version 1.4' # 本地添加标签名
+git tag # 查看所有标签名
+git push origin [tagName] # 将指定的标签名推送到远程仓库上
+```
 
 ### 重新使gitignore生效
 
