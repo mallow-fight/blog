@@ -4,7 +4,7 @@ order: 9
 type: js
 ---
 
-## 理解何为prototype、__proto__和constructor
+## 理解何为prototype、`__proto__`和constructor
 
 ### prototype
 
@@ -37,11 +37,11 @@ const baz = () => {}
 baz.prototype // undefined
 ```
 
-## __proto__
+### `__proto__`
 
 - 指的是对象上的一个属性，指代由哪个构造函数构造，包括一些自带的属性。
 
-- 从下面的例子可以看出，不管是什么样的对象，最终肯定都继承自null，这就是所谓的原型委托，面向null编程，哈哈
+- 从下面的例子可以看出，不管是什么样的对象，最终肯定都继承自`null`，这就是所谓的原型委托，面向`null`编程，哈哈
 
 ```js
 function Foo(a) { this.a = a }
@@ -91,13 +91,13 @@ Object.prototype.__proto__ === null
 
 ### constructor
 
-- 理解了prototype和__proto__，这个就不难理解了，constructor只会出现在__proto__和prototype对象中
+- 理解了`prototype`和`__proto__`，这个就不难理解了，`constructor`只会出现在`__proto__`和`prototype`对象中
 
-- 在__proto__中，指代的是这个对象是由什么函数构造的，指向构造它的函数，不管是Foo也好，内置的Object也好
+- 在`__proto__`中，指代的是这个对象是由什么函数构造的，指向构造它的函数，不管是`Foo`也好，内置的`Object`也好
 
-- 在prototype中，指代的就是构造函数本身
+- 在`prototype`中，指代的就是构造函数本身
 
-### new创建对象的过程发生了什么
+### `new`创建对象的过程发生了什么
 
 #### 通用观点
 
