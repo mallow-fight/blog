@@ -47,7 +47,7 @@ baz.prototype // undefined
 function Foo(a) { this.a = a }
 
 // 首先我们看看Foo的__proto__，显示是一个对象
-Foo.__proto__ // f () { [native code] }
+Foo.__proto__ // ƒ () { [native code] }
 
 // 可以看到，Foo也是一个对象，继承了名为Function的构造函数的原型
 Foo.__proto__ === Function.prototype // true
@@ -68,7 +68,7 @@ Foo.prototype._a = 'this is _a'
 const foo = new Foo('this is a')
 
 //可以看到创造的实例是这样子的，包括创建过程中赋值给实例对象和一个__proto__属性
-foo // {a: 'this is a', __proto__: {_a: 'this is _a', constructor: f Foo, __proto__: Object}}
+foo // {a: 'this is a', __proto__: {_a: 'this is _a', constructor: ƒ Foo, __proto__: Object}}
 
 // 继续往下看，foo.__proto__没什么好解释，可以看到foo.__proto__还有一个__proto__属性
 // 下面这行代码说明，foo.__proto__只是一个普通的对象，是由Object函数构造的，所以它继承了Object.prototype的属性
@@ -77,10 +77,10 @@ foo.__proto__.__proto__ === Object.prototype // true
 foo.__proto__.__proto__ === {}.__proto__ // true
 
 // 可以看到，只是一个构造函数
-Object // f Object() { [native code] }
+Object // ƒ Object() { [native code] }
 
 // ok，既然Object是一个构造函数，那它肯定有一个prototype属性，具有constructor和一些内置属性
-Object.prototype // {constructor: f Object(), hasOwnProperty, ....}
+Object.prototype // {constructor: ƒ Object(), hasOwnProperty, ....}
 
 // 不解释
 Object.prototype.constructor === Object
