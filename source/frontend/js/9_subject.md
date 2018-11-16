@@ -4,17 +4,107 @@ order: 9
 type: js
 ---
 
-## 理解prototype、proto和constructor等关系
+## 理解何为prototype、__proto__和constructor
 
-- [参考博客](https://alexzhong22c.github.io/2017/08/08/js-proto/)
+### prototype
 
-## new创建对象的过程发生了什么
+- 指的是构造函数的原型对象，只有函数作为构造函数的时候这个属性才有用，可以被实例继承。
 
-### 通用观点
+```js
+function Foo() { }
+
+// 默认的prototype是一个对象，默认有一个constructor属性
+Foo.prototype // {constructor: f}
+
+// constructor默认等于构造函数本身，所以Foo和Foo.prototype.constructor表现形式一样，都有name、caller、length、arguments等属性
+Foo.prototype.constructor === Foo // true
+
+// 可以为prototype添加一些属性
+Foo.prototype.test = 'peter'
+Foo.prototype // {test: 'peter', constructor: f}
+
+// 同样可以通过constructor为添加和修改属性
+Foo.prototype.constructor.prototype.test1 = 'mallow'
+Foo.prototype.constructor.prototype.test = 'lucy'
+Foo.prototype // {test: 'lucy', test1: 'mallow', constructor: f}
+
+// 所以说Foo和Foo.prototype.constructor是全等的，保存的都是同一个对象索引，所以只需要继续对Foo.prototype研究就行了
+// 因为Foo.prototype是一个对象，所以它是没有prototype的，到此结束，这就是普通函数的所有prototype结构
+Foo.prototype.prototype // undefined
+
+// 注意：es6的箭头函数没有prototype，所以这也导致了它没有constructor，继而不能作为构造函数
+const baz = () => {}
+baz.prototype // undefined
+```
+
+## __proto__
+
+- 指的是对象上的一个属性，指代由哪个构造函数构造，包括一些自带的属性。
+
+- 从下面的例子可以看出，不管是什么样的对象，最终肯定都继承自null，这就是所谓的原型委托，面向null编程，哈哈
+
+```js
+function Foo(a) { this.a = a }
+
+// 首先我们看看Foo的__proto__，显示是一个对象
+Foo.__proto__ // f () { [native code] }
+
+// 可以看到，Foo也是一个对象，继承了名为Function的构造函数的原型
+Foo.__proto__ === Function.prototype // true
+
+// 可以看到Function.prototype也是一个对象，包含constructor、__proto__等
+Function.prototype.constructor // ƒ Function() { [native code] }
+Function.prototype.constructor === Function // true
+
+// 所以说因为Function.prototype是一个对象，所以它也继承了Object构造函数的prototype
+Function.prototype.__proto__ === Object.prototype
+Function.prototype.__proto__ === {}.__proto__
+
+// ok 到此为止，问题都转化为了关于Object构造函数的问题
+
+Foo.prototype._a = 'this is _a'
+
+// 首先创造一个Foo的实例
+const foo = new Foo('this is a')
+
+//可以看到创造的实例是这样子的，包括创建过程中赋值给实例对象和一个__proto__属性
+foo // {a: 'this is a', __proto__: {_a: 'this is _a', constructor: f Foo, __proto__: Object}}
+
+// 继续往下看，foo.__proto__没什么好解释，可以看到foo.__proto__还有一个__proto__属性
+// 下面这行代码说明，foo.__proto__只是一个普通的对象，是由Object函数构造的，所以它继承了Object.prototype的属性
+foo.__proto__.__proto__ === Object.prototype // true
+// 所以可以得到如下结果，所有的对象都继承了Object构造函数的prototype，Object只是一个构造函数，没什么好神秘的
+foo.__proto__.__proto__ === {}.__proto__ // true
+
+// 可以看到，只是一个构造函数
+Object // f Object() { [native code] }
+
+// ok，既然Object是一个构造函数，那它肯定有一个prototype属性，具有constructor和一些内置属性
+Object.prototype // {constructor: f Object(), hasOwnProperty, ....}
+
+// 不解释
+Object.prototype.constructor === Object
+
+// 天地无常，万法归null
+Object.prototype.__proto__ === null
+```
+
+### constructor
+
+- 理解了prototype和__proto__，这个就不难理解了，constructor只会出现在__proto__和prototype对象中
+
+- 在__proto__中，指代的是这个对象是由什么函数构造的，指向构造它的函数，不管是Foo也好，内置的Object也好
+
+- 在prototype中，指代的就是构造函数本身
+
+### new创建对象的过程发生了什么
+
+#### 通用观点
 
 - 用来实例化一个类，从而在内存中分配一个实例对象
 
-### 例子
+#### 例子
+
 ```js
 function Person(name) {
   this.name = name;
