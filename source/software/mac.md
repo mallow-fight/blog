@@ -3,6 +3,11 @@ title: mac相关
 type: software
 order: 5
 ---
+## chomod：修改权限
+- [参考](https://www.cnblogs.com/huchong/p/9075201.html)
+
+- 默认是700
+
 ## Chrome翻墙
 - 使用hoxx，连接加拿大节点：不过这个东西连了之后内网和本地节点访问不了，得切换
 - shadowsocks暂时用不了，原因不明
