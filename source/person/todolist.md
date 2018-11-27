@@ -27,22 +27,20 @@ order: 4
 ## 第一象限（紧急也很重要）
 
 - [ ] 迭代阶段性目标：p6～p7 !!!
-  - [ ] 深入学习es6
-    - [ ] 理清prototype、__proto__、constructor之间的关系
-      - [ ] [参考](https://alexzhong22c.github.io/2017/08/12/js-new-happen/)
-    - [ ] 何为编译时，何为运行时
+  - [ ] webpack
+    - [ ] [参考minipack实现一个类似的](https://github.com/ronami/minipack)
+    - [ ] 实现一个loader
+    - [ ] 实现一个plugin
+    - [ ] 实现一个babel-plugin
+  - [x] 深入学习es6
+    - [x] 理清prototype、__proto__、constructor之间的关系
+      - [x] [参考](https://alexzhong22c.github.io/2017/08/12/js-new-happen/)
+    - [x] 何为编译时，何为运行时
     - [x] [阅读阮老师的网站](http://es6.ruanyifeng.com/)
       - [x] 搭建node环境测试，除了async、await以及修饰器等语法糖其他的都支持
       - [x] 阅读文章并做笔记
         - [x] 注意：只对常用的重点内容做笔记，其他生僻的内容浏览一下就可以了
-  - [ ] webpack底层原理
-    - [ ] 阅读官网概念中的资料链接
-    - [x] 阅读仓库：仓库过于复杂，暂时不考虑
-    - [ ] 尝试写loader和plugins
-  - [ ] 你不懂的js
-    - [ ] 异步部分
-    - [ ] 展望部分
-  - [ ] [面试指南](https://juejin.im/post/5ba34e54e51d450e5162789b)
+  - [x] [面试指南](https://juejin.im/post/5ba34e54e51d450e5162789b)
 - [x] 读书(注意做好笔记，在这里记录进度)
   - [x] 记忆方法
     - [x] 《利玛窦的记忆宫殿》总结的不够好

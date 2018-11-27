@@ -1,8 +1,6 @@
+const version = require('./node-test/exports');
 function code() {
-  function Foo() {}
-  Foo.prototype.test = 'i am Foo.'
-  const foo = new Foo()
-  console.log();
+  console.log(version, version.version);
 }
 
 const http = require('http');
