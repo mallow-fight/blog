@@ -1,6 +1,6 @@
-const version = require('./node-test/exports');
+const foo = require('./dist/bundle');
 function code() {
-  console.log(version, version.version);
+  console.log(foo);
 }
 
 const http = require('http');

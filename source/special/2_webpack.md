@@ -219,3 +219,28 @@ const result = bundle(graph);
 
 console.log(result)
 ```
+
+## loader
+
+- loader就是读取指定类型文件的content，然后对这个content进行一些处理，最后返回给webpack。
+
+- 这些loader将处理过后的值可以被webpack识别，然后webpack对这些字符进行组装，最后写入到.js或者其它格式的文件，完成bundle。
+
+## plugin
+
+- webpack插件由以下组成：
+  - 一个js命名函数
+  - 在插件函数的prototype上定义一个apply方法
+  - 指定一个绑定到webpack自身的事件钩子
+  - 处理webpack内部实例的特定数据
+  - 功能完成后调用webpack提供的回调
+
+- compiler和compilation
+  - compiler对象代表了完整的webpack环境配置。这个对象在启动webpack时被一次性建立，并配置好所有可操作的设置，包括options、loader和plugin。当在webpack环境中应用一个插件时，插件将收到此compiler对象的引用。可以使用它来访问webpack的主环境
+  - compilation对象代表了一次资源版本构建。当运行webpack开发环境中间件时，每当检测一个文件变化，就会创建一个新的compilation，从而生成一组新的编译资源。一个compilation对象表现了当前的模块资源、编译生成资源、变化的文件、以及被追踪依赖的状态信息。compilation对象也提供了很多关键时机的回调，以供插件做自定义处理时选择使用
+
+## 编写babel插件
+
+### babel手册
+
+> [github](https://github.com/jamiebuilds/babel-handbook)

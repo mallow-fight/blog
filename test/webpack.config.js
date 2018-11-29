@@ -1,5 +1,6 @@
+const path = require('path');
 module.exports = {
-  mode: 'production',
+  mode: 'development',
   entry: {
     app: './src/index.js'
   },
@@ -18,7 +19,18 @@ module.exports = {
       {
         test: /\.js/,
         use: [
-          'babel-loader'
+          {
+            loader: 'babel-loader',
+            options: {
+              plugins: [require('./src/loaders/babel-loader-plugin-example.js')]
+            }
+          }
+        ]
+      },
+      {
+        test: /\.txt/,
+        use: [
+          {loader: path.resolve('./src/loaders/txt-loader.js')}
         ]
       }
     ]

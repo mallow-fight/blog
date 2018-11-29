@@ -27,11 +27,14 @@ order: 4
 ## 第一象限（紧急也很重要）
 
 - [ ] 迭代阶段性目标：p6～p7 !!!
-  - [ ] webpack
-    - [ ] [参考minipack实现一个类似的](https://github.com/ronami/minipack)
-    - [ ] 实现一个loader
-    - [ ] 实现一个plugin
-    - [ ] 实现一个babel-plugin
+  - [ ] 各种异步机制的实现原理和区别
+  - [ ] api的polyfill（如fetch、promise、generator等）
+  - [x] webpack
+    - [x] [参考minipack实现一个类似的](https://github.com/ronami/minipack)
+    - [x] 实现一个loader
+    - [x] 实现一个plugin
+    - [x] 实现一个babel-plugin
+      - [x] 阅读babel手册
   - [x] 深入学习es6
     - [x] 理清prototype、__proto__、constructor之间的关系
       - [x] [参考](https://alexzhong22c.github.io/2017/08/12/js-new-happen/)
