@@ -19,7 +19,7 @@ type: person
   - [ ] 网页的适配和兼容问题
   - [ ] http架构
   - [ ] 常规算法的学习、练习以及实践
-  - [ ] 新技术的关注：pwa、deno、ts、web assembly、dva等，不用深入了解，没那个时间和必要
+  - [ ] 新技术的关注：pwa、deno、ts、jsx、web assembly、dva等，不用深入了解，没那个时间和必要
   - [ ] 后端知识的深入学习（主要是java和db）
   - [x] 熟练掌握数组和对象的原生方法（在业务中熟练使用即可）
   - [x] webpack底层原理，手动实现
