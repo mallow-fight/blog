@@ -26,9 +26,16 @@ order: 4
 
 ## 第一象限（紧急也很重要）
 
-- [ ] 迭代阶段性目标：p6～p7 !!!
-  - [ ] 各种异步机制的实现原理和区别
-  - [ ] api的polyfill（如fetch、promise、generator等）
+- [ ] 阶段性目标
+  - [ ] 详细的前端骨架
+  - [x] 各种异步机制
+    - [x] 回调
+    - [x] ajax
+    - [x] fetch
+    - [x] promise
+    - [x] generator
+    - [x] promise polyfill
+    - [x] generator polyfill
   - [x] webpack
     - [x] [参考minipack实现一个类似的](https://github.com/ronami/minipack)
     - [x] 实现一个loader
@@ -72,7 +79,7 @@ order: 4
 
 ## 第二象限（不紧急但很重要）
 
-- [ ] 优化博客结构、内容以及排版
+- [x] 优化博客结构、内容以及排版
   - [x] Vue实现高阶组件以及高阶组件的作用
   - [x] new过程以及栈堆变化
   - [x] js

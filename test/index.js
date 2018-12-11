@@ -1,6 +1,10 @@
-const foo = require('./dist/bundle');
 function code() {
-  console.log(foo);
+  function *foo(x, y) {
+    return x + y;
+  }
+  const it = foo(1, 2);
+  const step = it.next();
+  console.log(step, step.value);
 }
 
 const http = require('http');
