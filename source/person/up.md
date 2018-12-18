@@ -16,6 +16,15 @@ type: person
     - [ ] 沟通和分析问题能力
   - [ ] 详细的前端骨架
   - [ ] http架构
+  - [ ] 书籍
+    - [ ] 图解http
+    - [ ] css揭秘
+    - [ ] 代码大全
+    - [ ] 人月神话
+    - [ ] head first java
+    - [ ] java核心技术
+    - [ ] 疯狂java
+    - [ ] java编程思想
   - [ ] vue&react底层原理，手动实现，深入了解
   - [ ] vuex、redux之类的底层原理
   - [ ] webview的底层原理以及实现方式
