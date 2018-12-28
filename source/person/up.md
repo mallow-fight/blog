@@ -24,21 +24,32 @@ type: person
   - [ ] 网页的适配和兼容问题
   - [ ] 常规算法的学习、练习以及实践
   - [ ] webview的底层原理以及实现方式
-  - [ ] 主流框架衍生框架（这个不急，学这些不如学一门安卓或者IOS）
-    - [ ] react-native
-    - [ ] weex
-    - [ ] mpVue（小程序）
   - [ ] 书籍
     - [x] 图解http
-    - [ ] css揭秘
+    - [x] css揭秘
     - [ ] 代码大全
     - [ ] 人月神话
     - [ ] head first java
     - [ ] java核心技术
     - [ ] 疯狂java
     - [ ] java编程思想
-  - [ ] 新技术的关注：pwa、deno、ts、jsx、web assembly、dva等，不用深入了解，没那个时间和必要
-  - [ ] 后端知识的深入学习（主要是java和db）
+  - [ ] 新技术的关注，不用深入了解，没那个时间和必要
+    - [ ] pwa
+    - [ ] deno
+    - [x] ts
+    - [x] jsx
+    - [ ] web assembly
+    - [ ] dva
+    - [x] fusion
+  - [ ] 后端知识的深入学习
+    - [ ] java
+    - [ ] mysql
+    - [ ] redis
+    - [ ] mongo
+  - [ ] 主流框架衍生框架（这个不急，学这些不如学一门安卓或者IOS）
+    - [ ] react-native
+    - [ ] weex
+    - [ ] mpVue（小程序）
   - [x] 详细的前端骨架（学的过程中不断完善知识体系）
   - [x] http架构（学的过程中不断完善知识体系）
   - [x] 各种异步机制的实现原理和区别
