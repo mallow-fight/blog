@@ -1,9 +1,5 @@
 function code() {
-  const t = [{a: 1, b: 2}, {a: 1, b: 3}, {a: 2, b: 2}]
-  const o = t.find(_ => {
-    return _.a === 1
-  })
-  console.log(o);
+  console.log(react, '***')
 }
 
 const http = require('http');

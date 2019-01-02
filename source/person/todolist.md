@@ -26,23 +26,42 @@ order: 4
 
 ## 第一象限（紧急也很重要）
 
-- [ ] 迭代阶段性目标：p6～p7 !!!
-  - [ ] 深入学习es6
-    - [ ] 理清prototype、__proto__、constructor之间的关系
-      - [ ] [参考](https://alexzhong22c.github.io/2017/08/12/js-new-happen/)
-    - [ ] 何为编译时，何为运行时
+- [ ] 阶段性目标
+  - [ ] 专题
+    - [ ] 如何维持用户登录状态以及如何保存用户敏感信息
+    - [ ] react源码
+    - [ ] redux源码
+      - [ ] 何为umd、cjs？
+    - [ ] vue源码
+    - [ ] vuex源码
+  - [x] 详细的前端骨架
+    - [x] css 解析过程（css揭秘）
+    - [x] http请求html过程（http图解）
+    - [x] 浏览器解析html过程
+    - [x] 框架以及打包工具生成浏览器可以正常解析的html过程
+  - [x] 各种异步机制
+    - [x] 回调
+    - [x] ajax
+    - [x] fetch
+    - [x] promise
+    - [x] generator
+    - [x] promise polyfill
+    - [x] generator polyfill
+  - [x] webpack
+    - [x] [参考minipack实现一个类似的](https://github.com/ronami/minipack)
+    - [x] 实现一个loader
+    - [x] 实现一个plugin
+    - [x] 实现一个babel-plugin
+      - [x] 阅读babel手册
+  - [x] 深入学习es6
+    - [x] 理清prototype、__proto__、constructor之间的关系
+      - [x] [参考](https://alexzhong22c.github.io/2017/08/12/js-new-happen/)
+    - [x] 何为编译时，何为运行时
     - [x] [阅读阮老师的网站](http://es6.ruanyifeng.com/)
       - [x] 搭建node环境测试，除了async、await以及修饰器等语法糖其他的都支持
       - [x] 阅读文章并做笔记
         - [x] 注意：只对常用的重点内容做笔记，其他生僻的内容浏览一下就可以了
-  - [ ] webpack底层原理
-    - [ ] 阅读官网概念中的资料链接
-    - [x] 阅读仓库：仓库过于复杂，暂时不考虑
-    - [ ] 尝试写loader和plugins
-  - [ ] 你不懂的js
-    - [ ] 异步部分
-    - [ ] 展望部分
-  - [ ] [面试指南](https://juejin.im/post/5ba34e54e51d450e5162789b)
+  - [x] [面试指南](https://juejin.im/post/5ba34e54e51d450e5162789b)
 - [x] 读书(注意做好笔记，在这里记录进度)
   - [x] 记忆方法
     - [x] 《利玛窦的记忆宫殿》总结的不够好
@@ -71,7 +90,7 @@ order: 4
 
 ## 第二象限（不紧急但很重要）
 
-- [ ] 优化博客结构、内容以及排版
+- [x] 优化博客结构、内容以及排版
   - [x] Vue实现高阶组件以及高阶组件的作用
   - [x] new过程以及栈堆变化
   - [x] js
@@ -166,12 +185,10 @@ order: 4
 ## 第三象限（紧急但不重要）
 
 - [ ] 考研
-- [ ] 选一门后端语言（node也行）深入了解
-- [ ] [整理提升EQ以及心理素质书籍 + 必看书籍](https://www.zhihu.com/question/22794831)
-- [ ] PWA
-- [ ] web assembly
-- [ ] typescript
-- [ ] flow
+- [ ] 深入了解后端
+- [ ] 提升整体素质
+  - [ ] 看书
+  - [ ] 健身
 
 ## 第四象限（不紧急也不重要）
 
