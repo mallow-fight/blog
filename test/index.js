@@ -1,10 +1,5 @@
 function code() {
-  function *foo(x, y) {
-    return x + y;
-  }
-  const it = foo(1, 2);
-  const step = it.next();
-  console.log(step, step.value);
+  console.log(react, '***')
 }
 
 const http = require('http');
