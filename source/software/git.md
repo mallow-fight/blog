@@ -145,3 +145,7 @@ git rm -r --cached .
 git add .
 git commit -m ".gitignore is now working"
 ```
+
+### 分支管理
+
+- [简书](https://www.jianshu.com/p/3be4029ce854)
