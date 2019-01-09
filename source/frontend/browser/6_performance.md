@@ -88,3 +88,6 @@ order: 6
 - 更快的语言解释运行速度，`webassembly`
 - `service workers`
 - 图片编码优化
+
+## 网页卡死
+
