@@ -15,12 +15,15 @@ type: person
     - [ ] 业务模型抽象能力
     - [ ] 沟通和分析问题能力
     - [ ] 资源利用能力
+  - [ ] 业务组件库的持续集成
+    - [ ] 文档覆盖率
+    - [ ] 单测覆盖率
   - [ ] 框架的底层原理
     - [ ] react
     - [ ] vue
-  - [ ] 状态管理底层原理
-    - [ ] redux
-    - [ ] vuex
+  - [ ] React和Vue的衍生物底层原理（从React开始）
+    - [ ] router
+    - [ ] redux & vuex
   - [ ] 网页的适配和兼容问题
   - [ ] 常规算法的学习、练习以及实践
   - [ ] webview的底层原理以及实现方式
@@ -41,6 +44,7 @@ type: person
     - [ ] web assembly
     - [ ] dva
     - [x] fusion
+    - [x] flow
   - [ ] 后端知识的深入学习
     - [ ] java
     - [ ] mysql

@@ -1,11 +1,21 @@
 function code() {
-  console.log(react, '***')
+  function Foo(name) {
+    this.name = name;
+  }
+  Foo.prototype.getName = function () {
+    console.log(this.name);
+    return this.name;
+  }
+  const foo = new Foo('mallow');
+  foo.getName()
+  const test = foo.getName
+  test();
 }
 
 const http = require('http');
 
 const hostname = '127.0.0.1';
-const port = 3000;
+const port = 30000;
 
 const server = http.createServer((req, res) => {
   res.statusCode = 200;

@@ -210,4 +210,16 @@ renderer.toJSON();
 
 ## React
 
-- 依赖图：
+### class
+
+- 是构造函数的语法糖
+
+- constructor就是构造函数体
+
+- class里面的除了constructor之外的方法就是构造函数prototype上的方法
+
+- constructor调用super来执行父constructor，这时候子constructor的参数就是父+子，通过这种方式来完全继承
+
+- class中的static就相当于构造函数直接挂载的普通属性
+
+### 依赖图
