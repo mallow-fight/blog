@@ -208,7 +208,22 @@ renderer.toJSON();
 // }
 ```
 
+## 研究思路
+
+### 渲染过程
+
+一般的web应用在脚手架中都是通过这种方式渲染出来的：
+```js
+import { render } from 'react-dom';
+render(
+  <App />,
+  document.getElementById('app')
+);
+```
+
 ## React
+
+对应到`<App />`的产生
 
 ### class
 
@@ -223,3 +238,63 @@ renderer.toJSON();
 - class中的static就相当于构造函数直接挂载的普通属性
 
 ### 依赖图
+
+[processon](https://www.processon.com/mindmap/5c272483e4b0beb24861f67e)
+
+### 结论
+
+一般的class都会继承Component这个构造函数，这个函数会将props、setState等属性和方法注册到class上，然后这个class会作为react-dom的render函数的第一个参数传入，这个时候的形式是一个jsx，那么何为jsx呢？
+
+## jsx
+
+- [参考](https://reactjs.org/docs/introducing-jsx.html)
+
+```jsx
+const element = (
+  <h1 className = "greeting">
+    hello, world!
+  </h1>
+)
+```
+
+同：
+
+```jsx
+const element = React.createElement(
+  'h1',
+  {className: 'greeting'},
+  'hello, world!'
+)
+```
+
+经过React.createElement之后的简单结构：
+
+```jsx
+const element = {
+  type: 'h1',
+  props: {
+    className: 'greeting',
+    children: 'hello, world!'
+  }
+}
+```
+
+可以看到，React.createElement会对树状结构的jsx进行处理来生成需要的数据结构，所以说首先需要知道React.createElement干了些啥
+
+## createElement
+
+[参考](https://reactjs.org/docs/react-api.html#createelement)
+
+```js
+React.createElement(
+  type,
+  [props],
+  [...children]
+)
+```
+
+### type
+
+- tag字符串名，如：'div'、'span'
+- React component：class、function
+- React fragment
