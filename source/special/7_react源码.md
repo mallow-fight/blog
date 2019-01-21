@@ -298,3 +298,7 @@ React.createElement(
 - tag字符串名，如：'div'、'span'
 - React component：class、function
 - React fragment
+
+### 示意图
+
+[参考](https://www.processon.com/mindmap/5c272483e4b0beb24861f67e)
