@@ -4,6 +4,8 @@ order: 7
 type: special
 ---
 
+> [参考资料](https://juejin.im/post/5983dfbcf265da3e2f7f32de)
+
 ## 仓库
 
 ### 入口和出口
