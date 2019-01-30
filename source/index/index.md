@@ -26,13 +26,6 @@ type: index
 
 - [概念&实践](/arithmetic/lintcode.html)
 
-## 关于我
-
-- [介绍](/person/introduction.html)
-- [灵感](/person/ideas/ideas.html)
-- [任务列表](/person/todolist.html)
-- [任务管理](/person/manage.html)
-
 ## 请作者喝杯咖啡
 
 ### 微信
