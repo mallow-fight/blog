@@ -4,6 +4,10 @@ order: 1
 type: index
 ---
 
+## web知识体系
+
+<img src="./web知识体系.png" />
+
 ## 前端传送门
 
 - [html](/frontend/html/define.html)
