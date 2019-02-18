@@ -10,11 +10,15 @@ type: frontend
 
 >[参考](https://mallow-fight.github.io/special/1_%E5%8E%9F%E5%9E%8B.html)
 
-### 异步队列
+### 事件队列
 
 ### 闭包
 
+>[参考](https://mallow-fight.github.io/frontend/js/3_scope&closures.html)
+
 ### 上下文
+
+>[参考](https://mallow-fight.github.io/frontend/js/4_this&prototype.html)
 
 ## 分类
 
