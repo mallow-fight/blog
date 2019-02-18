@@ -4,13 +4,7 @@ order: 2
 type: frontend
 ---
 
-## data
-
-- data-* 全局属性 是一类被称为自定义数据属性的属性，它赋予我们在所有 HTML 元素上嵌入自定义数据属性的能力，并可以通过脚本(一般指JavaScript) 与 HTML 之间进行专有数据的交换。
-
->[参考](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Global_attributes/data-*)
-
-## html5新增内容
+## html5
 
 ### 语义
 
@@ -111,7 +105,7 @@ type: frontend
 
 - 指针锁定：允许锁定到内容的指针，这样游戏或者类似的应用程序在指针到达窗口限制时也不会失去焦点
 
-## 样式设计：创作更加复杂的主题
+### 样式设计：创作更加复杂的主题
 
 **CSS已经扩展到能够以一个更加复杂的方法给元素设置样式，这通常被称为CSS3，尽管CSS已经不再是很难触动的规范，并且不同的模块并不全部位于level3：其中一些位于level1而另一些位于level4，覆盖了所有中间的层次**
 
@@ -125,13 +119,21 @@ type: frontend
 
 - 新的展示性布局：为了提高设计的灵活性，已经有两种新的布局被添加了进来：CSS多栏布局(cloumn)，以及CSS灵活方框布局(flex)
 
-## url&path
+## 知识点
+
+### data
+
+- data-* 全局属性 是一类被称为自定义数据属性的属性，它赋予我们在所有 HTML 元素上嵌入自定义数据属性的能力，并可以通过脚本(一般指JavaScript) 与 HTML 之间进行专有数据的交换。
+
+>[参考](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Global_attributes/data-*)
+
+### url&path
 
 - 绝对路径：完整的访问路径
 - 相对路径：相对本身的访问路径
 - 文档片段：定位到某个文档id为#xxx的片段
 
-## 元素类型
+### 元素类型
 
 - 行内：a、span、img、input、select、strong
 - 块级：div、ul、li、h1、p

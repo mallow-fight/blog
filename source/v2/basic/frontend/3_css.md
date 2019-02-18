@@ -169,16 +169,12 @@ big: `!important`
 
 > [参考资料](https://segmentfault.com/a/1190000007604842)
 
-- boder-image：图片实现
-
-- background-image：渐变实现
-
-- viewport + rem：调整设备像素比
-
-- box-shadow：阴影实现
-
 - transform: scale(0.5)
-
+- viewport + rem：调整设备像素比
+- box-shadow：阴影实现
+- boder-image：图片实现
+- background-image：渐变实现
+  
 ## 消除1px宽度问题/宽度适配
 
 **box-sizing 属性可以被用来调整这些表现：**

@@ -12,6 +12,10 @@ type: frontend
 
 ### 事件队列
 
+>[参考](https://segmentfault.com/a/1190000010913949)
+>[参考](https://segmentfault.com/a/1190000011198232)
+>[参考](http://www.ruanyifeng.com/blog/2014/10/event-loop.html)
+
 ### 闭包
 
 >[参考](https://mallow-fight.github.io/frontend/js/3_scope&closures.html)
