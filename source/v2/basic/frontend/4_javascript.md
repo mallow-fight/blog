@@ -6,6 +6,10 @@ type: frontend
 
 ## 基础
 
+### 类型
+
+>[参考](https://mallow-fight.github.io/frontend/js/2_types&grammar.html)
+
 ### 原型链
 
 >[参考](https://mallow-fight.github.io/special/1_%E5%8E%9F%E5%9E%8B.html)
