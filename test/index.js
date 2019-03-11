@@ -1,15 +1,5 @@
 function code() {
-  function Foo(name) {
-    this.name = name;
-  }
-  Foo.prototype.getName = function () {
-    console.log(this.name);
-    return this.name;
-  }
-  const foo = new Foo('mallow');
-  foo.getName()
-  const test = foo.getName
-  test();
+  console.log('test')
 }
 
 const http = require('http');
