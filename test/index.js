@@ -1,5 +1,15 @@
 function code() {
-  console.log('test')
+  const test = {
+    a: 1,
+    b: 2,
+    get c() {
+      return this.a + this.b
+    }
+  }
+  Reflect.setPrototypeOf(test, {
+    d: 1
+  })
+  console.log(test.d)
 }
 
 const http = require('http');
