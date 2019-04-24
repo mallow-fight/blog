@@ -400,6 +400,8 @@ console.log(instance) // foo { name: 'mallow' }
 
 ### getPrototypeOf(obj)
 
+- 这个获取的是对象的`__proto__`属性。
+
 ```js
 const test = {
   a: 1,
@@ -412,6 +414,10 @@ console.log(Reflect.getPrototypeOf(test)) // 同Object.prototype
 ```
 
 ### setPrototypeOf(obj, newProto)
+
+- 这个设置的是对象的`__proto__`上的属性，所以node环境中有可能打印不出来。
+- 这个东西会带来性能负担，最好不要使用它，可以使用Object.create来替代。
+> 警告: 由于现代 JavaScript 引擎优化属性访问所带来的特性的关系，更改对象的 [[Prototype]]在各个浏览器和 JavaScript 引擎上都是一个很慢的操作。其在更改继承的性能上的影响是微妙而又广泛的，这不仅仅限于 obj.__proto__ = ... 语句上的时间花费，而且可能会延伸到任何代码，那些可以访问任何[[Prototype]]已被更改的对象的代码。如果你关心性能，你应该避免设置一个对象的 [[Prototype]]。相反，你应该使用 Object.create()来创建带有你想要的[[Prototype]]的新对象。
 
 ```js
 const test = {
@@ -427,7 +433,120 @@ Reflect.setPrototypeOf(test, {
 console.log(test.d) // 1
 ```
 
+### apply(func, context, args[arrayLike])
+
+```js
+Reflect.apply(Object.prototype.toString, {}, [1]) // [object Object]
+```
+
+### defineProperty(target, propertyKey, attributes)
+
+```js
+const o = {};
+Reflect.defineProperty(o, 'a', {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  value: 1
+})
+Reflect.defineProperty(o, 'b', {
+  configurable: false,
+  enumerable: true,
+  writable: false,
+  value: 2
+})
+let cvalue;
+Reflect.defineProperty(o, 'c', {
+  configurable: true,
+  enumerable: true,
+  get: function () {
+    return cvalue;
+  },
+  set: function (value) {
+    cvalue = value
+  }
+})
+console.log(o) // { a: 1, b: 2, c: [Getter/Setter] }
+o.a = 2
+o.b = 3
+console.log(o) // { a: 2, b: 2, c: [Getter/Setter] }
+delete o.a
+delete o.b
+console.log(o) // { b: 2, c: [Getter/Setter] }
+console.log(o.c) // undefined
+o.c = '5';
+console.log(o.c) // 5
+```
+
+ | configurable(可配置性) | enumerable(可枚举性) | value(值) | writable(可写性) | get(获取值) | set(设置值)
+--- | --- | --- | --- | --- | --- | --- | ---
+数据描述符 | Yes | Yes | Yes | Yes | No | No
+存取描述符 | Yes | Yes | No | No | Yes | Yes
+
+### getOwnPropertyDescriptor(target, propertykey)
+
+```js
+// 接上例子
+console.log(Reflect.getOwnPropertyDescriptor(o, 'b')) // { value: 2, writable: false, enumerable: true, configurable: false}
+console.log(Reflect.getOwnPropertyDescriptor(o, 'c')) // { get: [Function: get], set: [Function: set], enumerable: true, configurable: true }
+```
+
+### isExtensible(target)
+
+- 返回一个布尔值，表示当前对象是否可扩展
+
+```js
+const f = Object.freeze({a: 1})
+console.log(Reflect.isExtensible(f)) // false
+```
+
+### preventExtensions(target)
+
+```js
+Reflect.preventExtensions(o);
+o.test = 'test'; // 无效，没有设置成功test
+```
+
+### ownKeys(target)
+
+- 获取对象的所有属性
+
+```js
+console.log(Reflect.ownKeys(o)) // ['b', 'c']
+```
+
 ## Proxy
+
+1. 用于修改某些操作的默认行为，等同于在语言层面做出修改，属于一种’元编程‘。
+2. 格式：`new Proxy(target, handler)`，`handler`对应`reflect`中的每个属性。
+
+### revocable
+
+```js
+const target = {};
+const handler = {};
+const {proxy, revoke} = Proxy.revocable(target, handler);
+proxy.foo = 123;
+console.log(proxy.foo) // 123
+revoke();
+console.log(proxy.foo) // TypeError: Cannot perform 'get' on a proxy that has been revoked
+```
+
+### this
+
+- 在`Proxy`代理的情况下，目标对象内部的`this`关键字会指向`Proxy`代理。
+
+```js
+const target = {
+ m: function() {
+   console.log(this === proxy)
+ }
+}
+const handler = {};
+const proxy = new Proxy(target, handler);
+target.m() // false
+proxy.m() // true
+```
 
 ## Generator
 
@@ -436,3 +555,65 @@ console.log(test.d) // 1
 ## Decorator
 
 > [参考资料](https://es6.ruanyifeng.com/#docs/decorator)
+
+1. 修饰器只能修饰类或者类的方法。
+2. 默认参数和`Reflect.defineProperty`一样，可以在它外面包裹函数达到传递参数的目的。
+3. 不能用于函数的原因是存在函数提升，使得修饰器不能用于函数。而类是不会提升的，所以就没有这方面的问题。
+4. 修饰函数可以采用高阶函数的形式，就是把一个函数作为参数传入修饰器函数，这样就可以对函数的`prototype`进行修改了。
+5. 执行顺序：先从上到下按顺序执行获得最终需要执行的修饰器函数，然后从下到上执行修饰器函数。反正首先获取需要执行的修饰器函数，然后在一个个执行，这也是包裹修饰器函数达到传参的意图。
+
+### 例子
+
+```js
+const logger = (target, key, desc) => {
+  target.prototype.log = logInfo => console.log(logInfo);
+};
+const move = (target, key, desc) => {
+  const returnValue = desc.value();
+  desc.value = () => returnValue + 1;
+};
+
+const bigbig = () => {
+  console.log('bigbig');
+  return (target, key, desc) => {
+    console.log('big', target, key, desc);
+  };
+};
+
+const big = (target, key, desc) => {
+  console.log('big', target, key, desc);
+};
+
+const smallsmall = () => {
+  console.log('smallsmall');
+  return (target, key, desc) => {
+    console.log('small', target, key, desc);
+  };
+};
+
+const small = (target, key, desc) => {
+  console.log('small', target, key, desc);
+};
+
+@logger
+class Foo {
+  getName() {
+    this.log('this is getName.');
+  }
+
+  @move
+  @move
+  willMove(step) {
+    return 0;
+  }
+
+  @bigbig()
+  // @big
+  // @small
+  @smallsmall()
+  apple() {
+
+  }
+}
+const foo = new Foo();
+```
