@@ -17,10 +17,11 @@ type: v3/frontend
 ### FormBuilder
 
 1. 格式化Props为Form和FormItems需要的属性。
-2. 通过Control来控制显示的表单元素。
+2. 将格式化之后的属性通过Provider给到Control中的Consumer。
+3. Control消费Consumer来控制显示的表单元素。
 
 - 优点：减少代码量
-- 缺点：联动非常难，代码混乱，难以维护和拓展，使用了不必要的React.createContext，导致数据流向不清晰，嵌套非常多。
+- 缺点：联动非常难，代码比较混乱，维护和拓展比较难，嵌套比较多。
 
 ### FormItems
 
@@ -46,3 +47,7 @@ type: v3/frontend
 1. 可封装一个类型使得枚举类无感知嵌入。
 2. 更方便修改options等配置项。
 3. 更多类型。
+
+### 意见收集
+
+1. 是否需要使用到Provider和Consumer
