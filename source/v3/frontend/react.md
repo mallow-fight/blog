@@ -17,4 +17,15 @@ type: v3/frontend
 
 ## react-router
 
+### hash
+
+1. 监听hashchange。
+2. 根据hashchange之后的newUrl匹配对应的path。
+3. 渲染匹配到的path对应的component。
+4. 如果是初次渲染有hash的url，直接匹配渲染。
+
+### history
+
+### memory
+
 ## redux

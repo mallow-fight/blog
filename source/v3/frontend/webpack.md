@@ -4,6 +4,10 @@ order: 6
 type: v3/frontend
 ---
 
+## todos
+
+- [ ] router的按需加载是怎么实现的
+
 ## minipack
 
 > 参考了github上的一个迷你打包器，简化了webpack，但是核心思想理念是不变的。
