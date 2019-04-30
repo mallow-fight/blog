@@ -6,6 +6,7 @@ type: v3/frontend
 
 > [手搓react、react-router、redux](https://github.com/mallow-fight/mini-react)
 > 这个仓库中有react、react-router、redux的简单实现。
+> 如果想深入了解源码的设计思想，一行行读源码并不是最好的选择，因为源码有很多不需要关注的代码，可以尝试先了解一些设计思想的文章，按照它们的设计思想自己去实现一个简单版本。这样实现的过程中一些疑难点就会引刃而解，对它们是怎么实现的认知也会上升一个档次。
 
 ## react
 
@@ -40,3 +41,4 @@ type: v3/frontend
 4. 一般只是首次渲染使用ssr，后续会交给浏览器作为一个spa应用。
 
 ## redux
+
