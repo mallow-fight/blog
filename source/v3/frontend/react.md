@@ -42,3 +42,7 @@ type: v3/frontend
 
 ## redux
 
+1. 主要有有这些api：connect、getState、commit、dispatch。
+2. connect用于将一些store里面的值或者通用方法映射到props上，方便调用。
+3. getState，获取store里面的值。
+4. 疑难点在如何dispatch之后去更新视图，可能的做法是实例将挂载阶段注册实例到一个全局数组中，在commit的时候，当更新完store里面对应的值之后，去遍历这个实例数组，如果实例的props中有对应store里面的key，就修改这个实例render的上下文，在forceUpdate，达到同步更新视图的目的。
