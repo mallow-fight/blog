@@ -1,7 +1,7 @@
 ---
-title: node相关
+title: node
 order: 1
-type: v3/backend
+type: v3/server
 ---
 
 > [浏览器访问404](https://blog.csdn.net/cs380637384/article/details/82702106)

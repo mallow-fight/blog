@@ -1,0 +1,51 @@
+---
+title: 算法
+order: 2
+type: v3/server
+---
+
+>[为了面试短时间搞定算法](https://www.zhihu.com/question/28580777/answer/530047115)
+
+## 链表
+
+>[wiki](https://zh.wikipedia.org/wiki/%E9%93%BE%E8%A1%A8)
+
+## 深度优先遍历
+
+- 不管是什么遍历，以根为开始节点
+
+### 先（前）序遍历
+
+- 先访问根，然后访问子树的遍历方式
+
+![先序遍历](./images/Sorted_binary_tree_preorder.svg.png)
+
+深度优先遍历 - 前序遍历：
+F, B, A, D, C, E, G, I, H.
+
+### 中序遍历
+
+- 先访问左（右）子树，然后访问根，最后访问右（左）子树的遍历方式
+
+![中序遍历](./images/Sorted_binary_tree_inorder.svg.png)
+
+深度优先遍历 - 中序遍历：
+A, B, C, D, E, F, G, H, I.
+
+### 后序遍历
+
+- 先访问子树，然后访问根的遍历方式
+
+![后序遍历](./images/Sorted_binary_tree_postorder.svg.png)
+
+深度优先搜索 - 后序遍历：
+A, C, E, D, B, H, I, G, F.
+
+## 广度优先遍历
+
+- 先访问离根节点最近的节点，又称按层次遍历，算法借助队列实现
+
+![层次遍历](./images/first_traversal.svg.png)
+
+广度优先遍历 - 层次遍历：
+F, B, G, A, D, I, C, E, H.

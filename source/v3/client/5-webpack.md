@@ -1,7 +1,7 @@
 ---
-title: webpack相关
-order: 6
-type: v3/frontend
+title: webpack
+order: 5
+type: v3/client
 ---
 
 ## todos
