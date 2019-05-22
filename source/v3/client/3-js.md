@@ -4,6 +4,8 @@ order: 3
 type: v3/client
 ---
 
+> [进阶](https://github.com/yygmind/blog/issues/13)
+
 ## 原型链
 
 ### prototype
@@ -658,3 +660,30 @@ const foo = new Foo();
 
 - 将es6翻译成es5
 - 解决了浏览器不认识es6或者es7的问题
+
+## 检测类型
+
+- 只能使用`Object.prototype.toString.call(var)`，因为`Object.toString`和它不是一个函数，其他的构造函数如`Array`等继承的是它们自己定义的函数。
+- 在toString方法被调用时,会执行下面的操作步骤:
+- es5
+  1. 获取this对象的[[class]]属性的值.
+  2. 计算出三个字符串"[object ", 第一步的操作结果Result(1), 以及 "]"连接后的新字符串.
+  3. 返回第二步的操作结果Result(2).
+- es6
+  1. [[class]]内部属性没有了，取而代之的是另一个内部属性[[NativeBrand]]（该属性的值对应一个标志值，可以用来区分原生对象的类型）
+
+## 隐式绑定
+- 上下文只会取上一层，不会一直往上取。
+```js
+const a = {
+ b: {
+   c() {
+     console.log(this) // { c: [Function: c], d: 2 }
+     console.log(this.e) // undefined
+   },
+   d: 2
+ },
+ e: 1
+}
+a.b.c()
+```

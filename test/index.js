@@ -1,5 +1,15 @@
 function code() {
-  
+  const a = {
+    b: {
+      c() {
+        console.log(this) // { c: [Function: c], d: 2 }
+        console.log(this.e) // undefined
+      },
+      d: 2
+    },
+    e: 1
+  }
+  a.b.c()
 }
 
 const http = require('http');
