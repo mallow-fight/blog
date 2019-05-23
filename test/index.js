@@ -1,15 +1,12 @@
 function code() {
-  const a = {
-    b: {
-      c() {
-        console.log(this) // { c: [Function: c], d: 2 }
-        console.log(this.e) // undefined
-      },
-      d: 2
-    },
-    e: 1
+  function test() {
+    let a = 1;
+    while(true) {
+      a ++;
+      if ( a > 100 ) return false;
+    } 
   }
-  a.b.c()
+  console.log(test())
 }
 
 const http = require('http');

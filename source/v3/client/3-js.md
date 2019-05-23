@@ -687,3 +687,34 @@ const a = {
 }
 a.b.c()
 ```
+
+## 柯里化
+
+```js
+function add(num1) {
+  // 也可以挂载在this上，这里的this就是window，可以事先bind一个this
+  let total = num1;
+  function sum(a) {
+    total += a;
+    return sum;
+  }
+  sum.getTotal = function() {
+    return total;
+  }
+  return sum;
+}
+const sum = add(1)(2)(3)(4)
+console.log(sum.getTotal())
+// 打印的时候会自动调用函数的toString方法
+function test() {
+
+}
+test.toString = function() {
+  return 'haha'
+}
+console.log(test) // haha
+```
+
+## 深/浅拷贝
+
+>[wiki](https://segmentfault.com/a/1190000016672263)
