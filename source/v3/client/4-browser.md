@@ -5,6 +5,7 @@ type: v3/client
 ---
 
 > [浏览器工作原理](https://www.html5rocks.com/zh/tutorials/internals/howbrowserswork/)
+> [整个请求过程](https://segmentfault.com/a/1190000010537218)
 
 ## 介绍
 
