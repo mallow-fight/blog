@@ -1,10 +1,10 @@
 ---
-title: js
+title: JavaScript
 order: 3
 type: v3/client
 ---
 
-> [进阶](https://github.com/yygmind/blog/issues/13)
+> [博客](https://github.com/yygmind/blog/issues/13)
 
 ## 原型链
 

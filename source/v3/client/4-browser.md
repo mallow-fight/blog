@@ -1815,3 +1815,26 @@ dom有一套自己的规范可以提供给js但不限于js的语言来调用
 ## js是如何操纵dom树的
 
 通过统一的api，其实非js也可以操作dom，只不过js和dom的配套比较成熟
+
+## 浏览器多个标签页通信
+- WebSocket：类似于聊天室
+- [SharedWorker](https://developer.mozilla.org/zh-CN/docs/Web/API/SharedWorker)
+- 调用localstorage、cookies等本地储存方式
+  - localstorage在另一个上下文里被添加、修改或删除时，会触发一个事件，通过监听事件，控制它的值来进行页面信息通信（注意：Safari在无痕模式下设置localstorage值时会抛出QuotaExceedError的异常）
+  - 触发事件仅限于同域名
+  ```js
+  window.addEventListener('storage', function (event) {
+    console.log(event.key, event.newValue);
+  });
+  ```
+
+## cookies、sessionStorage、localStorage
+- cookie是网站为了标示用户身份而储存在用户本地终端上的数据（通常经过加密）。
+- cookie数据始终在同源的http请求下携带（即使不需要），即会在浏览器和服务器间来回传递。
+- 储存大小
+  - cookie数据大小不能超过4k。
+  - sessionStorage和localStorage虽然也有储存大小限制，但比cookie大得多。可以达到5M或更大。
+- 有期时间
+  - localStorage：储存持久数据，浏览器关闭后数据不丢失除非主动删除数据
+  - sessionStorage：数据在当前浏览器窗口关闭后自动删除
+  - cookie：设置的cookie过期时间之前一直有效，即使窗口或浏览器关闭
