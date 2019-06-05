@@ -1811,54 +1811,6 @@ function sub(a,b)
 
 add.call(sub,3,1);
 
-## 什么是 Polyfill?
-  polyfill 是“在旧版浏览器上复制标准 API 的 JavaScript 补充”,可以动态地加载 JavaScript 代码或库，在不支持这些标准 API 的浏览器中模拟它们。
-  例如，geolocation（地理位置）polyfill 可以在 navigator 对象上添加全局的 geolocation 对象，还能添加 getCurrentPosition 函数以及“坐标”回调对象，
-  所有这些都是 W3C 地理位置 API 定义的对象和函数。因为 polyfill 模拟标准 API，所以能够以一种面向所有浏览器未来的方式针对这些 API 进行开发，
-  一旦对这些 API 的支持变成绝对大多数，则可以方便地去掉 polyfill，无需做任何额外工作。
-做的项目中，有没有用过或自己实现一些 polyfill 方案（兼容性处理方案）？
-
-  比如： html5shiv、Geolocation、Placeholder
-我们给一个dom同时绑定两个点击事件，一个用捕获，一个用冒泡。会执行几次事件，会先执行冒泡还是捕获？
-
-## 使用JS实现获取文件扩展名？
-  function getFileExtension(filename) {
-    return filename.slice((filename.lastIndexOf(".") - 1 >>> 0) + 2);
-  }
-
-  String.lastIndexOf() 方法返回指定值（本例中的'.'）在调用该方法的字符串中最后出现的位置，如果没找到则返回 -1。
-  对于'filename'和'.hiddenfile'，lastIndexOf的返回值分别为0和-1无符号右移操作符(»>) 将-1转换为4294967295，将-2转换为4294967294，这个方法可以保证边缘情况时文件名不变。
-  String.prototype.slice() 从上面计算的索引处提取文件的扩展名。如果索引比文件名的长度大，结果为""。
-<!-- debugger -->
-## Webpack热更新实现原理?
-
-  1. Webpack编译期，为需要热更新的 entry 注入热更新代码(EventSource通信)
-  2. 页面首次打开后，服务端与客户端通过 EventSource 建立通信渠道，把下一次的 hash 返回前端
-  3. 客户端获取到hash，这个hash将作为下一次请求服务端 hot-update.js 和 hot-update.json的hash
-  4. 修改页面代码后，Webpack 监听到文件修改后，开始编译，编译完成后，发送 build 消息给客户端
-  5. 客户端获取到hash，成功后客户端构造hot-update.js script链接，然后插入主文档
-  6. hot-update.js 插入成功后，执行hotAPI 的 createRecord 和 reload方法，获取到 Vue 组件的 render方法，重新 render 组件， 继而实现 UI 无刷新更新。
-
-## 函数节流和防抖？
-> [cnblog](https://www.cnblogs.com/fsjohnhuang/p/4147810.html)
-
-## Object.is() 与原来的比较操作符“ ===”、“ ==”的区别？
-  两等号判等，会在比较时进行类型转换；
-  三等号判等(判断严格)，比较时不进行隐式类型转换,（类型不同则会返回false）；
-
-  Object.is 在三等号判等的基础上特别处理了 NaN 、-0 和 +0 ，保证 -0 和 +0 不再相同，
-  但 Object.is(NaN, NaN) 会返回 true.
-
-  Object.is 应被认为有其特殊的用途，而不能用它认为它比其它的相等对比更宽松或严格。
-
-## ES6是如何实现编译成ES5的？
-
-> [知乎](https://zhuanlan.zhihu.com/p/27289600)
-
-## css-loader的原理？
-
-> [webpack: css-loader](https://webpack.docschina.org/loaders/css-loader/)
-
 ## 当组件的setState函数被调用之后，发生了什么？
 
 React会做的第一件事就是把你传递给setState的参数对象合并到组件原先的state。这个事件会导致一个“reconciliation”（调和）的过程。reconciliation的最终目标就是，
@@ -1868,54 +1820,6 @@ React为了根据新的state去决定UI要怎么进行改变，它会找出这�
 为什么循环产生的组件中要利用上key这个特殊的prop？
 
 Keys负责帮助React跟踪列表中哪些元素被改变/添加/移除。React利用子元素的key在比较两棵树的时候，快速得知一个元素是新的还是刚刚被移除。没有keys，React也就不知道当前哪一个的item被移除了。
-
-## React-router 路由的实现原理？
-
-> [github](https://github.com/youngwind/blog/issues/109)
-
-## 说说React Native,Weex框架的实现原理？
-
-> [简书](https://www.jianshu.com/p/5cc61ec04b39)
-
-## 受控组件(Controlled Component)与非受控组件(Uncontrolled Component)的区别
-
-> [](https://blog.csdn.net/m0_37566424/article/details/78863566)
-
-## refs 是什么?
-Refs是能访问DOM元素或组件实例的一个函数；
-
-## React为什么自己定义一套事件体系呢，与浏览器原生事件体系有什么关系？
-
-> [知乎专栏](https://zhuanlan.zhihu.com/p/27132447)
-
-## 什么时候应该选择用class实现一个组件，什么时候用一个函数实现一个组件？
-组件用到了state或者用了生命周期函数，那么就该使用Class component。其他情况下，应使用Functional component。
-
-## 什么是HoC（Higher-Order Component）？适用于什么场景？
-高阶组件就是一个 React 组件包裹着另外一个 React 组件
-
-## 并不是父子关系的组件，如何实现相互的数据通信？
-使用父组件，通过props将变量传入子组件（如通过refs，父组件获取一个子组件的方法，简单包装后，将包装后的方法通过props传入另一个子组件）
-
-## Redux是如何做到可预测呢？
-
-> [知乎](https://www.zhihu.com/question/38591713)
-
-## Redux将React组件划分为哪两种？Redux是如何将state注入到React组件上的？
-
-> [阮一峰](http://www.ruanyifeng.com/blog/2016/09/redux_tutorial_part_three_react-redux.html)
-
-## 请描述一次完整的 Redux 数据流
-
-> [github](https://alisec-ued.github.io/2016/11/23/%E5%9B%BE%E8%A7%A3Redux%E6%95%B0%E6%8D%AE%E6%B5%81(%E4%B8%80)/)
-
-## React的批量更新机制 BatchUpdates？
-
-> [知乎](https://zhuanlan.zhihu.com/p/28532725)
-
-## React与Vue，各自的组件更新进行对比，它们有哪些区别？
-
-> [知乎](https://www.zhihu.com/question/266656197)
 
 ## let和const
 
@@ -5424,7 +5328,7 @@ for(let i = 0; i < 10; i++) {
 }
 ```
 
-### Generatro和协程
+### Generator和协程
 - 协程是一种程序运行的方式，既可以用单线程实现，也可以用多线程实现。
 
 ## Generator函数的异步应用
@@ -6044,20 +5948,6 @@ class Example {
 - `export default`后面不能变量声明语句
 
 - `export default`命令的本质是将后面的值，赋给`default`变量
-
-## Module的加载实现
-
-- 如果脚本体积很大，下载和执行的时间就会很长，因此造成浏览器堵塞，用户会感觉到浏览器卡死了，没有任何响应。
-```html
-<script src="path/to/myModule.js" defer></script>
-<script src="path/to/myModule.js" async></script>
-```
-
-- `<script>`标签打开`defer`或`async`属性，脚本就会异步加载。渲染引擎遇到这一行命令，就会开始下载外部脚本，但不会等它下载和执行，而是直接执行后面的命令
-
-- `defer`和`async`的区别是：`defer`要等到整个页面在内存中正常渲染结束（DOM结构完全生成，以及其他脚本执行完成），才会执行；`async`一旦下载完，渲染引擎就会中断渲染，执行这个脚本以后，再继续渲染。
-
-- `defer`是渲染完再执行，`async`是下载完就执行，如果有多个`defer`脚本，会按照它们在页面出现的顺序加载，而多个`async`脚本是不能保证加载顺序的
 
 ### ES6模块和CommonJS模块的差异
 

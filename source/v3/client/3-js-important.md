@@ -1,8 +1,8 @@
 ---
-title: JavaScript
-order: 3
 type: v3/client
-----
+order: 3
+title: js重点
+---
 
 ## todos
 
@@ -11,6 +11,11 @@ type: v3/client
 - [ ] [如何编写高性能的Javascript](https://segmentfault.com/a/1190000007604645)
 - [ ] [内存泄漏](https://www.jianshu.com/p/763ba9562864)
 - [ ] [Script 标签 放在页面的最底部的body封闭之前 和封闭之后有什么区别](https://www.zhihu.com/question/20027966)
+- [ ] [函数节流和防抖](https://www.cnblogs.com/fsjohnhuang/p/4147810.html)## Redux是如何做到可预测呢？
+- [ ] [Redux将React组件划分为哪两种？Redux是如何将state注入到React组件上的](http://www.ruanyifeng.com/blog/2016/09/redux_tutorial_part_three_react-redux.html)
+- [ ] [请描述一次完整的 Redux 数据流](https://alisec-ued.github.io/2016/11/23/%E5%9B%BE%E8%A7%A3Redux%E6%95%B0%E6%8D%AE%E6%B5%81(%E4%B8%80)/)
+- [ ] [React的批量更新机制 BatchUpdates？](https://zhuanlan.zhihu.com/p/28532725)
+- [ ] [React与Vue，各自的组件更新进行对比，它们有哪些区别？](https://www.zhihu.com/question/266656197)
 
 ## 原型链
 
@@ -999,7 +1004,7 @@ ajax的全称：Asynchronous Javascript And XML。
 
 异步：浏览器访问服务器请求，用户正常操作，浏览器后端进行请求。等请求完，页面不刷新，新内容也会出现，用户看到新内容。
 
-## AMD（Modules/Asynchronous-Definition）、CMD（Common Module Definition）规范区别？
+## AMD & CMD
 
 AMD 规范在这里：https://github.com/amdjs/amdjs-api/wiki/AMD
 
@@ -1030,8 +1035,29 @@ define(['./a', './b'], function(a, b) { // 依赖必须一开始就写好
   // ...
 })
 
-## 检测浏览器版本版本有哪些方式？
+## 检测浏览器版本版本
 功能检测、userAgent特征检测
 比如：navigator.userAgent
 //"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_2) AppleWebKit/537.36
 (KHTML, like Gecko) Chrome/41.0.2272.101 Safari/537.36"
+
+## Object.keys怪异行为
+- 数字键值优先
+```js
+const a = {c: 'c', 0: 'a', 1: '2'}
+Object.keys(a) // ["0", "1", "c"]
+```
+
+## Module的加载实现
+
+- 如果脚本体积很大，下载和执行的时间就会很长，因此造成浏览器堵塞，用户会感觉到浏览器卡死了，没有任何响应。
+```html
+<script src="path/to/myModule.js" defer></script>
+<script src="path/to/myModule.js" async></script>
+```
+
+- `<script>`标签打开`defer`或`async`属性，脚本就会异步加载。渲染引擎遇到这一行命令，就会开始下载外部脚本，但不会等它下载和执行，而是直接执行后面的命令
+
+- `defer`和`async`的区别是：`defer`要等到整个页面在内存中正常渲染结束（DOM结构完全生成，以及其他脚本执行完成），才会执行；`async`一旦下载完，渲染引擎就会中断渲染，执行这个脚本以后，再继续渲染。
+
+- `defer`是渲染完再执行，`async`是下载完就执行，如果有多个`defer`脚本，会按照它们在页面出现的顺序加载，而多个`async`脚本是不能保证加载顺序的
