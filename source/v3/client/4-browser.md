@@ -1838,3 +1838,12 @@ dom有一套自己的规范可以提供给js但不限于js的语言来调用
   - localStorage：储存持久数据，浏览器关闭后数据不丢失除非主动删除数据
   - sessionStorage：数据在当前浏览器窗口关闭后自动删除
   - cookie：设置的cookie过期时间之前一直有效，即使窗口或浏览器关闭
+
+## onmessage
+- 这玩意不太好用，post过去的信息刷新页面后就没了，而且必须要延迟一段时间post信息，这段时间不太好把握
+- 还不如直接在window.open返回的句柄上添加一个属性，然后到新页面的时候缓存到storage中，这样就不会刷新后数据消失了
+- 监听父页面设置storage也不太好，会导致所有子页面同时更新
+
+## localstorage
+- 同域下修改某个tablocalstorage里的值会导致所有tab页下的localstorage对应的值发生改变
+- 可以从父亲页面获取一个唯一键作为当前
