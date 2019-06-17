@@ -953,6 +953,10 @@ document.registerElement('x-search', {prototype: proto});
 
 ## antd
 
+### icon
+
+1. 图标的大小通过font-size来控制，而不是height和width
+
 ### form
 
 #### FormCreator
