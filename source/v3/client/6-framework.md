@@ -959,6 +959,10 @@ document.registerElement('x-search', {prototype: proto});
 
 ### form
 
+#### getFieldDecorator
+
+- 第一个参数ID即为该表单元素的标志，可以用它来通过getFieldsValue、resetFieldsValue等获取、重置表单的值
+
 #### rules
 
 - 如果想通过一个表单元素去控制另一个表单元素的规则进行联动，应该这么做：
