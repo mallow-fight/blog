@@ -959,6 +959,30 @@ document.registerElement('x-search', {prototype: proto});
 
 ### form
 
+#### rules
+
+- 如果想通过一个表单元素去控制另一个表单元素的规则进行联动，应该这么做：
+```js
+[
+  {
+    required: true,
+    message: '转出账号必填'
+  },
+  {
+    validator: (rule, value, cb) => {
+      const a = form.getFieldValue('a');
+      if (value === a) {
+        return cb('xxx');
+      }
+      a && form.validateFields(['b'], {
+        force: true
+      });
+      cb();
+    }
+  }
+]
+```
+
 #### FormCreator
 
 1. FormList：数组，里面每一个元素都是一个指定类型的表单元素。
