@@ -8,6 +8,13 @@
     initLocationHashFuzzyMatching()
   }
 
+  // function initStyle() {
+  //   const body = document.querySelector('body');
+  //   body.style.background = '#F8F8F5';
+  // }
+
+  // initStyle();
+
   function initApiSpecLinks () {
     var apiContent = document.querySelector('.content.api')
     if (apiContent) {
