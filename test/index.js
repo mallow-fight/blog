@@ -1,11 +1,9 @@
 const Vector = require('./data-structure/Vector');
 const Stack = require('./data-structure/Stack');
+const fibonacci = require('./data-structure/fibonacci');
+const yhsj = require('./data-structure/杨辉三角');
 function code() {
-  const stack = new Stack();
-  stack.push('1');
-  stack.output();
-  stack.pop();
-  stack.output();
+  yhsj(11);
 }
 
 const http = require('http');
