@@ -138,3 +138,9 @@ type: frontend
 - 行内：a、span、img、input、select、strong
 - 块级：div、ul、li、h1、p
 - 空：br、img、hr、input、link、meta、source
+
+## <a href="javascript:;"></a>
+
+1. 没有href的a标签是非法的
+2. 使用'#'会导致浏览器回到顶部
+3. 更好的方式：写一个函数：return false; 或者 event.preventDefault()
