@@ -4,6 +4,9 @@ order: 5
 type: v2/theory/dataStructure
 ---
 
+> https://juejin.im/entry/59979aaaf265da24817a5928
+> https://baike.baidu.com/item/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/1450?fr=aladdin
+
 ## todos
 
 - [ ] 如何使用JS表示树和树的操作方法
