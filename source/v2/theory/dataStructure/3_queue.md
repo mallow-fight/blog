@@ -40,3 +40,75 @@ function yhsj(line) {
 	return session;
 }
 ```
+
+## 实现
+
+### 数组形式
+
+```js
+function QueueArray() {
+	this.queue = [];
+	this.clear = function () {
+		this.queue = [];
+	}
+	this.put = function (item) {
+		this.queue.push(item);
+	}
+	this.poll = function (item) {
+		this.queue.shift();
+	}
+	this.get = function() {
+		console.log(JSON.stringify(this.queue));
+	}
+}
+// example
+const queue = new QueueArray();
+queue.put('mallow');
+queue.get();
+queue.put('lucy');
+queue.put('annie');
+queue.get();
+queue.poll();
+queue.get();
+```
+
+### 链表形式
+
+```js
+function QueueList() {
+	this.list = {
+		content: null,
+		next: null
+	}
+	this.put = function (item) {
+		let end = this.list;
+		while(end.next) {
+			end = end.next;
+		}
+		end.next = {
+			content: item,
+			next: null
+		};
+		return this.list;
+	}
+	this.poll = function () {
+		if (!this.list.next) {
+			return '没东西给你poll了';
+		}
+		// 去除头指针
+		this.list = this.list.next.next;
+	}
+	this.get = function () {
+		console.log(JSON.stringify(this.list));
+	}
+}
+// example
+const queue = new QueueList();
+queue.put('mallow');
+queue.get();
+queue.put('lucy');
+queue.put('annie');
+queue.get();
+queue.poll();
+queue.get();
+```
