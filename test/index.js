@@ -8,8 +8,20 @@ const QueueList = require('./data-structure/QueueList');
 const SinglyLinkedList = require('./data-structure/SinglyLinkedList');
 const DoubleLinkedList = require('./data-structure/DoubleLinkedList');
 const Tree = require('./data-structure/Tree');
+const longestSubString = require('./data-structure/longestSubString');
+const findMedianSortedArrays = require('./data-structure/findMedianSortedArrays');
+/**
+ * @description 最长回文
+ * @param {string} s
+ * @return {string}
+ */
+var longestPalindrome = function(s) {
+    for(let i = 0; i < s.length; i++) {
+      
+    }
+};
 function code() {
-  
+  console.log(longestPalindrome('fhiasdhfiashf'))
 }
 
 const http = require('http');
