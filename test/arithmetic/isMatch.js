@@ -49,7 +49,58 @@
  * @return {boolean}
  */
 var isMatch = function(s, p) {
-  
+	let matched = true;
+	const stateMachine = (target) => {
+		const rule = p.split('');
+		let start = 0;
+		let targetStart = 0;
+		const payload = {};
+		let next = payload;
+		while(rule[start]) {
+			console.log('targetStart', targetStart, target[targetStart]);
+			console.log('ruleStart', start, rule[start]);
+			next.next = {};
+			next.node = rule[start];
+			// 0：'.' 匹配任意单个字符
+			// 1：'*' 匹配零个或多个前面的那一个元素
+			// 2：正常文本
+			next.type = rule[start] === '.' ? 0 : (rule[start] === '*' ? 1 : 2)
+			if (next.type === 0) {
+				targetStart++;
+			} else if (next.type === 1) {
+				let temp = target[targetStart - 1];
+				if (rule[start - 1] === '.') {
+					temp = target[targetStart]
+				}
+				while(target[targetStart] === temp) {
+					targetStart++;
+				}
+				// 如果*后面跟着*之前相同的值，减去相同值的个数
+				let sameAfterType1Start = start;
+				while(rule[sameAfterType1Start + 1] === temp && temp) {
+					sameAfterType1Start++;
+				}
+				targetStart = targetStart - (sameAfterType1Start - start);
+			} else if (target[targetStart] !== next.node) {
+				if (rule[start + 1] !== '*') {
+					matched = false;
+					start = rule.length + 1;
+				} else {
+					start++;
+				}
+				// todo
+			} else if (target[targetStart] === next.node) {
+				targetStart++;
+			}
+			next = next.next;
+			start++;
+		}
+		if (targetStart !== target.length) {
+			matched = false;
+		}
+	}
+	stateMachine(s.split(''));
+	return matched;
 };
 
 module.exports = isMatch;
