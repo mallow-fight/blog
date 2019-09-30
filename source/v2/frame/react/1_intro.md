@@ -17,7 +17,7 @@ type: react
 ## 目录
 
 - 第一章 主要概念
-	1. JSX和简单示例
+	1. Hello World
 	1. 渲染
 	1. 组件和Props
 	1. 状态和生命周期

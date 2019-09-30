@@ -1,29 +1,24 @@
 ---
-title: JSX和简单示例
+title: Hello World
 order: 2
 type: react
 ---
 
-## Hello World
+> 下面的示例都是基于webpack的
 
-1. 学习一个框架先从最简单的示例做起，比如下面的示例：
-```jsx
-ReactDOM.render(
-  <h1>Hello, world</h1>,
+**学习一个框架先从最简单的示例做起，比如下面的示例：**
+````jsx
+import React from 'react';
+import { render } from 'react-dom';
+render(
+  <h1>Hello World</h1>,
   document.getElementById('root')
 );
-```
-
-## 注意点
-
-现在开发`react`应用一般都使用`webpack`进行开发，那么上述示例的真实面貌是什么呢？我们来拆解一下：
-
-1. 首先是`ReactDOM.render`，它是`react-dom`包里面的一个方法，用来将`<h1>Hello, world</h1>`挂载到选中的`document.getElementById('root')`元素上，具体实现我们说到`react-dom`包的时候再说。
-2. 然后是`<h1>Hello, world</h1>`，注意一下，这不是传统意义上的`html`，这是名为`jsx`的语法，它通过`babel`来解析类似`html`结构的语法，下面我们来介绍一下`jsx`。
+````
 
 ## JSX
 
-1. 如果我们使用`webpack`来开发`react`应用，在使用`JSX`，我们需要引入以下代码：
+1. 如果我们使用`webpack`来开发`react`应用，如何需要使用`JSX`，我们需要引入以下代码：
 ```js
 import React from 'react';
 ```
@@ -31,24 +26,17 @@ import React from 'react';
 ```js
 React.createElement(
 	'h1',
-	null,
+	null, // 这个参数代表JSX的props
 	'Hello, world'
 )
 ```
-3. 如果`JSX`结构有`Props`，类似`<h1 name="mallow">Hello, world!</h1>`，那么`babel`会解析成如下形式：
-```js
-React.createElement(
-	'h1',
-	{name: 'mallow'},
-	'Hello, world'
-)
-```
-4. 如何看`babel`是怎么编译的，查看这个[链接](https://babeljs.io/repl#?babili=false&browsers=&build=&builtIns=false&spec=false&loose=false&code_lz=JYWwDg9gTgLgBAJQKYEMDG8BmUIjgcilQ3wG4AoctCAOwGd4U4BeOAHgAsBGAPhiQZsA9Nx5A&debug=false&forceAllTransforms=false&shippedProposals=false&circleciRepo=&evaluate=false&fileSize=false&timeTravel=false&sourceType=module&lineWrap=true&presets=es2015%2Creact%2Cstage-2&prettier=false&targets=&version=7.5.5&externalPlugins=)
+3. 所以说需要导入`React`来支持`JSX`的解析。
+4. 具体`babel`是怎么编译的，查看这个[在线演示](https://babeljs.io/repl#?babili=false&browsers=&build=&builtIns=false&spec=false&loose=false&code_lz=JYWwDg9gTgLgBAJQKYEMDG8BmUIjgcilQ3wG4AoctCAOwGd4U4BeOAHgAsBGAPhiQZsA9Nx5A&debug=false&forceAllTransforms=false&shippedProposals=false&circleciRepo=&evaluate=false&fileSize=false&timeTravel=false&sourceType=module&lineWrap=true&presets=es2015%2Creact%2Cstage-2&prettier=false&targets=&version=7.5.5&externalPlugins=)
 
 ## 研究重点
 
-*至此，我们发现两个需要研究的重点*
-1. 一个是`react-dom`中的`render`方法。
+**至此，我们发现两个需要研究的重点**
+1. 第一个是`react-dom`中的`render`方法。
 2. 第二个是`react`中的`createElement`方法。
 
 下面我们来一个个看：
@@ -56,72 +44,99 @@ React.createElement(
 ## 准备工作
 
 1. 先`clone`一下`react`的仓库。
-1. 最好研究一下`flow`是怎么用的，源码是使用`flow`写的。
-1. 最好`build`一下，拿最后生成的`es5`文件来研究源码，`flow`版本有一些`webpack`的变量和参数，很难找，不清晰，而且依赖引用太多，跳跃性太强。
-1. 源码仓库结构，下面来介绍一下重点的一些文件夹：
+1. 源码是使用`flow`写的，最好`build`一下，拿最后生成的`es5`文件来研究源码，`flow`版本有一些`webpack`的变量和参数，很难找，不清晰，而且依赖引用太多，跳跃性太强。
 
-### packages
+## react/createElement
 
-1. 这是存放主要的`npm`包源码的地方，包括`react`、`react-dom`等一些`react`相关的`npm`包。
-
-### 发布过程
-
-1. 首先会构建`packages`中的有更新的包，然后把构建之后的文件夹中的一个个单独的文件作为不同的`npm`包发布上去。
-2. 当然真实过程没有这么简单，具体可以从`package.json`看起，一步步看它是怎么`build`到`deploy`。
-
-ok，基本了解了源码的仓库结构，下面我们直奔主题，看看我们研究的`npm`包，即`packages/react`、`packages/react-dom`
-
-## react：createElement
-
-1. `React.createElement(xxx)`的结果作为`ReactDOM.render`的第一个参数，我们当然首先研究一下这个方法干了些什么。
-2. 根据`react/index.js`找到`React`的入口文件，即：`src/React.js`，这个文件`export`了一个大对象。
+1. 我们只看这个示例执行的时候`createElement`跑过的分支，整理如下：
 ```js
-export default {
-	...
-	createElement
-	...
+function createElementWithValidation(type, props, children) {
+	var info = '';
+	info += getDeclarationErrorAddendum();
+	var typeString = typeof type;
+  return createElement.apply(this, arguments);
 }
 ```
-3. 接下来我们就研究一下这个方法：
 
-4. 我们之前的示例是：
-```js
-React.createElement(
-	'h1',
-	null,
-	'Hello, world'
-)
-```
+2. createElement
 
-5. 我们只看这个示例执行的时候`createElement`跑过的分支，整理如下：
 ```js
 function createElement(type, config, children) {
-  let propName;
+  var propName; // Reserved names are extracted
 
-  // Reserved names are extracted
-  const props = {};
+  var props = {};
+  var key = null;
+  var ref = null;
+  var self = null;
+  var source = null;
 
-  let key = null;
-  let ref = null;
-  let self = null;
-  let source = null;
+  if (config != null) {
+    if (hasValidRef(config)) {
+      ref = config.ref;
+    }
 
-  // Children can be more than one argument, and those are transferred onto
+    if (hasValidKey(config)) {
+      key = '' + config.key;
+    }
+
+    self = config.__self === undefined ? null : config.__self;
+    source = config.__source === undefined ? null : config.__source; // Remaining properties are added to a new props object
+
+    for (propName in config) {
+      if (hasOwnProperty.call(config, propName) && !RESERVED_PROPS.hasOwnProperty(propName)) {
+        props[propName] = config[propName];
+      }
+    }
+  } // Children can be more than one argument, and those are transferred onto
   // the newly allocated props object.
-  const childrenLength = arguments.length - 2;
+
+
+  var childrenLength = arguments.length - 2;
+
   if (childrenLength === 1) {
     props.children = children;
-	}
+  } else if (childrenLength > 1) {
+    var childArray = Array(childrenLength);
 
-  return ReactElement(
-    type,
-    key,
-    ref,
-    self,
-    source,
-    ReactCurrentOwner.current,
-    props,
-  );
+    for (var i = 0; i < childrenLength; i++) {
+      childArray[i] = arguments[i + 2];
+    }
+
+    {
+      if (Object.freeze) {
+        Object.freeze(childArray);
+      }
+    }
+
+    props.children = childArray;
+  } // Resolve default props
+
+
+  if (type && type.defaultProps) {
+    var defaultProps = type.defaultProps;
+
+    for (propName in defaultProps) {
+      if (props[propName] === undefined) {
+        props[propName] = defaultProps[propName];
+      }
+    }
+  }
+
+  {
+    if (key || ref) {
+      var displayName = typeof type === 'function' ? type.displayName || type.name || 'Unknown' : type;
+
+      if (key) {
+        defineKeyPropWarningGetter(props, displayName);
+      }
+
+      if (ref) {
+        defineRefPropWarningGetter(props, displayName);
+      }
+    }
+  }
+
+  return ReactElement(type, key, ref, self, source, ReactCurrentOwner.current, props);
 }
 ```
 
