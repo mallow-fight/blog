@@ -4,4 +4,4 @@ order: 1
 type: ide
 ---
 
-介绍
+介绍一些IDE的使用技巧
