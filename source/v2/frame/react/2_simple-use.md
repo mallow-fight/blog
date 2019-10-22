@@ -293,7 +293,7 @@ function createFiberRoot(containerInfo = FormatedAppContainerDom, tag = 0, hydra
 }
 
 // 第六步：root的结构(结合createFiberRoot和FiberRootNode)
-const rootInstance = {
+const ROOTINSTANCE = {
 	tag: 0,
 	current: null,
 	containerInfo: FormatedAppContainerDom,
@@ -366,13 +366,317 @@ const rootInstance = {
 
 ### 结果
 
-通过上面的步骤可以看到，最终`legacyCreateRootFromDOMContainer`返回的是一个`root`的实例，`rootInstance`就是`legacyRenderSubtreeIntoContainer`中的`fiberRoot`：
+通过上面的步骤可以看到，最终`legacyCreateRootFromDOMContainer`返回的是一个`root`的实例，`ROOTINSTANCE`就是`legacyRenderSubtreeIntoContainer`中的`fiberRoot`：
 ```js
 {
-	_internalRoot: rootInstance
+	_internalRoot: ROOTINSTANCE
 }
 ```
 
 ### updateContainer
 
-continue...
+```js
+function updateContainer(
+	element = {
+		$$typeof: Symbol.for('react.element'),
+		type: 'p',
+		key: null,
+		ref: null,
+		props: { children: 'test' },
+		_owner: null,
+		_store: {
+			validated: false
+		},
+		_self: null,
+		_source: null,
+	}, 
+	container = ROOTINSTANCE,
+	parentComponent = null,
+	callback = undefined
+) {
+  var current$$1 = container.current;
+	// 当前时间，todo：这玩意是怎么计算出来的以及它的作用
+  var currentTime = msToExpirationTime(now());
+	// 不确定的配置
+  var suspenseConfig = requestCurrentSuspenseConfig();
+	// 终止时间，todo：这玩意是怎么计算出来的以及它的作用
+  var expirationTime = computeExpirationForFiber(currentTime, current$$1, suspenseConfig);
+  return updateContainerAtExpirationTime(element, container, parentComponent, expirationTime, suspenseConfig, callback);
+}
+// updateContainerAtExpirationTime
+function updateContainerAtExpirationTime(
+	element = {
+		$$typeof: Symbol.for('react.element'),
+		type: 'p',
+		key: null,
+		ref: null,
+		props: { children: 'test' },
+		_owner: null,
+		_store: {
+			validated: false
+		},
+		_self: null,
+		_source: null,
+	},
+	container = ROOTINSTANCE,
+	parentComponent = null,
+	expirationTime,
+	suspenseConfig,
+	callback = undefined
+) {
+  var current$$1 = container.current;
+  var context = {};
+  container.context = context;
+  return scheduleRootUpdate(current$$1, element, expirationTime, suspenseConfig, callback);
+}
+{
+	// scheduleRootUpdate
+	function scheduleRootUpdate(
+		current$$1 = ROOTINSTANCE.current,
+		element = {
+			$$typeof: Symbol.for('react.element'),
+			type: 'p',
+			key: null,
+			ref: null,
+			props: { children: 'test' },
+			_owner: null,
+			_store: {
+				validated: false
+			},
+			_self: null,
+			_source: null,
+		},
+		expirationTime,
+		suspenseConfig,
+		callback = undefined
+	) {
+		var update = createUpdate(expirationTime, suspenseConfig);
+		update.payload = {
+			element: element
+		};
+		callback = null;
+		enqueueUpdate(current$$1, update);
+		scheduleWork(current$$1, expirationTime);
+		return expirationTime;
+	}
+	// createUpdate
+	function createUpdate(expirationTime, suspenseConfig) {
+		var update = {
+			expirationTime: expirationTime,
+			suspenseConfig: suspenseConfig,
+			tag: 0,
+			payload: null,
+			callback: null,
+			next: null,
+			nextEffect: null
+		};
+		{
+			// todo：这个优先级是怎么计算的
+			update.priority = getCurrentPriorityLevel();
+		}
+		return update;
+	}
+	// enqueueUpdate: 排队更新
+	function enqueueUpdate(
+		fiber = ROOTINSTANCE.current,
+		update = {
+			expirationTime: expirationTime,
+			suspenseConfig: suspenseConfig,
+			tag: 0,
+			payload: null,
+			callback: null,
+			next: null,
+			nextEffect: null,
+			priority: getCurrentPriorityLevel(),
+			payload: {
+				element: {
+					$$typeof: Symbol.for('react.element'),
+					type: 'p',
+					key: null,
+					ref: null,
+					props: { children: 'test' },
+					_owner: null,
+					_store: {
+						validated: false
+					},
+					_self: null,
+					_source: null,
+				}
+			}
+		}
+	) {
+		// Update queues are created lazily.
+		var alternate = null;
+		var queue1;
+		var queue2;
+
+		// There's only one fiber.
+		queue1 = fiber.updateQueue = {
+			baseState: null,
+			firstUpdate: null,
+			lastUpdate: null,
+			firstCapturedUpdate: null,
+			lastCapturedUpdate: null,
+			firstEffect: null,
+			lastEffect: null,
+			firstCapturedEffect: null,
+			lastCapturedEffect: null
+		};
+		queue2 = null;
+		// 就是更新了一下fiber的updateQueue
+		queue1.firstUpdate = queue1.lastUpdate = update;
+	}
+}
+// 可以看到，经过了enqueueUpdate之后，ROOTINSTANCE.current发生了一些变化，主要是updateQueue发生了变化，这个变化也会同步到ROOTINSTANCE，应为它们都是一个引用，而且没有被深拷贝
+// 变化之后的ROOTINSTANCE.current
+const enqueueUpdate_ROOTINSTANCE_current = {
+	tag: 3,
+	key: null,
+	elementType: null,
+	type: null,
+	stateNode: null,
+
+	return: null,
+	child: null,
+	sibling: null,
+	index: 0,
+	ref: null,
+	pendingProps: null,
+	memoizedProps: null,
+	updateQueue: {
+		baseState: null,
+		firstUpdate: {
+			expirationTime: expirationTime,
+			suspenseConfig: suspenseConfig,
+			tag: 0,
+			payload: null,
+			callback: null,
+			next: null,
+			nextEffect: null,
+			priority: getCurrentPriorityLevel(),
+			payload: {
+				element: {
+					$$typeof: Symbol.for('react.element'),
+					type: 'p',
+					key: null,
+					ref: null,
+					props: { children: 'test' },
+					_owner: null,
+					_store: {
+						validated: false
+					},
+					_self: null,
+					_source: null,
+				}
+			}
+		},
+		lastUpdate: {
+			expirationTime: expirationTime,
+			suspenseConfig: suspenseConfig,
+			tag: 0,
+			payload: null,
+			callback: null,
+			next: null,
+			nextEffect: null,
+			priority: getCurrentPriorityLevel(),
+			payload: {
+				element: {
+					$$typeof: Symbol.for('react.element'),
+					type: 'p',
+					key: null,
+					ref: null,
+					props: { children: 'test' },
+					_owner: null,
+					_store: {
+						validated: false
+					},
+					_self: null,
+					_source: null,
+				}
+			}
+		},
+		firstCapturedUpdate: null,
+		lastCapturedUpdate: null,
+		firstEffect: null,
+		lastEffect: null,
+		firstCapturedEffect: null,
+		lastCapturedEffect: null
+	},
+	memoizedState: null,
+	dependencies: null,
+	mode: 0,
+
+	effectTag: 0,
+	nextEffect: null,
+	firstEffect: null,
+	lastEffect: null,
+	expirationTime: 0,
+	childExpirationTime: 0,
+	alternate: null,
+
+	actualDuration: Number.NaN,
+	actualStartTime: Number.NaN,
+	treeBaseDuration: Number.NaN,
+
+	actualDuration: 0,
+	actualStartTime: -1,
+	selfBaseDuration: 0,
+	treeBaseDuration: 0,
+
+	_debugID: 2,
+	_debugIsCurrentlyTiming: false,
+
+	_debugSource: null,
+	_debugOwner: null,
+	_debugNeedsRemount: false,
+	_debugHookTypes: null,
+
+	stateNode: ROOT_SELF, // root本身的引用
+}
+{
+	// scheduleWork
+	function scheduleUpdateOnFiber(fiber = enqueueUpdate_ROOTINSTANCE_current, expirationTime) {
+		var root = markUpdateTimeFromFiberToRoot(fiber, expirationTime);
+		root.pingTime = NoWork;
+		// 获取优先级
+		var priorityLevel = getCurrentPriorityLevel();
+
+		// Register pending interactions on the root to avoid losing traced interaction data.
+		schedulePendingInteractions(root, expirationTime);
+		// This is a legacy edge case. The initial mount of a ReactDOM.render-ed
+		// root inside of batchedUpdates should be synchronous, but layout updates
+		// should be deferred until the end of the batch.
+		var callback = renderRoot(root, Sync, true);
+		while (callback !== null) {
+			callback = callback(true);
+		}
+	}
+	// markUpdateTimeFromFiberToRoot
+	function markUpdateTimeFromFiberToRoot(fiber, expirationTime) {
+		// Update the source fiber's expiration time
+		if (fiber.expirationTime < expirationTime) {
+			fiber.expirationTime = expirationTime;
+		}
+		var alternate = fiber.alternate;
+		var node = fiber.return;
+		var root = null;
+		root = fiber.stateNode;
+		if (root !== null) {
+			// Update the first and last pending expiration times in this root
+			var firstPendingTime = root.firstPendingTime;
+
+			if (expirationTime > firstPendingTime) {
+				root.firstPendingTime = expirationTime;
+			}
+
+			var lastPendingTime = root.lastPendingTime;
+
+			if (lastPendingTime === NoWork || expirationTime < lastPendingTime) {
+				root.lastPendingTime = expirationTime;
+			}
+		}
+
+		return root;
+	}
+}
+```
