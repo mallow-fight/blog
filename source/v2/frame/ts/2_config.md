@@ -51,3 +51,7 @@ type: v2/frame/ts
   "exclude": ["node_modules", "dll", "webpack", "dist"],
 }
 ```
+
+## 注意点
+
+- tsconfig.json的allowJs要设置为true和webpack.config.js中的resolve.extensions要有.js，不然的话compile会不识别npm包里面的require，因为如果没有.js后缀的话，不会去找js文件入口。

@@ -14,12 +14,7 @@ const reverse  = require('./arithmetic/reverse');
 const atoi = require('./arithmetic/atoi');
 const isMatch = require('./arithmetic/isMatch');
 function code() {
-  // console.log(isMatch("aab", "c*a*b"));
-  // console.log(isMatch("aaa", "a*a"));
-  // console.log(isMatch("abcd", "d*"));
-  // console.log(isMatch("aaa", "ab*a"));
-  // console.log(isMatch("aaa", "ab*ac*a"));
-  console.log(isMatch("aaa", "ab*a*c*a"));
+  
 }
 
 const http = require('http');

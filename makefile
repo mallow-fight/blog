@@ -1,6 +1,4 @@
-run-test:
+arithmetic:
 	pm2 kill
-	pm2 start ./test/index.js --watch
+	pm2 start ./examples/算法/index.js --watch
 	pm2 logs
-run-webpack-test:
-	cd test && npm run build && cd webpack-test/dist && node index.bundle.js
