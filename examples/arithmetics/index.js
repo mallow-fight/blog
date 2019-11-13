@@ -13,8 +13,9 @@ const findMedianSortedArrays = require('./data-structure/findMedianSortedArrays'
 const reverse  = require('./arithmetic/reverse');
 const atoi = require('./arithmetic/atoi');
 const isMatch = require('./arithmetic/isMatch');
+const threeSum = require('./threeSum');
 function code() {
-  
+  threeSum([1, -1, 0, 1, 2, 3])
 }
 
 const http = require('http');
