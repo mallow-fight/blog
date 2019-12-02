@@ -42,48 +42,35 @@ baz(); // <-- `baz` 的调用点
 ## 四大规则
 
 - 默认绑定（没有其它规则适用时的默认规则）
-
   - 独立函数调用，一般`this`指向了全局对象
-
   - `strict mode`下指向全局对象不合法，所以`this`将被设置为`undefined`
-  
 - 隐含绑定，例：
-
 ```js
 function foo() {
     console.log( this.a );
 }
-
 var obj = {
     a: 2,
     foo: foo
 };
-
 obj.foo(); // 2
 ```
-
   - 只有对象属性引用链的最后一层是影响调用点的，例：
-
   ```js
   function foo() {
     console.log( this.a );
   }
-
   var obj2 = {
       a: 42,
       foo: foo
   };
-
   var obj1 = {
       a: 2,
       obj2: obj2
   };
-
   obj1.obj2.foo(); // 42
   ```
-
   - 隐含丢失，一个隐含绑定丢失了它的绑定，通常意味着它会回退到默认绑定，例：
-
   ```js
   function foo() {
     console.log( this.a );
