@@ -203,35 +203,32 @@ if(!Function.prototype.softBind){
 
 ```js
 if (!Function.prototype.bind) {
-  Function.prototype.bind = function(oThis) {
+  Function.prototype.bind = function(bindContext) {
     if (typeof this !== 'function') {
-      // closest thing possible to the ECMAScript 5
-      // internal IsCallable function
       throw new TypeError('Function.prototype.bind - what is trying to be bound is not callable');
     }
+    const bindArgs = Array.prototype.slice.call(arguments, 1);
+    const fnToBind = this;
+    const noop = function() {};
+    const bindedFn  = function() {
+      return fnToBind.apply(
+        // 对bind的结果有两种使用方式，1：直接调用，2：实例化
+        // 1：直接调用，这种情况下上下文是绑定的上下文
+        // 2：实例化，这种情况下上下文指向函数本身（包括函数体中this和prototype）
+        this instanceof noop ? this : bindContext,
+        // wrap bind args and args when be called.
+        bindArgs.concat(Array.prototype.slice.call(arguments))
+      );
+    };
 
-    var aArgs   = Array.prototype.slice.call(arguments, 1),
-        fToBind = this,
-        fNOP    = function() {},
-        fBound  = function() {
-          // this instanceof fNOP === true时,说明返回的fBound被当做new的构造函数调用
-          return fToBind.apply(this instanceof fNOP
-                 ? this
-                 : oThis,
-                 // 获取调用时(fBound)的传参.bind 返回的函数入参往往是这么传递的
-                 aArgs.concat(Array.prototype.slice.call(arguments)));
-        };
-
-    // 维护原型关系
     if (this.prototype) {
-      // Function.prototype doesn't have a prototype property
-      fNOP.prototype = this.prototype; 
+      noop.prototype = this.prototype; 
     }
-    // 下行的代码使fBound.prototype是fNOP的实例,因此
-    // 返回的fBound若作为new的构造函数,new生成的新对象作为this传入fBound,新对象的__proto__就是fNOP的实例
-    fBound.prototype = new fNOP();
+    // 真正的bind确实是这么实现的，这个会多一层__proto__
+    // 第一层__proto__有constructor，查询原始原型链时会多找一层
+    bindedFn.prototype = new noop();
 
-    return fBound;
+    return bindedFn;
   };
 }
 ```

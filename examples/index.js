@@ -2,18 +2,11 @@ const typeAngular = require('./angular/type.js');
 const phoneAngular = require('./angular/phone.js');
 const numberAngular = require('./angular/number.js');
 const curry = require('./arithmetics/curry');
+const createBindSimulate = require('./js/bind');
+const foo = require('./js/class');
 function code() {
-  const {
-    simpleCurry,
-    complexCurry
-  } = curry;
-  console.log(simpleCurry(1)(2)(3));
-  // console.log((new complexCurry()).input(1)(2)(3));
-  const complexInstance = new complexCurry(1)
-  complexInstance.input(1, 2, 3)(4)(5, 6, 7);
-  complexInstance.output();
-  complexInstance.init();
-  complexInstance.output();
+  const fooIns = new foo();
+  console.log(fooIns, fooIns.__proto__);
 }
 
 const http = require('http');
