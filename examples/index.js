@@ -4,9 +4,10 @@ const numberAngular = require('./angular/number.js');
 const curry = require('./arithmetics/curry');
 const createBindSimulate = require('./js/bind');
 const foo = require('./js/class');
+const runTime = require('./js/run-time');
+const promise = require('./js/promise');
 function code() {
-  const fooIns = new foo();
-  console.log(fooIns, fooIns.__proto__);
+  promise();
 }
 
 const http = require('http');
